@@ -22,9 +22,9 @@ const colors = [
     "#69b3a2",
 ];
 
-export const DonutChart = ({ width, height, data }: DonutChartProps) => {
+export const SunburstChart = ({ width, height, data }: DonutChartProps) => {
     const radius = Math.min(width, height) / 2 - MARGIN;
-
+    const radius1 = Math.min(width, height) / 4 - MARGIN + 20;
 
     const pie = useMemo(() => {
         const pieGenerator = d3.pie<any, DataItem>().value((d) => d.value);
@@ -43,10 +43,29 @@ export const DonutChart = ({ width, height, data }: DonutChartProps) => {
         );
     }, [radius, pie]);
 
+    const arcs1 = useMemo(() => {
+        const arcPathGenerator = d3.arc();
+        return pie.map((p) =>
+            arcPathGenerator({
+                innerRadius: 100,
+                outerRadius: radius1,
+                startAngle: p.startAngle,
+                endAngle: p.endAngle,
+
+            })
+        );
+    }, [radius1, pie]);
+
+
     return (
         <svg width={width} height={height} style={{ display: "inline-block" }}>
             <g transform={`translate(${width / 2}, ${height / 2})`}>
                 {arcs.map((arc, i) => {
+                    return <path key={i} d={arc!} fill={colors[i]} stroke="black" strokeWidth={2} />;
+                })}
+            </g>
+            <g transform={`translate(${width / 2}, ${height / 2})`}>
+                {arcs1.map((arc, i) => {
                     return <path key={i} d={arc!} fill={colors[i]} stroke="black" strokeWidth={2} />;
                 })}
             </g>

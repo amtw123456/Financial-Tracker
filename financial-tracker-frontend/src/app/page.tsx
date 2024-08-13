@@ -30,6 +30,11 @@ export default function App() {
                     <p>transaction</p>
                   </Link>
                 </li>
+                <li>
+                  <Link href="/analytics">
+                    <p>Analytics</p>
+                  </Link>
+                </li>
               </ul>
             </div>
           </div>
