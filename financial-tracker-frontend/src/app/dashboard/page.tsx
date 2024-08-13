@@ -1,3 +1,4 @@
+import { DatePicker } from "@nextui-org/react";
 
 export default function Dashboard() {
     return (
@@ -210,10 +211,9 @@ export default function Dashboard() {
                 </div>
             </div>
 
-
             <div className="flex flex-col flex-1 overflow-y-auto">
                 <div className="flex items-center justify-between h-16 bg-white border-b border-gray-200">
-                    <div className="flex items-center px-4">
+                    {/* <div className="flex items-center px-4">
                         <button className="text-gray-500 focus:outline-none focus:text-gray-700">
                             <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24"
                                 stroke="currentColor">
@@ -222,9 +222,22 @@ export default function Dashboard() {
                             </svg>
                         </button>
                         <input className="mx-4 w-full border rounded-md px-4 py-2" type="text" placeholder="Search" />
+                    </div> */}
+                    <div className="pl-5">
+                        Dashboard
                     </div>
-                    <div className="relative inline-block text-left">
-                        <div className="group relative cursor-pointer py-2">
+                    <div className="flex items-center space-x-5 pr-5">
+                        <div className="relative inline-block text-left">
+                            <DatePicker
+                                className="max-w-[284px]"
+                                granularity="day"
+                                labelPlacement={"outside-left"}
+                                label={"Start Date"}
+
+                            // value={date}
+                            // onChange={setDate}
+                            />
+                            {/* <div className="group relative cursor-pointer py-2">
                             <div className="flex items-center justify-between space-x-5 bg-white px-4">
                                 <div>
                                     <button type="button" className="flex rounded-full text-sm text-white focus:bg-sky-900 focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-sky-900" id="user-menu-button">
@@ -243,6 +256,19 @@ export default function Dashboard() {
                                     Tuesday
                                 </a>
                             </div>
+                        </div> */}
+                        </div>
+                        <div>to</div>
+                        <div>
+                            <DatePicker
+                                className="max-w-[284px]"
+                                granularity="day"
+                                labelPlacement={"outside-left"}
+                                label={"End Date"}
+
+                            // value={date}
+                            // onChange={setDate}
+                            />
                         </div>
                     </div>
 
@@ -252,7 +278,7 @@ export default function Dashboard() {
                     {/* <h1 className="text-2xl font-bold">Welcome to my dashboard!</h1>
                     <p className="mt-2 text-gray-600">This is an example dashboard using Tailwind CSS.</p> */}
                     <div className="">
-                        <div className="grid gap-4 lg:gap-8 md:grid-cols-3 p-8 pt-6">
+                        <div className="grid gap-4 lg:gap-8 md:grid-cols-5 p-8 pt-6">
                             <div className="relative p-6 rounded-2xl bg-white shadow dark:bg-gray-800">
                                 <div className="space-y-2">
                                     <div
@@ -277,6 +303,59 @@ export default function Dashboard() {
                                     </div>
                                 </div>
                             </div>
+
+                            <div className="relative p-6 rounded-2xl bg-white shadow dark:bg-gray-800">
+                                <div className="space-y-2">
+                                    <div
+                                        className="flex items-center space-x-2 rtl:space-x-reverse text-sm font-medium text-gray-500 dark:text-gray-400">
+                                        <span>Revenue</span>
+                                    </div>
+
+                                    <div className="text-3xl dark:text-gray-100">
+                                        $192.1k
+                                    </div>
+
+                                    <div className="flex items-center space-x-1 rtl:space-x-reverse text-sm font-medium text-green-600">
+
+                                        <span>32k increase</span>
+
+                                        <svg className="w-4 h-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
+                                            aria-hidden="true">
+                                            <path fill-rule="evenodd"
+                                                d="M12 7a1 1 0 110-2h5a1 1 0 011 1v5a1 1 0 11-2 0V8.414l-4.293 4.293a1 1 0 01-1.414 0L8 10.414l-4.293 4.293a1 1 0 01-1.414-1.414l5-5a1 1 0 011.414 0L11 10.586 14.586 7H12z"
+                                                clip-rule="evenodd"></path>
+                                        </svg>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div className="relative p-6 rounded-2xl bg-white shadow dark:bg-gray-800">
+                                <div className="space-y-2">
+                                    <div
+                                        className="flex items-center space-x-2 rtl:space-x-reverse text-sm font-medium text-gray-500 dark:text-gray-400">
+                                        <span>Revenue</span>
+                                    </div>
+
+                                    <div className="text-3xl dark:text-gray-100">
+                                        $192.1k
+                                    </div>
+
+                                    <div className="flex items-center space-x-1 rtl:space-x-reverse text-sm font-medium text-green-600">
+
+                                        <span>32k increase</span>
+
+                                        <svg className="w-4 h-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
+                                            aria-hidden="true">
+                                            <path fill-rule="evenodd"
+                                                d="M12 7a1 1 0 110-2h5a1 1 0 011 1v5a1 1 0 11-2 0V8.414l-4.293 4.293a1 1 0 01-1.414 0L8 10.414l-4.293 4.293a1 1 0 01-1.414-1.414l5-5a1 1 0 011.414 0L11 10.586 14.586 7H12z"
+                                                clip-rule="evenodd"></path>
+                                        </svg>
+                                    </div>
+                                </div>
+                            </div>
+
+
+
 
                             <div className="relative p-6 rounded-2xl bg-white shadow dark:bg-gray-800">
                                 <div className="space-y-2">
