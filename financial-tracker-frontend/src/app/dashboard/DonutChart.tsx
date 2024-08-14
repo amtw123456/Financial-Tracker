@@ -25,7 +25,6 @@ const colors = [
 export const DonutChart = ({ width, height, data }: DonutChartProps) => {
     const radius = Math.min(width, height) / 2 - MARGIN;
 
-
     const pie = useMemo(() => {
         const pieGenerator = d3.pie<any, DataItem>().value((d) => d.value);
         return pieGenerator(data);
@@ -35,7 +34,7 @@ export const DonutChart = ({ width, height, data }: DonutChartProps) => {
         const arcPathGenerator = d3.arc();
         return pie.map((p) =>
             arcPathGenerator({
-                innerRadius: 250,
+                innerRadius: 100,
                 outerRadius: radius,
                 startAngle: p.startAngle,
                 endAngle: p.endAngle,

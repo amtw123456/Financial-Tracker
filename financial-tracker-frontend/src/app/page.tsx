@@ -22,7 +22,7 @@ export default function App() {
                 </li>
                 <li>
                   <Link href="/signup">
-                    <p>Signin</p>
+                    <p>signup</p>
                   </Link>
                 </li>
                 <li>

@@ -44,7 +44,6 @@ export default function Dashboard() {
                                                     </path>
                                                 </svg>
 
-
                                                 <a className="text-white">
                                                     Dashboard
                                                 </a>
@@ -170,7 +169,6 @@ export default function Dashboard() {
                                             </path>
                                         </svg>
 
-
                                     </summary>
 
                                     <article className="px-4 pb-4">
@@ -288,7 +286,7 @@ export default function Dashboard() {
                     {/* <h1 className="text-2xl font-bold">Welcome to my dashboard!</h1>
                     <p className="mt-2 text-gray-600">This is an example dashboard using Tailwind CSS.</p> */}
                     <div className="">
-                        <div className="grid gap-4 lg:gap-8 md:grid-cols-5 p-8 pt-6">
+                        <div className="grid gap-4 lg:gap-8 md:grid-cols-5 p-8 pt-1">
                             <div className="relative p-6 rounded-2xl bg-white shadow dark:bg-gray-800">
                                 <div className="space-y-2">
                                     <div
@@ -418,7 +416,79 @@ export default function Dashboard() {
                                     </div>
                                 </div>
                             </div>
-                            <DonutChart data={data} width={800} height={800} />
+
+                        </div>
+                        <div className="relative p-6 rounded-2xl bg-white shadow dark:bg-gray-800 max-w-full mx-8">
+                            <div className="flex-col">
+                                <div>Total Expenses</div>
+                                <div>Jun 1 - Nov 30</div>
+                                <div className="flex flex-row pt-6">
+                                    <div className="flex-1 flex items-center justify-center">
+                                        <DonutChart data={data} width={400} height={400} />
+                                    </div>
+                                    <div className="flex-1">
+                                        <div className="flex flex-row">
+                                            <div className="w-20">
+                                                <ul className="list-disc pl-24">
+                                                    <div className="h-8"><li className="marker:text-blue-500 marker:text-5xl"></li></div>
+                                                    <div className="h-8"><li className="marker:text-green-500 marker:text-5xl"></li></div>
+                                                    <div className="h-8"><li className="marker:text-yellow-500 marker:text-5xl"></li></div>
+                                                    <div className="h-8"><li className="marker:text-purple-500 marker:text-5xl"></li></div>
+                                                    <div className="h-8"><li className="marker:text-red-500 marker:text-5xl"></li></div>
+                                                    <div className="h-8"><li className="marker:text-orange-500 marker:text-5xl"></li></div>
+                                                    <div className="h-8"><li className="marker:text-pink-500 marker:text-5xl"></li></div>
+                                                    <div className="h-8"><li className="marker:text-blue-800 marker:text-5xl"></li></div>
+                                                    <div className="h-8"><li className="marker:text-yellow-800 marker:text-5xl"></li></div>
+                                                    <div className="h-8"><li className="marker:text-blue-200 marker:text-5xl"></li></div>
+                                                </ul>
+                                            </div>
+                                            <div>
+                                                <ul className="list-disc w-36 border-1">
+                                                    <div className="h-8 pl-1 pt-3">Mortage / Rent</div>
+                                                    <div className="h-8 pl-1 pt-3">Food</div>
+                                                    <div className="h-8 pl-1 pt-3">Utilities</div>
+                                                    <div className="h-8 pl-1 pt-3">Bills</div>
+                                                    <div className="h-8 pl-1 pt-3">Shopping</div>
+                                                    <div className="h-8 pl-1 pt-3">Transportation</div>
+                                                    <div className="h-8 pl-1 pt-3">Insurance</div>
+                                                    <div className="h-8 pl-1 pt-3">Health Care</div>
+                                                    <div className="h-8 pl-1 pt-3">Clothing</div>
+                                                    <div className="h-8 pl-1 pt-3">Others</div>
+                                                </ul>
+                                            </div>
+                                            <div>
+                                                <ul className="list-disc w-24 border-1">
+                                                    <div className="h-8 pl-1 pt-3"> $ 7521</div>
+                                                    <div className="h-8 pl-1 pt-3"> $ 18345</div>
+                                                    <div className="h-8 pl-1 pt-3"> $ 4079</div>
+                                                    <div className="h-8 pl-1 pt-3"> $ 2190</div>
+                                                    <div className="h-8 pl-1 pt-3"> $ 5643</div>
+                                                    <div className="h-8 pl-1 pt-3"> $ 12367</div>
+                                                    <div className="h-8 pl-1 pt-3"> $ 3452</div>
+                                                    <div className="h-8 pl-1 pt-3"> $ 4987</div>
+                                                    <div className="h-8 pl-1 pt-3"> $ 6578</div>
+                                                    <div className="h-8 pl-1 pt-3"> $ 2994</div>
+                                                </ul>
+                                            </div>
+                                            <div className="w-48 border-1">
+                                                <div className="h-8 pl-1 pt-3">25%</div>
+                                                <div className="h-8 pl-1 pt-3">15%</div>
+                                                <div className="h-8 pl-1 pt-3">10%</div>
+                                                <div className="h-8 pl-1 pt-3">20%</div>
+                                                <div className="h-8 pl-1 pt-3">8%</div>
+                                                <div className="h-8 pl-1 pt-3">12%</div>
+                                                <div className="h-8 pl-1 pt-3">5%</div>
+                                                <div className="h-8 pl-1 pt-3">3%</div>
+                                                <div className="h-8 pl-1 pt-3">1%</div>
+                                                <div className="h-8 pl-1 pt-3">1%</div>
+                                            </div>
+
+
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>

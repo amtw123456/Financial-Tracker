@@ -6,6 +6,5 @@ export default function Analytics() {
         <main>Analytics Page
             <SunburstChart data={data} width={800} height={800} />
         </main>
-
     );
 }
