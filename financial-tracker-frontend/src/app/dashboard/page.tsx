@@ -1,6 +1,15 @@
 import { DatePicker } from "@nextui-org/react";
-import { data } from "./donutData";
+
+import { connectedScatterplotData } from "./connectedScatterplotData";
+import { ConnectedScatterplot } from './connectedScatterplotChart';
+
+
+import { donutData } from "./donutData";
 import { DonutChart } from "./donutChart";
+
+
+import { verticalGroupedBarplotData } from './verticalGroupedBarplotData';
+import { VerticalGroupedBarplotChart } from './verticalGroupedBarplotChart';
 
 export default function Dashboard() {
     return (
@@ -49,7 +58,6 @@ export default function Dashboard() {
                                                 </a>
                                             </li>
 
-
                                             <li className="flex gap-2">
                                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                                                     stroke="currentColor" className="w-6 h-6 text-white">
@@ -62,7 +70,6 @@ export default function Dashboard() {
                                                     Study Lists
                                                 </a>
                                             </li>
-
 
                                             <li className="flex gap-2">
                                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
@@ -77,7 +84,6 @@ export default function Dashboard() {
                                                     Your contribution
                                                 </a>
                                             </li>
-
 
                                             <li className="flex gap-2">
                                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
@@ -94,7 +100,6 @@ export default function Dashboard() {
                                                     Settings
                                                 </a>
                                             </li>
-
 
                                             <form action="http://127.0.0.1:8000/auth/logout" method="POST">
                                                 <input type="hidden" name="_token" value="ymEkCLBFpgkdaSbidUArRsdHbER5DkT6ByS3eJYb" />
@@ -114,7 +119,7 @@ export default function Dashboard() {
                                 <details className="group">
 
                                     <summary
-                                        className="flex items-center justify-between gap-2 p-2 font-medium marker:content-none hover:cursor-pointer">
+                                        className="flex items-center justify-between gap-2 p-2 marker:content-none hover:cursor-pointer">
 
                                         <span className="flex gap-2">
                                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
@@ -124,7 +129,7 @@ export default function Dashboard() {
                                             </svg>
 
                                             <span className="text-white">
-                                                Recent Documents
+                                                Recent Transactions
                                             </span>
                                         </span>
                                         <svg className="w-5 h-5 text-gray-500 transition group-open:rotate-90" xmlns="http://www.w3.org/2000/svg"
@@ -145,43 +150,6 @@ export default function Dashboard() {
 
                                 </details>
                             </li>
-
-                            <li>
-                                <details className="group">
-
-                                    <summary
-                                        className="flex items-center justify-between gap-2 p-2 font-medium marker:content-none hover:cursor-pointer">
-
-                                        <span className="flex gap-2">
-                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                                                stroke="currentColor" className="w-6 h-6 text-white">
-                                                <path stroke-linecap="round" stroke-linejoin="round"
-                                                    d="M2.25 12.75V12A2.25 2.25 0 014.5 9.75h15A2.25 2.25 0 0121.75 12v.75m-8.69-6.44l-2.12-2.12a1.5 1.5 0 00-1.061-.44H4.5A2.25 2.25 0 002.25 6v12a2.25 2.25 0 002.25 2.25h15A2.25 2.25 0 0021.75 18V9a2.25 2.25 0 00-2.25-2.25h-5.379a1.5 1.5 0 01-1.06-.44z" />
-                                            </svg>
-                                            <span className="text-white">
-                                                Popular courses
-                                            </span>
-                                        </span>
-                                        <svg className="w-5 h-5 text-gray-500 transition group-open:rotate-90" xmlns="http://www.w3.org/2000/svg"
-                                            width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
-                                            <path fill-rule="evenodd"
-                                                d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z">
-                                            </path>
-                                        </svg>
-
-                                    </summary>
-
-                                    <article className="px-4 pb-4">
-                                        <ul className="flex flex-col gap-1 pl-2">
-                                            <li><a href="" className="text-white">Course title</a></li>
-                                            <li><a href="" className="text-white">Course title</a></li>
-                                            <li><a href="" className="text-white">Course title</a></li>
-                                        </ul>
-                                    </article>
-
-                                </details>
-                            </li>
-
                         </ul>
                         <a href="#" className="flex items-center px-4 py-2 text-gray-100 hover:bg-gray-700">
                             <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 mr-2" fill="none" viewBox="0 0 24 24"
@@ -221,16 +189,6 @@ export default function Dashboard() {
 
             <div className="flex flex-col flex-1 overflow-y-auto">
                 <div className="flex items-center justify-between h-16 bg-white border-b border-gray-200">
-                    {/* <div className="flex items-center px-4">
-                        <button className="text-gray-500 focus:outline-none focus:text-gray-700">
-                            <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24"
-                                stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M4 6h16M4 12h16M4 18h16" />
-                            </svg>
-                        </button>
-                        <input className="mx-4 w-full border rounded-md px-4 py-2" type="text" placeholder="Search" />
-                    </div> */}
                     <div className="pl-5">
                         Dashboard
                     </div>
@@ -242,29 +200,9 @@ export default function Dashboard() {
                                 labelPlacement={"outside-left"}
                                 label={"Start Date"}
 
-                            // value={date}
-                            // onChange={setDate}
+
                             />
-                            {/* <div className="group relative cursor-pointer py-2">
-                            <div className="flex items-center justify-between space-x-5 bg-white px-4">
-                                <div>
-                                    <button type="button" className="flex rounded-full text-sm text-white focus:bg-sky-900 focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-sky-900" id="user-menu-button">
-                                        <img className="h-8 w-8 rounded-full" src="https://images.unsplash.com/photo-1517365830460-955ce3ccd263?ixlib=rb-1.2.1&amp;ixid=eyJhcHBfaWQiOjEyMDd9&amp;auto=format&amp;fit=facearea&amp;facepad=4&amp;w=320&amp;h=320&amp;q=80" alt="" />
-                                    </button>
-                                </div>
-                            </div>
-                            <div className="absolute z-50 right-0 mt-2 hidden w-48 max-w-screen-sm bg-gray-100 py-1 px-4 text-gray-800 shadow-xl group-hover:block">
-                                <a className="my-2 block border-b border-gray-100 py-1 font-semibold text-gray-500 hover:text-black">
-                                    Sunday
-                                </a>
-                                <a className="my-2 block border-b border-gray-100 py-1 font-semibold text-gray-500 hover:text-black">
-                                    Monday
-                                </a>
-                                <a className="my-2 block border-b border-gray-100 py-1 font-semibold text-gray-500 hover:text-black">
-                                    Tuesday
-                                </a>
-                            </div>
-                        </div> */}
+
                         </div>
                         <div>to</div>
                         <div>
@@ -274,8 +212,6 @@ export default function Dashboard() {
                                 labelPlacement={"outside-left"}
                                 label={"End Date"}
 
-                            // value={date}
-                            // onChange={setDate}
                             />
                         </div>
                     </div>
@@ -283,8 +219,6 @@ export default function Dashboard() {
                 </div>
 
                 <div className="p-4">
-                    {/* <h1 className="text-2xl font-bold">Welcome to my dashboard!</h1>
-                    <p className="mt-2 text-gray-600">This is an example dashboard using Tailwind CSS.</p> */}
                     <div className="">
                         <div className="grid gap-4 lg:gap-8 md:grid-cols-5 p-8 pt-1">
                             <div className="relative p-6 rounded-2xl bg-white shadow dark:bg-gray-800">
@@ -424,7 +358,7 @@ export default function Dashboard() {
                                 <div>Jun 1 - Nov 30</div>
                                 <div className="flex flex-row pt-6">
                                     <div className="flex-1 flex items-center justify-center">
-                                        <DonutChart data={data} width={400} height={400} />
+                                        <DonutChart data={donutData} width={400} height={400} />
                                     </div>
                                     <div className="flex-1">
                                         <div className="flex flex-row">
@@ -482,14 +416,38 @@ export default function Dashboard() {
                                                 <div className="h-8 pl-1 pt-3">1%</div>
                                                 <div className="h-8 pl-1 pt-3">1%</div>
                                             </div>
-
-
                                         </div>
                                     </div>
 
                                 </div>
                             </div>
                         </div>
+                        <div className="flex flex-row relative p-6 rounded-2xl bg-white shadow dark:bg-gray-800 max-w mx-8 mt-4">
+                            <div className="relative p-6 rounded-2xl bg-white shadow dark:bg-gray-800 w-1/2 mx-8 mt-4">
+                                <div className="flex-col">
+                                    <div>Total Expenses</div>
+                                    <div>Jun 1 - Nov 30</div>
+                                    <div className="flex flex-row pt-6">
+                                        <div className="flex-1 flex">
+                                            <ConnectedScatterplot data={connectedScatterplotData} width={650} height={400} />,
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                            <div className="relative p-6 rounded-2xl bg-white shadow dark:bg-gray-800 w-1/2 mx-8 mt-4">
+                                <div className="flex-col">
+                                    <div>Total Expenses</div>
+                                    <div>Jun 1 - Nov 30</div>
+                                    <div className="flex flex-row pt-6">
+                                        <div className="flex-1 flex">
+                                            <VerticalGroupedBarplotChart data={verticalGroupedBarplotData} width={650} height={400} />,
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
                     </div>
                 </div>
             </div>

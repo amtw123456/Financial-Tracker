@@ -8,7 +8,7 @@ type DataItem = {
 type DonutChartProps = {
     width: number;
     height: number;
-    data: DataItem[];
+    data: DataItem[];   
 };
 
 const MARGIN = 20;
