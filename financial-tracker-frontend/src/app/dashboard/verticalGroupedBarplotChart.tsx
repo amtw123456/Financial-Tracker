@@ -44,10 +44,10 @@ export const VerticalGroupedBarplotChart = ({ width, height, data }: BarplotProp
         return (
             <g key={i}>
                 <rect
-                    x={xScale(0)}
-                    y={yScale(d.name)}
-                    width={xScale(d.value)}
-                    height={yScale.bandwidth()}
+                    x={yScale(d.name)} // Swapped yScale(d.name) to x
+                    y={boundsHeight - xScale(d.value)} // Swapped xScale(d.value) to y and inverted the height
+                    width={yScale.bandwidth()} // Swapped height to width
+                    height={xScale(d.value)} // Swapped width to height
                     opacity={0.7}
                     stroke="#9d174d"
                     fill="#9d174d"
@@ -55,6 +55,7 @@ export const VerticalGroupedBarplotChart = ({ width, height, data }: BarplotProp
                     strokeWidth={1}
                     rx={1}
                 />
+
                 <text
                     x={xScale(d.value) - 7}
                     y={y + yScale.bandwidth() / 2}
