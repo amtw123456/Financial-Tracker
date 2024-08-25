@@ -8,7 +8,7 @@ type DataItem = {
 type DonutChartProps = {
     width: number;
     height: number;
-    data: DataItem[];   
+    data: DataItem[];
 };
 
 const MARGIN = 20;
@@ -22,7 +22,7 @@ const colors = [
     "#69b3a2",
 ];
 
-export const DonutChart = ({ width, height, data }: DonutChartProps) => {
+export const RingChart = ({ width, height, data }: DonutChartProps) => {
     const radius = Math.min(width, height) / 2 - MARGIN;
 
     const pie = useMemo(() => {

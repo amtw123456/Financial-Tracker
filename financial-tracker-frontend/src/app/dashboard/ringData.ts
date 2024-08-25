@@ -1,4 +1,4 @@
-export const donutData = [
+export const ringData = [
     { name: "Mark", value: 90 },
     { name: "Robert", value: 12 },
     { name: "Emily", value: 34 },

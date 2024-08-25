@@ -4,8 +4,8 @@ import { connectedScatterplotData } from "./connectedScatterplotData";
 import { ConnectedScatterplot } from './connectedScatterplotChart';
 
 
-import { donutData } from "./donutData";
-import { DonutChart } from "./donutChart";
+import { ringData } from "./ringData";
+import { RingChart } from "./ringChart";
 
 
 import { verticalGroupedBarplotData } from './verticalGroupedBarplotData';
@@ -358,7 +358,7 @@ export default function Dashboard() {
                                 <div>Jun 1 - Nov 30</div>
                                 <div className="flex flex-row pt-6">
                                     <div className="flex-1 flex items-center justify-center">
-                                        <DonutChart data={donutData} width={400} height={400} />
+                                        <RingChart data={ringData} width={400} height={400} />
                                     </div>
                                     <div className="flex-1">
                                         <div className="flex flex-row">
