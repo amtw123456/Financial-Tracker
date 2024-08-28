@@ -453,7 +453,47 @@ export default function Dashboard() {
                                 </div>
                             </div>
                         </div>
+                        <div className="flex flex-row relative p-6 rounded-2xl bg-white shadow dark:bg-gray-800 mx-2 mt-4">
+                            <div className="relative p-6 rounded-2xl bg-white shadow dark:bg-gray-800 mx-8 mt-4 w-full">
+                                <div className="flex-col w-full">
+                                    <div className="flex-1 w-full">Recent Transactions</div>
+                                    <div className="flex flex-row w-full border-t border-r border-l">
+                                        <span className="w-1/5 text-lg font-medium border-r ml-2">Date</span>
+                                        <span className="w-2/5 text-lg font-medium border-r ml-2">Description</span>
+                                        <span className="w-1/5 text-lg font-medium border-r ml-2">Category</span>
+                                        <span className="w-1/5 text-lg font-medium ml-2">Amount</span>
+                                    </div>
+                                    <div className="flex flex-row border-t border-r border-l">
+                                        <span className="w-1/5 text-lg font-medium border-r ml-2">2024-08-28</span>
+                                        <span className="w-2/5 text-lg font-medium border-r ml-2">Lunch with Clients</span>
+                                        <span className="w-1/5 text-lg font-medium border-r ml-2">Food</span>
+                                        <span className="w-1/5 text-lg font-medium ml-2">$45</span>
+                                    </div>
+                                    <div className="flex flex-row border-t border-r border-l">
+                                        <span className="w-1/5 text-lg font-medium border-r ml-2">2024-08-28</span>
+                                        <span className="w-2/5 text-lg font-medium border-r ml-2">Lunch with Clients</span>
+                                        <span className="w-1/5 text-lg font-medium border-r ml-2">Food</span>
+                                        <span className="w-1/5 text-lg font-medium ml-2">$45</span>
+                                    </div>
+                                    <div className="flex flex-row border-t border-r border-l">
+                                        <span className="w-1/5 text-lg font-medium border-r ml-2">2024-08-28</span>
+                                        <span className="w-2/5 text-lg font-medium border-r ml-2">Lunch with Clients</span>
+                                        <span className="w-1/5 text-lg font-medium border-r ml-2">Food</span>
+                                        <span className="w-1/5 text-lg font-medium ml-2">$45</span>
+                                    </div>
+                                    <div className="flex flex-row border-t border-r border-l border-b">
+                                        <span className="w-1/5 text-lg font-medium border-r ml-2">2024-08-28</span>
+                                        <span className="w-2/5 text-lg font-medium border-r ml-2">Lunch with Clients</span>
+                                        <span className="w-1/5 text-lg font-medium border-r ml-2">Food</span>
+                                        <span className="w-1/5 text-lg font-medium ml-2">$45</span>
+                                    </div>
 
+
+                                </div>
+
+                            </div>
+
+                        </div>
                     </div>
                 </div>
             </div>
