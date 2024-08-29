@@ -1,17 +1,14 @@
-import { DateRangePicker } from "@nextui-org/react";
+
+import Sidebar from "../components/sidebar";
+import Header from "../components/header";
 
 export default function Transactions() {
     return (
-        <main className="flex min-h-screen flex-col items-center justify-between p-24">
-            {/* transactions */}
-            <div className="flex w-full flex-wrap md:flex-nowrap mb-6 md:mb-0 gap-4">
-                <DateRangePicker
-                    variant={"bordered"}
-                    label="Stay duration"
-                    className="max-w-xs"
-                />
+        <div className="flex h-screen bg-gray-100">
+            <Sidebar></Sidebar>
+            <div className="flex flex-col flex-1 overflow-y-auto">
+                <Header></Header >
             </div>
-
-        </main>
+        </div >
     );
 }

@@ -139,7 +139,7 @@ export default function Sidebar() {
                             </details>
                         </li>
                     </ul>
-                    <a href="#" className="flex items-center px-4 py-2 text-gray-100 hover:bg-gray-700">
+                    <a href="/dashboard" className="flex items-center px-4 py-2 text-gray-100 hover:bg-gray-700">
                         <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 mr-2" fill="none" viewBox="0 0 24 24"
                             stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -147,7 +147,7 @@ export default function Sidebar() {
                         </svg>
                         Dashboard
                     </a>
-                    <a href="#" className="flex items-center px-4 py-2 mt-2 text-gray-100 hover:bg-gray-700">
+                    <a href="/transactions" className="flex items-center px-4 py-2 mt-2 text-gray-100 hover:bg-gray-700">
                         <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 mr-2" fill="none" viewBox="0 0 24 24"
                             stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
