@@ -26,6 +26,9 @@ export default function Hello() {
                 // handle success
                 console.log("Response from Java API:", response.data);
                 setData(response.data); // Store the response data in state
+
+                // Save the JWT token to local storage
+                localStorage.setItem('jwtToken', response.data); // Adjust property name based on your API response
             })
             .catch((error) => {
                 // handle error
