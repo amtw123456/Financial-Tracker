@@ -11,7 +11,6 @@ public class Users {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-
     private String username;
     private String password;
 
@@ -49,5 +48,4 @@ public class Users {
                 ", password='" + password + '\'' +
                 '}';
     }
-
 }
