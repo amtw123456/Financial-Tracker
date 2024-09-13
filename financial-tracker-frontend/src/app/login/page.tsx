@@ -1,46 +1,34 @@
-"use client";
-import React, { useState, FormEvent } from 'react';
+"use client"
+
+import React, { useState, useEffect, FormEvent } from 'react';
 import axios from "axios";
+import { useRouter } from 'next/navigation';
 
 interface LoginResponse {
     token: string; // Adjust this based on your API response structure
 }
 
 export default function Signin() {
+
     const [email, setEmail] = useState<string>('');
     const [password, setPassword] = useState<string>('');
     const [data, setData] = useState<LoginResponse | null>(null);
     const [error, setError] = useState<Error | null>(null);
+    const router = useRouter();
 
     const handleLogin = async (event: FormEvent<HTMLFormElement>) => {
-        event.preventDefault(); // Prevent the default form submission behavior
-
-        const requestConfig = {
-            method: 'post',
-            url: 'http://localhost:8080/login', // Adjust the URL to your backend setup
-            headers: {
-                "Content-Type": "application/json"
-            },
-            data: {
-                username: email, // Adjust this if needed
-                password
-            }
-        };
+        event.preventDefault();
 
         try {
-            const response = await axios(requestConfig);
-            // Handle success
-            console.log("Response from Java API:", response.data);
-            setData(response.data); // Store the response data in state
-
-            // Save the JWT token to local storage
-            localStorage.setItem('jwtToken', response.data.token); // Adjust property name based on your API response
+            const response = await axios.post('/api/login', {
+                "username": email,
+                "password": password
+            });
+            console.log('Login successful:', response.data);
+            router.push('/dashboard'); // Redirect to dashboard after successful login
         } catch (error) {
-            // Handle error
-            console.error("Error calling Java API:", error);
-            if (error instanceof Error) {
-                setError(error); // Store the error in state
-            }
+            console.error('Login failed:', error);
+            // setError('Login failed. Please check your credentials and try again.');
         }
     };
 
