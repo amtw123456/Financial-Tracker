@@ -17,7 +17,7 @@ public class UserController {
     private UserService service;
 
     @CrossOrigin
-    @PostMapping("/register")
+    @PostMapping("/signup")
     public Users register(@RequestBody Users user) {
         System.out.println(user);
         return service.register(user);

@@ -33,6 +33,8 @@ public class AuthController {
                 UserDetails userDetails = myUserDetailsService.loadUserByUsername(username);
 
                 // Validate the token with the user details
+                // System.out.println("redredred" + jwtService.validateToken(token,
+                // userDetails));
                 return jwtService.validateToken(token, userDetails);
             }
         }
