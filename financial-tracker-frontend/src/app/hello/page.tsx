@@ -26,7 +26,6 @@ export default function Hello() {
                 // handle success
                 console.log("Response from Java API:", response.data);
                 setData(response.data); // Store the response data in state
-
                 // Save the JWT token to local storage
                 localStorage.setItem('jwtToken', response.data); // Adjust property name based on your API response
             })
@@ -46,7 +45,9 @@ export default function Hello() {
             ) : data ? (
                 <pre>{JSON.stringify(data, null, 2)}</pre> // Format and display the response data
             ) : (
-                <p>Loading...</p> // Display a loading message while fetching data
+                <p>
+                    Loading...
+                    </p> // Display a loading message while fetching data
             )}
         </div>
     );
