@@ -4,7 +4,7 @@ import axios from 'axios';
 export async function GET(req: NextRequest) {
     // Extract the Authorization header from the incoming request
     const authHeader = req.headers.get('authorization');
-    console.log(authHeader)
+    // console.log(authHeader)
 
     // Check if the Authorization header is present
     if (!authHeader || !authHeader.startsWith('Bearer ')) {
@@ -28,7 +28,7 @@ export async function GET(req: NextRequest) {
             return NextResponse.json({ message: 'User is not authenticated' }, { status: 401 });
         }
     } catch (error) {
-        console.error('Authentication check failed:', error);
+        // console.error('Authentication check failed:', error);
         return NextResponse.json({ message: 'Failed to check authentication' }, { status: 500 });
     }
 }
