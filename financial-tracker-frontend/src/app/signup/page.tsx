@@ -21,26 +21,28 @@ export default function Signup() {
         event.preventDefault();
 
         // Check if passwords match
+
         if (password !== confirmPassword) {
             alert("Passwords do not match!");
             return;
         }
 
         try {
-            const signupResponse = await axios.post("/api/signup", {
-                username: email,
-                password: password,
+            const signupResponse = await axios.post("/api/authentication/signup", {
+                "username": email,
+                "password": password,
             });
-            console.log("Signup successful:", signupResponse.data.isSuccessful);
 
             if (signupResponse.data.isSuccessful) {
-                const loginResponse = await axios.post('/api/login', {
+                const loginResponse = await axios.post('/api/authentication/login', {
                     "username": email,
                     "password": password
                 });
                 console.log('Login successful:', loginResponse.data);
                 router.push('/dashboard'); // Redirect to dashboard after successful login    
             }
+
+            console.log("Signup status:", signupResponse.status);
         } catch (error) {
             console.error("Signup failed:", error);
             // setError('Login failed. Please check your credentials and try again.');

@@ -11,7 +11,7 @@ export async function middleware(request: NextRequest) {
     if (token) {
         try {
             // Call the /isAuth endpoint to verify the token
-            const response = await fetch('http://localhost:3000/api/isauth', {
+            const response = await fetch('http://localhost:3000/api/authentication/isauth', {
                 method: 'GET',
                 headers: {
                     Authorization: `Bearer ${token.value}`, // Pass the JWT token as a Bearer token

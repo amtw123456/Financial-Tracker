@@ -20,7 +20,7 @@ export default function Signin() {
         event.preventDefault();
 
         try {
-            const response = await axios.post('/api/login', {
+            const response = await axios.post('/api/authentication/login', {
                 "username": email,
                 "password": password
             });
