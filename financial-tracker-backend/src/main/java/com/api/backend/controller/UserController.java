@@ -7,6 +7,7 @@ import com.api.backend.model.Users;
 import com.api.backend.service.UserService;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 
@@ -18,8 +19,7 @@ public class UserController {
 
     @CrossOrigin
     @PostMapping("/signup")
-    public Users register(@RequestBody Users user) {
-        System.out.println(user);
+    public ResponseEntity<Users> register(@RequestBody Users user) {
         return service.register(user);
     }
 
