@@ -16,7 +16,6 @@ export async function POST(req: NextRequest) {
             }
         });
 
-        // Assuming the response contains a JWT token
         const token = response.data;
         // Set cookies for authentication
         cookies().set('jwtToken', token, { maxAge: 60 * 60 });

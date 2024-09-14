@@ -27,14 +27,22 @@ export default function Signup() {
         }
 
         try {
-            const response = await axios.post("/api/signup", {
+            const signupResponse = await axios.post("/api/signup", {
                 username: email,
                 password: password,
             });
-            console.log("Registration successful:", response.data);
-            // router.push("/dashboard"); // Redirect to dashboard after successful login
+            console.log("Signup successful:", signupResponse.data.isSuccessful);
+
+            if (signupResponse.data.isSuccessful) {
+                const loginResponse = await axios.post('/api/login', {
+                    "username": email,
+                    "password": password
+                });
+                console.log('Login successful:', loginResponse.data);
+                router.push('/dashboard'); // Redirect to dashboard after successful login    
+            }
         } catch (error) {
-            console.error("Login failed:", error);
+            console.error("Signup failed:", error);
             // setError('Login failed. Please check your credentials and try again.');
         }
     };
