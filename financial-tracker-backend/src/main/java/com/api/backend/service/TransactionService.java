@@ -17,9 +17,22 @@ public class TransactionService {
     private TransactionRepo repo;
 
     public ResponseEntity<List<Transaction>> getAllUserTransactions(int userId) {
-        System.out.println(
-                "redredredredredredredredredredredredredredredredredredredredredredredredredredredredredredredred");
         return new ResponseEntity<>(repo.findAllByTransactionUserId(userId), HttpStatus.OK);
+    }
+
+    public ResponseEntity<Transaction> createTransactions(Integer userId, Transaction transaction) {
+        repo.save(transaction);
+        return new ResponseEntity<>(transaction, HttpStatus.OK);
+    }
+
+    public ResponseEntity<Transaction> deleteTransactions(Integer transactionId) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'deleteTransactions'");
+    }
+
+    public ResponseEntity<Transaction> updateTransactions(Integer transactionId) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'updateTransactions'");
     }
 
 }
