@@ -9,5 +9,7 @@ import com.api.backend.model.Transaction;
 
 @Repository
 public interface TransactionRepo extends JpaRepository<Transaction, Integer> {
+
     List<Transaction> findAllByTransactionUserId(int userId);
+    Transaction findByTransactionId(int transactionId);
 }

@@ -20,6 +20,10 @@ public class TransactionService {
         return new ResponseEntity<>(repo.findAllByTransactionUserId(userId), HttpStatus.OK);
     }
 
+    public ResponseEntity<Transaction> getTransactions(int transactionId) {
+        return new ResponseEntity<>(repo.findByTransactionId(transactionId), HttpStatus.OK);
+    }
+
     public ResponseEntity<Transaction> createTransactions(Integer userId, Transaction transaction) {
         repo.save(transaction);
         return new ResponseEntity<>(transaction, HttpStatus.OK);

@@ -33,6 +33,12 @@ public class TransactionController {
         return service.getAllUserTransactions(userId);
     }
 
+    @CrossOrigin
+    @GetMapping("/getTransaction/{transactionId}")
+    public ResponseEntity<Transaction> getTransaction(@PathVariable Integer transactionId) {
+        return service.getTransactions(transactionId);
+    }
+
     @PostMapping("/create/{userId}")
     public ResponseEntity<Transaction> createTransactions(@PathVariable Integer userId,
             @RequestBody Transaction transaction) {
