@@ -30,12 +30,10 @@ public class TransactionService {
     }
 
     public ResponseEntity<Transaction> deleteTransactions(Integer transactionId) {
-        // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'deleteTransactions'");
     }
 
     public ResponseEntity<Transaction> updateTransactions(Integer transactionId) {
-        // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'updateTransactions'");
     }
 

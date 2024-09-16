@@ -42,6 +42,7 @@ public class TransactionController {
     @PostMapping("/create/{userId}")
     public ResponseEntity<Transaction> createTransactions(@PathVariable Integer userId,
             @RequestBody Transaction transaction) {
+        transaction.setTransactionUserId(userId);
         return service.createTransactions(userId, transaction);
     }
 

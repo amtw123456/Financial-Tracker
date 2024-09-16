@@ -23,7 +23,6 @@ public class AuthController {
     @GetMapping("/isAuth")
     public boolean isLoggedIn(@RequestHeader("Authorization") String authHeader) {
         // Check if the Authorization header is present and starts with "Bearer "
-        System.out.println(authHeader);
         if (authHeader != null && authHeader.startsWith("Bearer ")) {
             String token = authHeader.substring(7); // Extract the token
             String username = jwtService.extractUserName(token); // Extract the username from the token
