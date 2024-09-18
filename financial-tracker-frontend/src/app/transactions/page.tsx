@@ -1,8 +1,13 @@
 
+import React, { useEffect, useState } from "react";
 import Sidebar from "../components/sidebar";
 import Header from "../components/header";
+import TransactionRow from "../components/transactionRow";
 
 export default function Transactions() {
+
+    // useEffect()
+
     return (
         <div className="flex h-screen bg-gray-100">
             <Sidebar></Sidebar>
@@ -26,8 +31,31 @@ export default function Transactions() {
                                         ADD TRANSACTION
                                     </button>
                                 </div>
-                                <div className="mt-2 flex flex-grow w-full h-full bg-yellow-400">
-                                    bg
+                                <div className="mt-2  flex-col flex-grow w-full h-full border">
+                                    <div className="flex flex-row w-full">
+                                        <span className="w-1/5 text-lg font-medium border-r ml-2">Date</span>
+                                        <span className="w-2/5 text-lg font-medium border-r ml-2">Description</span>
+                                        <span className="w-1/5 text-lg font-medium border-r ml-2">Category</span>
+                                        <span className="w-1/5 text-lg font-medium ml-2">Amount</span>
+                                    </div>
+                                    <TransactionRow
+                                        date="2024-09-17"
+                                        description="Grocery shopping"
+                                        category="Food"
+                                        amount={150.00}
+                                    />
+                                    <TransactionRow
+                                        date="2024-09-17"
+                                        description="Grocery shopping"
+                                        category="Food"
+                                        amount={150.00}
+                                    />
+                                    <TransactionRow
+                                        date="2024-09-17"
+                                        description="Grocery shopping"
+                                        category="Food"
+                                        amount={150.00}
+                                    />
                                 </div>
                             </div>
                         </div>

@@ -286,12 +286,8 @@ export default function Dashboard() {
                                         <span className="w-1/5 text-lg font-medium border-r ml-2">Food</span>
                                         <span className="w-1/5 text-lg font-medium ml-2">$45</span>
                                     </div>
-
-
                                 </div>
-
                             </div>
-
                         </div>
                     </div>
                 </div>
