@@ -31,7 +31,7 @@ export default function Transactions() {
         {
             date: "2024-09-17",
             description: "Gym membership",
-            category: "Fitness",
+            category: "Others",
             amount: 50.00,
         },
     ]);
@@ -62,11 +62,11 @@ export default function Transactions() {
                                 </div>
 
                                 <div className="mt-2 flex-col flex-grow w-full h-full border">
-                                    <div className="flex flex-row w-full border-b">
-                                        <span className="w-1/5 text-lg font-medium border-r ml-2">Date</span>
-                                        <span className="w-1/5 text-lg font-medium border-r ml-2">Category</span>
-                                        <span className="w-2/5 text-lg font-medium border-r ml-2">Description</span>
-                                        <span className="w-1/5 text-lg font-medium ml-2">Amount</span>
+                                    <div className="flex flex-row w-full border-b items-center">
+                                        <span className="w-1/5 text-lg font-medium border-r ml-2 py-1">Date</span>
+                                        <span className="w-1/5 text-lg font-medium border-r ml-2 py-1">Category</span>
+                                        <span className="w-2/5 text-lg font-medium border-r ml-2 py-1">Description</span>
+                                        <span className="w-1/5 text-lg font-medium ml-2 py-1">Amount</span>
                                     </div>
 
                                     {/* Render TransactionRow for each transaction in the state */}

@@ -32,18 +32,24 @@ const iconMap: { [key: string]: JSX.Element } = {
 export default function TransactionRow({ date, description, category, amount }: TransactionRowProps) {
     return (
         <div className="flex flex-row border-b w-full items-center">
-            <span className="w-1/5 text-lg font-medium border-r ml-2 py-1">{date}</span>
-
-            <div className="w-1/5 text-lg font-medium border-r ml-2 flex flex-row items-center py-1">
-                <span className="flex items-center justify-center w-8 h-8 rounded-full bg-gray-200 mr-2">
-                    {iconMap[category] || <HiDotsCircleHorizontal className="text-gray-600" />} {/* Default icon */}
+            <div className="flex flex-row w-full">
+                <span className="w-1/5 text-lg font-medium border-r ml-2 py-1 flex items-center ">
+                    {date}
                 </span>
-                {category}
+
+
+                <div className="w-1/5 text-lg font-medium border-r ml-2 flex flex-row items-center py-1">
+                    <span className="flex items-center justify-center w-8 h-8 rounded-full mr-2">
+                        {iconMap[category] || <HiDotsCircleHorizontal className="text-gray-600" />} {/* Default icon */}
+                    </span>
+                    {category}
+                </div>
+
+                <span className="w-2/5 text-lg font-medium border-r ml-2 py-1 flex items-center">{description}</span>
+
+                <span className="w-1/5 text-lg font-medium ml-2 py-1 flex items-center">{amount.toFixed(2)}</span>
             </div>
 
-            <span className="w-2/5 text-lg font-medium border-r ml-2 py-1">{description}</span>
-
-            <span className="w-1/5 text-lg font-medium ml-2 py-1">{amount.toFixed(2)}</span>
         </div>
     );
 }
