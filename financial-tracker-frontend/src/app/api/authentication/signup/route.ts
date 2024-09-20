@@ -1,7 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server';
-import axios from 'axios';
 import { cookies } from 'next/headers';
 import { useRouter } from 'next/navigation';
+import axios from 'axios';
+
 
 export async function POST(req: NextRequest) {
     const { username, password } = await req.json(); // Extract credentials from the request body

@@ -4,6 +4,7 @@ import axios from 'axios';
 export async function GET(req: NextRequest) {
     // Extract the Authorization header from the incoming request
     const authHeader = req.headers.get('authorization');
+
     // console.log(authHeader)
 
     // Check if the Authorization header is present

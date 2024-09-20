@@ -11,6 +11,7 @@ import { IoFastFood } from "react-icons/io5"; // food
 import { MdShoppingCart } from "react-icons/md"; // shopping cart
 import { HiDotsCircleHorizontal } from "react-icons/hi"; // others
 import { FaShieldAlt } from "react-icons/fa"; // insurance
+import axios from 'axios';
 
 interface TransactionModalProps {
     isOpen: boolean;
@@ -35,6 +36,33 @@ const categories = Object.keys(iconMap);
 
 
 const TransactionModal: React.FC<TransactionModalProps> = ({ isOpen, onOpenChange, onOpen }) => {
+
+
+
+
+    const createTransaction = async (transactionData: any) => {
+        console.log(transactionData)
+        try {
+            const response = await axios.post('/api/transactions/create', {
+                "transactionAmount": transactionData.amount,
+                "dateTimePosted": transactionData.date,
+                "expenseCategory": transactionData.category,
+                "transactionType": transactionData.type,
+                "transactionDescription": transactionData.description,
+            });
+
+            const result = await response;
+
+            // if (response.ok) {
+            //     console.log('Transaction created successfully:', result.data);
+            // } else {
+            //     console.error('Failed to create transaction:', result.message);
+            // }
+        } catch (error) {
+            console.error('Error creating transaction:', error);
+        }
+    }
+
     const [formData, setFormData] = useState({
         date: "",
         transactionType: "",
@@ -150,7 +178,7 @@ const TransactionModal: React.FC<TransactionModalProps> = ({ isOpen, onOpenChang
                                 <Button color="danger" variant="light" onClick={onClose}>
                                     Close
                                 </Button>
-                                <Button color="primary" onClick={onClose}>
+                                <Button color="primary" onClick={() => createTransaction(formData)}>
                                     Submit
                                 </Button>
                             </ModalFooter>
