@@ -4,9 +4,17 @@ import React, { useState } from "react";
 import Sidebar from "../components/sidebar";
 import Header from "../components/header";
 import TransactionRow from "../components/transactionRow";
+import TransactionModal from "./addTransactionModal";
+
+
+
 
 export default function Transactions() {
-    // State to store the list of transactions
+    const [isOpen, setIsOpen] = useState(false);
+
+    const handleOpen = () => setIsOpen(true);
+    const handleOpenChange = () => setIsOpen(!isOpen);
+
     const [transactions, setTransactions] = useState([
         {
             date: "2024-09-17",
@@ -44,13 +52,15 @@ export default function Transactions() {
                                         className="w-4/5 px-4 py-2 mr-2 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500"
                                         placeholder="Search..."
                                     />
-                                    <button
-                                        id="searchBtn"
-                                        className="w-1/5 px-4 py-2 bg-purple-500 border-purple-500 rounded-xl border-1 text-white hover:bg-purple-600"
-                                    >
-                                        ADD TRANSACTION
-                                    </button>
+                                    <TransactionModal
+                                        isOpen={isOpen}
+                                        onOpen={handleOpen}
+                                        onOpenChange={handleOpenChange}
+                                    />
+
+
                                 </div>
+
                                 <div className="mt-2 flex-col flex-grow w-full h-full border">
                                     <div className="flex flex-row w-full border-b">
                                         <span className="w-1/5 text-lg font-medium border-r ml-2">Date</span>
