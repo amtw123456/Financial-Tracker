@@ -5,6 +5,7 @@ import Sidebar from "../components/sidebar";
 import Header from "../components/header";
 import TransactionRow from "../components/transactionRow";
 import TransactionModal from "./addTransactionModal";
+import Pagination from "./pagination";
 
 
 
@@ -36,6 +37,18 @@ export default function Transactions() {
         },
     ]);
 
+    const [currentPage, setCurrentPage] = useState(1);
+    const itemsPerPage = 5; // Number of items to display per page
+
+    const totalPages = Math.ceil(transactions.length / itemsPerPage);
+
+    // Function to handle page change
+    const handlePageChange = (page: number) => {
+        if (page < 1 || page > totalPages) return; // Prevent out-of-bounds
+        setCurrentPage(page);
+    };
+
+
     return (
         <div className="flex h-screen bg-gray-100">
             <Sidebar></Sidebar>
@@ -61,7 +74,7 @@ export default function Transactions() {
 
                                 </div>
 
-                                <div className="mt-2 flex-col flex-grow w-full h-full border">
+                                <div className="flex flex-col flex-grow w-full border rounded-xl mt-2">
                                     <div className="flex flex-row w-full border-b items-center">
                                         <span className="w-1/5 text-lg font-medium border-r ml-2 py-1">Date</span>
                                         <span className="w-1/5 text-lg font-medium border-r ml-2 py-1">Category</span>
@@ -70,15 +83,26 @@ export default function Transactions() {
                                     </div>
 
                                     {/* Render TransactionRow for each transaction in the state */}
-                                    {transactions.map((transaction, index) => (
-                                        <TransactionRow
-                                            key={index}
-                                            date={transaction.date}
-                                            description={transaction.description}
-                                            category={transaction.category}
-                                            amount={transaction.amount}
-                                        />
-                                    ))}
+                                    <div className="flex-grow overflow-y-auto"> {/* This will fill the space */}
+                                        {transactions.map((transaction, index) => (
+                                            <TransactionRow
+                                                key={index}
+                                                date={transaction.date}
+                                                description={transaction.description}
+                                                category={transaction.category}
+                                                amount={transaction.amount}
+                                            />
+                                        ))}
+                                    </div>
+
+                                    {/* Pagination Component */}
+
+                                    <Pagination
+                                        currentPage={currentPage}
+                                        totalPages={totalPages}
+                                        onPageChange={handlePageChange}
+                                    />
+
                                 </div>
                             </div>
                         </div>

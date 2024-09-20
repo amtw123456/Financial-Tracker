@@ -26,32 +26,47 @@ const TransactionModal: React.FC<TransactionModalProps> = ({ isOpen, onOpenChang
                 <ModalContent>
                     {(onClose: any) => (
                         <>
-                            <ModalHeader className="flex flex-col gap-1">Modal Title</ModalHeader>
+                            <ModalHeader className="flex flex-col gap-1">Add Transaction</ModalHeader>
                             <ModalBody>
-                                <p>
-                                    Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                                    Nullam pulvinar risus non risus hendrerit venenatis.
-                                    Pellentesque sit amet hendrerit risus, sed porttitor quam.
-                                </p>
-                                <p>
-                                    Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                                    Nullam pulvinar risus non risus hendrerit venenatis.
-                                    Pellentesque sit amet hendrerit risus, sed porttitor quam.
-                                </p>
-                                <p>
-                                    Magna exercitation reprehenderit magna aute tempor cupidatat consequat elit
-                                    dolor adipisicing. Mollit dolor eiusmod sunt ex incididunt cillum quis.
-                                    Velit duis sit officia eiusmod Lorem aliqua enim laboris do dolor eiusmod.
-                                    Et mollit incididunt nisi consectetur esse laborum eiusmod pariatur
-                                    proident Lorem eiusmod et. Culpa deserunt nostrud ad veniam.
-                                </p>
+                                <div className="flex flex-col w-full border-b items-start">
+                                    <div className="flex flex-row w-full items-center mb-2">
+                                        <input
+                                            type="date"
+                                            className="border p-2 ml-2"
+                                            placeholder="Date"
+                                        />
+                                    </div>
+                                    <div className="flex flex-row w-full items-center mb-2">
+                                        <input
+                                            type="text"
+                                            className="border p-2 ml-2"
+                                            placeholder="Category"
+                                        />
+                                    </div>
+                                    <div className="flex flex-row w-full items-center mb-2">
+                                        <input
+                                            type="text"
+                                            className="border p-2 ml-2"
+                                            placeholder="Description"
+                                        />
+                                    </div>
+                                    <div className="flex flex-row w-full items-center mb-2">
+                                        <input
+                                            type="number"
+                                            className="border p-2 ml-2"
+                                            placeholder="Amount"
+                                        />
+                                    </div>
+                                </div>
+
                             </ModalBody>
+
                             <ModalFooter>
                                 <Button color="danger" variant="light" onClick={onClose}>
                                     Close
                                 </Button>
                                 <Button color="primary" onClick={onClose}>
-                                    Action
+                                    Submit
                                 </Button>
                             </ModalFooter>
                         </>
