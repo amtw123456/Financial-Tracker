@@ -1,5 +1,16 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, Button, useDisclosure } from "@nextui-org/react";
+
+import { FaHouse } from "react-icons/fa6"; // house
+import { FaHandHoldingWater } from "react-icons/fa"; // utilities
+import { FaMoneyBills } from "react-icons/fa6"; // debts bills
+import { GiClothes } from "react-icons/gi"; // clothes
+import { FaCarSide } from "react-icons/fa"; // transportation
+import { MdHealthAndSafety } from "react-icons/md"; // healthcare
+import { IoFastFood } from "react-icons/io5"; // food
+import { MdShoppingCart } from "react-icons/md"; // shopping cart
+import { HiDotsCircleHorizontal } from "react-icons/hi"; // others
+import { FaShieldAlt } from "react-icons/fa"; // insurance
 
 interface TransactionModalProps {
     isOpen: boolean;
@@ -7,7 +18,40 @@ interface TransactionModalProps {
     onOpen: () => void;
 }
 
+const iconMap: { [key: string]: JSX.Element } = {
+    House: <FaHouse className="text-gray-600" />,
+    Utilities: <FaHandHoldingWater className="text-gray-600" />,
+    Bills: <FaMoneyBills className="text-gray-600" />,
+    Clothes: <GiClothes className="text-gray-600" />,
+    Transportation: <FaCarSide className="text-gray-600" />,
+    Healthcare: <MdHealthAndSafety className="text-gray-600" />,
+    Food: <IoFastFood className="text-gray-600" />,
+    Shopping: <MdShoppingCart className="text-gray-600" />,
+    Others: <HiDotsCircleHorizontal className="text-gray-600" />,
+    Insurance: <FaShieldAlt className="text-gray-600" />,
+};
+
+const categories = Object.keys(iconMap);
+
+
 const TransactionModal: React.FC<TransactionModalProps> = ({ isOpen, onOpenChange, onOpen }) => {
+    const [formData, setFormData] = useState({
+        date: "",
+        transactionType: "",
+        category: "",
+        amount: "",
+        description: ""
+    });
+
+    // Handle changes for all inputs
+    const handleInputChange = (e: any) => {
+        const { name, value } = e.target;
+        setFormData((prevData) => ({
+            ...prevData,
+            [name]: value
+        }));
+    };
+
 
     return (
         <>
@@ -22,43 +66,84 @@ const TransactionModal: React.FC<TransactionModalProps> = ({ isOpen, onOpenChang
                 onOpenChange={onOpenChange}
                 isDismissable={false}
                 isKeyboardDismissDisabled={true}
+                size={'xl'}
             >
                 <ModalContent>
                     {(onClose: any) => (
                         <>
                             <ModalHeader className="flex flex-col gap-1">Add Transaction</ModalHeader>
                             <ModalBody>
-                                <div className="flex flex-col w-full border-b items-start">
-                                    <div className="flex flex-row w-full items-center mb-2">
-                                        <input
-                                            type="date"
-                                            className="border p-2 ml-2"
-                                            placeholder="Date"
-                                        />
+                                <div className="flex flex-col w-full items-start">
+                                    <div className="flex flex-row w-full items-center mb-2 justify-between">
+                                        <div className="flex flex-col w-2/4">
+                                            <label className="mb-1">Date</label>
+                                            <input
+                                                type="date"
+                                                name="date"
+                                                value={formData.date}
+                                                onChange={handleInputChange}
+                                                className="border p-2"
+                                                placeholder="Date"
+                                            />
+                                        </div>
+                                        <div className="flex flex-col w-2/4 ml-2">
+                                            <label className="mb-1">Transaction Type</label>
+                                            <select
+                                                name="transactionType"
+                                                value={formData.transactionType}
+                                                onChange={handleInputChange}
+                                                className="border border-gray-300 p-2"
+                                            >
+                                                <option value="">Select Type</option>
+                                                <option value="Expense">Expense</option>
+                                                <option value="Income">Income</option>
+                                            </select>
+                                        </div>
                                     </div>
-                                    <div className="flex flex-row w-full items-center mb-2">
-                                        <input
-                                            type="text"
-                                            className="border p-2 ml-2"
-                                            placeholder="Category"
-                                        />
+                                    <div className="flex flex-row w-full items-center justify-between mb-2">
+                                        <div className="flex flex-col w-2/4">
+                                            <label className="mb-1">Another Category</label>
+                                            <select
+                                                name="category"
+                                                value={formData.category}
+                                                onChange={handleInputChange}
+                                                className="border border-gray-300 p-2"
+                                            >
+                                                <option value="" disabled>Select Category</option>
+                                                {categories.map((category) => (
+                                                    <option key={category} value={category}>
+                                                        {category}
+                                                    </option>
+                                                ))}
+                                            </select>
+                                        </div>
+                                        <div className="flex flex-col w-2/4 ml-2">
+                                            <label className="mb-1">Amount</label>
+                                            <input
+                                                type="number"
+                                                name="amount"
+                                                value={formData.amount}
+                                                onChange={handleInputChange}
+                                                className="border p-2"
+                                                placeholder="Amount"
+                                            />
+                                        </div>
                                     </div>
-                                    <div className="flex flex-row w-full items-center mb-2">
-                                        <input
-                                            type="text"
-                                            className="border p-2 ml-2"
-                                            placeholder="Description"
-                                        />
+                                    <div className="flex flex-row w-full items-center mb-2 justify-center">
+                                        <div className="flex flex-col w-full">
+                                            <label className="mb-1">Description</label>
+                                            <input
+                                                type="text"
+                                                name="description"
+                                                value={formData.description}
+                                                onChange={handleInputChange}
+                                                className="border border-gray-300 rounded-lg p-3 w-full"
+                                                placeholder="Description"
+                                            />
+                                        </div>
                                     </div>
-                                    <div className="flex flex-row w-full items-center mb-2">
-                                        <input
-                                            type="number"
-                                            className="border p-2 ml-2"
-                                            placeholder="Amount"
-                                        />
-                                    </div>
-                                </div>
 
+                                </div>
                             </ModalBody>
 
                             <ModalFooter>

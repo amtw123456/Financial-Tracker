@@ -108,7 +108,7 @@ export default function Transactions() {
                         </div>
 
                         <div className="flex flex-col w-1/5 h-full py-2 px-4">
-                            <div className="border w-full h-full"> Sidebar</div>
+                            <div className="border w-full h-full rounded-xl"> Sidebar</div>
                         </div>
                     </div>
                 </div>
