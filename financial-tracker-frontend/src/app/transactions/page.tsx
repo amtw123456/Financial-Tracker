@@ -64,8 +64,8 @@ export default function Transactions() {
                                 <div className="mt-2 flex-col flex-grow w-full h-full border">
                                     <div className="flex flex-row w-full border-b">
                                         <span className="w-1/5 text-lg font-medium border-r ml-2">Date</span>
-                                        <span className="w-2/5 text-lg font-medium border-r ml-2">Description</span>
                                         <span className="w-1/5 text-lg font-medium border-r ml-2">Category</span>
+                                        <span className="w-2/5 text-lg font-medium border-r ml-2">Description</span>
                                         <span className="w-1/5 text-lg font-medium ml-2">Amount</span>
                                     </div>
 
