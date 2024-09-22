@@ -19,8 +19,6 @@ interface Transaction {
 export default function Transactions() {
 
     const [transactions, setTransactions] = useState<Transaction[]>([]);
-
-
     const [isOpen, setIsOpen] = useState(false);
 
     const handleOpen = () => setIsOpen(true);
@@ -30,6 +28,17 @@ export default function Transactions() {
     const itemsPerPage = 5; // Number of items to display per page
 
     const totalPages = Math.ceil(transactions.length / itemsPerPage);
+
+    const [checkedTransactions, setCheckedTransactions] = useState(
+        transactions.map(() => false) // Start with all unchecked
+    );
+
+    // Function to toggle the checked state
+    const toggleCheck = (index: any) => {
+        setCheckedTransactions((prev) =>
+            prev.map((checked, i) => (i === index ? !checked : checked))
+        );
+    };
 
     const getUserTransaction = async () => {
         try {
@@ -62,7 +71,6 @@ export default function Transactions() {
         console.log(transactions)
     }, []);
 
-
     return (
         <div className="flex h-screen bg-gray-100">
             <Sidebar></Sidebar>
@@ -88,6 +96,9 @@ export default function Transactions() {
 
                                 <div className="flex flex-col flex-grow w-full border rounded-xl mt-2">
                                     <div className="flex flex-row w-full border-b items-center">
+                                        <span className="text-lg font-medium border-r ml-2 py-1">
+                                            <input type="checkbox" className="mr-2" />
+                                        </span>
                                         <span className="w-1/5 text-lg font-medium border-r ml-2 py-1">Date</span>
                                         <span className="w-1/5 text-lg font-medium border-r ml-2 py-1">Category</span>
                                         <span className="w-2/5 text-lg font-medium border-r ml-2 py-1">Description</span>
@@ -103,6 +114,8 @@ export default function Transactions() {
                                                 description={transaction.transactionDescription}
                                                 category={transaction.expenseCategory}
                                                 amount={transaction.transactionAmount}
+                                                isCheck={checkedTransactions[index]} // Pass the current check state
+                                                onCheckToggle={() => toggleCheck(index)} // Pass the toggle function
                                             />
                                         ))}
                                     </div>
@@ -127,8 +140,5 @@ export default function Transactions() {
             </div>
         </div>
     );
-}
-function componentDidMount() {
-    throw new Error("Function not implemented.");
 }
 

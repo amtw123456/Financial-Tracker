@@ -3,7 +3,10 @@ type TransactionRowProps = {
     description: string;
     category: string;
     amount: number;
+    isCheck: boolean; // Add this line
+    onCheckToggle: () => void; // Function to handle checkbox toggle
 };
+
 
 import { FaHouse } from "react-icons/fa6"; // house
 import { FaHandHoldingWater } from "react-icons/fa"; // utilities
@@ -29,12 +32,16 @@ const iconMap: { [key: string]: JSX.Element } = {
     Insurance: <FaShieldAlt className="text-gray-600" />,
 };
 
-export default function TransactionRow({ date, description, category, amount }: TransactionRowProps) {
+export default function TransactionRow({ date, description, category, amount, isCheck, onCheckToggle }: TransactionRowProps) {
     return (
         <div className="flex flex-row border-b w-full items-center">
             <div className="flex flex-row w-full">
+                <span className="text-lg font-medium border-r ml-2 py-1">
+                    <input type="checkbox" className="mr-2" checked={isCheck} onChange={onCheckToggle}
+                    />
+                </span>
                 <span className="w-1/5 text-lg font-medium border-r ml-2 py-1 flex items-center ">
-                    {date}
+                    {date.substring(0, 10)}
                 </span>
 
 
