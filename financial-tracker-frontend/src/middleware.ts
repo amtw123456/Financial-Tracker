@@ -1,6 +1,7 @@
 // middleware.ts or middleware.js
 import { NextRequest, NextResponse } from 'next/server';
 import { cookies } from 'next/headers';
+import axios from 'axios';
 
 export async function middleware(request: NextRequest) {
     const url = request.nextUrl.clone();
@@ -11,15 +12,13 @@ export async function middleware(request: NextRequest) {
     if (token) {
         try {
             // Call the /isAuth endpoint to verify the token
-            const response = await fetch('http://localhost:3000/api/authentication/isauth', {
-                method: 'GET',
+            const response = await axios.get('http://localhost:3000/api/authentication/isauth', {
                 headers: {
                     Authorization: `Bearer ${token.value}`, // Pass the JWT token as a Bearer token
                 },
             });
-
             // If the token is valid, redirect to the dashboard if accessing login or register
-            if (response.ok) {
+            if (response.status === 200) {
                 if (url.pathname === '/login' || url.pathname === '/signup') {
 
                     return NextResponse.redirect(new URL('/dashboard', request.url));
