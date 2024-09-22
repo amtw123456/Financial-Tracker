@@ -8,6 +8,7 @@ export async function POST(req: NextRequest) {
     try {
         // Retrieve token from cookies
         const token = cookies().get('jwtToken')?.value;
+        const userId = cookies().get('userId')?.value;
 
         if (!token) {
             return NextResponse.json({ message: 'Unauthorized' }, { status: 401 });
@@ -15,7 +16,7 @@ export async function POST(req: NextRequest) {
 
         // Make the POST request to the backend
         const response = await axios.post(
-            'http://localhost:8080/transaction/create/8',
+            'http://localhost:8080/transaction/create/' + userId,
             {
                 "transactionAmount": transactionAmount,
                 "dateTimePosted": dateTimePosted,

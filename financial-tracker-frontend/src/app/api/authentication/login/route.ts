@@ -15,11 +15,12 @@ export async function POST(req: NextRequest) {
                 'Content-Type': 'application/json'
             }
         });
-
+        console.log(response.data)
         const token = response.data;
         // Set cookies for authentication
-        cookies().set('jwtToken', token, { maxAge: 60 * 60 });
+        cookies().set('jwtToken', response.data.jwtToken, { maxAge: 60 * 60 });
         cookies().set('email', username, { maxAge: 60 * 60 });
+        cookies().set('userId', response.data.userId, { maxAge: 60 * 60 });
 
         return NextResponse.json({ message: 'Login successful' }, { status: 200 });
 
