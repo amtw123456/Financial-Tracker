@@ -9,6 +9,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.http.HttpStatus;
 
+import com.api.backend.model.LoginResponse;
 import com.api.backend.model.Users;
 import com.api.backend.repository.UserRepo;
 
@@ -34,13 +35,16 @@ public class UserService {
         return new ResponseEntity<>(repo.save(user), HttpStatus.OK);
     }
 
-    public String verify(Users user) {
+    public ResponseEntity<LoginResponse> verify(Users user) {
         Authentication authentication = authManager
                 .authenticate(new UsernamePasswordAuthenticationToken(user.getUsername(), user.getPassword()));
         if (authentication.isAuthenticated()) {
-            return jwtService.generateToken(user.getUsername());
+            repo.findByUsername(user.getUsername());
+            return new ResponseEntity<>(new LoginResponse(jwtService.generateToken(user.getUsername()),
+                    repo.findByUsername(user.getUsername()).getId()), HttpStatus.OK);
         }
-        return "fail";
+        return new ResponseEntity<>(new LoginResponse(null,
+                null), HttpStatus.BAD_REQUEST);
     }
 
 }
