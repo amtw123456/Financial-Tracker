@@ -183,8 +183,8 @@ const TransactionModal: React.FC<TransactionModalProps> = ({ isOpen, onOpenChang
                                     onClick={() => createTransaction(formData)}
                                     disabled={isFormIncomplete}
                                     className={`p-2 rounded ${isFormIncomplete
-                                            ? 'bg-gray-400 text-white cursor-not-allowed' // Disabled state styles
-                                            : 'bg-blue-500 text-white hover:bg-blue-700'  // Enabled state styles
+                                        ? 'bg-gray-400 text-white cursor-not-allowed' // Disabled state styles
+                                        : 'bg-blue-500 text-white hover:bg-blue-700'  // Enabled state styles
                                         }`}
                                 >
                                     Submit
