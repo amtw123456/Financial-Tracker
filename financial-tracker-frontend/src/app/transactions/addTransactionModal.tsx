@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, Button, useDisclosure } from "@nextui-org/react";
 
 import { FaHouse } from "react-icons/fa6"; // house
@@ -37,7 +37,6 @@ const categories = Object.keys(iconMap);
 
 const TransactionModal: React.FC<TransactionModalProps> = ({ isOpen, onOpenChange, onOpen }) => {
     const createTransaction = async (transactionData: any) => {
-        console.log(transactionData)
         try {
             const response = await axios.post('/api/transactions/create', {
                 "transactionAmount": transactionData.amount,
@@ -58,6 +57,7 @@ const TransactionModal: React.FC<TransactionModalProps> = ({ isOpen, onOpenChang
             console.error('Error creating transaction:', error);
         }
     }
+
 
     const [formData, setFormData] = useState({
         date: "",

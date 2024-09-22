@@ -16,6 +16,7 @@ export async function POST(req: NextRequest) {
             }
         });
         console.log(response.data)
+        console.log('red')
         const token = response.data;
         // Set cookies for authentication
         cookies().set('jwtToken', response.data.jwtToken, { maxAge: 60 * 60 });

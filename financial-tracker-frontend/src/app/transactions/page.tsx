@@ -1,52 +1,66 @@
 "use client"
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Sidebar from "../components/sidebar";
 import Header from "../components/header";
 import TransactionRow from "../components/transactionRow";
 import TransactionModal from "./addTransactionModal";
 import Pagination from "./pagination";
+import axios from "axios";
 
-
-
+interface Transaction {
+    dateTimePosted: string; // or Date, depending on how you handle dates
+    transactionAmount: number;
+    expenseCategory: string;
+    transactionDescription: string;
+    // Add any other properties that are relevant
+}
 
 export default function Transactions() {
+
+    const [transactions, setTransactions] = useState<Transaction[]>([]);
+
+
     const [isOpen, setIsOpen] = useState(false);
 
     const handleOpen = () => setIsOpen(true);
     const handleOpenChange = () => setIsOpen(!isOpen);
-
-    const [transactions, setTransactions] = useState([
-        {
-            date: "2024-09-17",
-            description: "Grocery shopping",
-            category: "Food",
-            amount: 150.00,
-        },
-        {
-            date: "2024-09-17",
-            description: "Electricity bill",
-            category: "Utilities",
-            amount: 100.00,
-        },
-        {
-            date: "2024-09-17",
-            description: "Gym membership",
-            category: "Others",
-            amount: 50.00,
-        },
-    ]);
 
     const [currentPage, setCurrentPage] = useState(1);
     const itemsPerPage = 5; // Number of items to display per page
 
     const totalPages = Math.ceil(transactions.length / itemsPerPage);
 
+    const getUserTransaction = async () => {
+        try {
+            const response = await axios.get('/api/transactions/readAll');
+            console.log('User transactions:', response.data.listOfUserTransactions);
+            return response.data.listOfUserTransactions
+
+        } catch (error) {
+            console.error('Error creating transaction:', error);
+        }
+    }
+
     // Function to handle page change
     const handlePageChange = (page: number) => {
         if (page < 1 || page > totalPages) return; // Prevent out-of-bounds
         setCurrentPage(page);
     };
+
+
+    useEffect(() => {
+        const fetchTransactions = async () => {
+            try {
+                setTransactions(await getUserTransaction())
+            } catch (error) {
+                console.error("Failed to fetch transactions:", error);
+            }
+        };
+
+        fetchTransactions();
+        console.log(transactions)
+    }, []);
 
 
     return (
@@ -70,8 +84,6 @@ export default function Transactions() {
                                         onOpen={handleOpen}
                                         onOpenChange={handleOpenChange}
                                     />
-
-
                                 </div>
 
                                 <div className="flex flex-col flex-grow w-full border rounded-xl mt-2">
@@ -87,10 +99,10 @@ export default function Transactions() {
                                         {transactions.map((transaction, index) => (
                                             <TransactionRow
                                                 key={index}
-                                                date={transaction.date}
-                                                description={transaction.description}
-                                                category={transaction.category}
-                                                amount={transaction.amount}
+                                                date={transaction.dateTimePosted}
+                                                description={transaction.transactionDescription}
+                                                category={transaction.expenseCategory}
+                                                amount={transaction.transactionAmount}
                                             />
                                         ))}
                                     </div>
@@ -116,3 +128,7 @@ export default function Transactions() {
         </div>
     );
 }
+function componentDidMount() {
+    throw new Error("Function not implemented.");
+}
+
