@@ -36,10 +36,6 @@ const categories = Object.keys(iconMap);
 
 
 const TransactionModal: React.FC<TransactionModalProps> = ({ isOpen, onOpenChange, onOpen }) => {
-
-
-
-
     const createTransaction = async (transactionData: any) => {
         console.log(transactionData)
         try {
@@ -180,7 +176,7 @@ const TransactionModal: React.FC<TransactionModalProps> = ({ isOpen, onOpenChang
                                     Close
                                 </Button>
                                 <Button
-                                    onClick={() => createTransaction(formData)}
+                                    onClick={() => { createTransaction(formData), onClose() }}
                                     disabled={isFormIncomplete}
                                     className={`p-2 rounded ${isFormIncomplete
                                         ? 'bg-gray-400 text-white cursor-not-allowed' // Disabled state styles
