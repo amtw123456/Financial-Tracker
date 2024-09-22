@@ -25,7 +25,7 @@ export default function Transactions() {
     const handleOpenChange = () => setIsOpen(!isOpen);
 
     const [currentPage, setCurrentPage] = useState(1);
-    const itemsPerPage = 5; // Number of items to display per page
+    const itemsPerPage = 20; // Number of items to display per page
 
     const totalPages = Math.ceil(transactions.length / itemsPerPage);
 
@@ -107,7 +107,7 @@ export default function Transactions() {
 
                                     {/* Render TransactionRow for each transaction in the state */}
                                     <div className="flex-grow overflow-y-auto"> {/* This will fill the space */}
-                                        {transactions.slice(0, 15).map((transaction, index) => (
+                                        {transactions.slice((currentPage - 1) * 15, currentPage * 15).map((transaction, index) => (
                                             <TransactionRow
                                                 key={index}
                                                 date={transaction.dateTimePosted}
