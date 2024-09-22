@@ -107,7 +107,7 @@ export default function Transactions() {
 
                                     {/* Render TransactionRow for each transaction in the state */}
                                     <div className="flex-grow overflow-y-auto"> {/* This will fill the space */}
-                                        {transactions.map((transaction, index) => (
+                                        {transactions.slice(0, 15).map((transaction, index) => (
                                             <TransactionRow
                                                 key={index}
                                                 date={transaction.dateTimePosted}
@@ -118,6 +118,7 @@ export default function Transactions() {
                                                 onCheckToggle={() => toggleCheck(index)} // Pass the toggle function
                                             />
                                         ))}
+
                                     </div>
 
                                     {/* Pagination Component */}
