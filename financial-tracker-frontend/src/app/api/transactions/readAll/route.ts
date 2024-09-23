@@ -14,7 +14,8 @@ export async function GET() {
         }
 
         const response = await axios.get(
-            `http://localhost:8080/transaction/getAll/${userId}`,
+            `${process.env.BACKEND_URL}/transaction/getAll/${userId}`,
+
             {
                 headers: {
                     'Content-Type': 'application/json',
@@ -22,6 +23,7 @@ export async function GET() {
                 },
             }
         );
+
 
         // Return success response
         return NextResponse.json({ message: 'Get all user specific Transactions Successfully', listOfUserTransactions: response.data }, { status: 200 });

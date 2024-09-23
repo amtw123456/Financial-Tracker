@@ -9,7 +9,7 @@ export async function POST(req: NextRequest) {
 
     try {
         // Replace the URL with your actual backend login endpoint
-        const response = await axios.post('http://localhost:8080/signup', {
+        const response = await axios.post(`${process.env.BACKEND_URL}/signup`, {
             "username": username,
             "password": password
         }, {

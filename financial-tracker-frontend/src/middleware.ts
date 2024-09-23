@@ -4,6 +4,7 @@ import { cookies } from 'next/headers';
 import axios from 'axios';
 
 export async function middleware(request: NextRequest) {
+    console.log(process.env.BACKEND_URL)
     const url = request.nextUrl.clone();
     const cookieStore = cookies();
     const token = cookieStore.get('jwtToken'); // Get the JWT token from cookies
