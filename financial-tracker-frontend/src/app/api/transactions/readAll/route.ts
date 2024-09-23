@@ -14,7 +14,7 @@ export async function GET() {
         }
 
         const response = await axios.get(
-            `${process.env.BACKEND_URL}/transaction/getAll/${userId}`,
+            `https://financial-tracker-s47q.onrender.com/transaction/getAll/${userId}`,
 
             {
                 headers: {

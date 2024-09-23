@@ -14,7 +14,7 @@ export async function GET(req: NextRequest) {
 
     try {
         // Call the backend /isAuth endpoint with the Authorization header
-        const response = await axios.get(`${process.env.BACKEND_URL}/isAuth`, {
+        const response = await axios.get(`https://financial-tracker-s47q.onrender.com/isAuth`, {
             headers: {
                 Authorization: authHeader, // Pass the original Authorization header
             },

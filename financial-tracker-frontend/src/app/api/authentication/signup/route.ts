@@ -9,7 +9,7 @@ export async function POST(req: NextRequest) {
 
     try {
         // Replace the URL with your actual backend login endpoint
-        const response = await axios.post(`${process.env.BACKEND_URL}/signup`, {
+        const response = await axios.post(`https://financial-tracker-s47q.onrender.com/signup`, {
             "username": username,
             "password": password
         }, {
