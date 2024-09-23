@@ -10,7 +10,7 @@ interface PaginationProps {
 
 const Pagination: React.FC<PaginationProps> = ({ currentPage, totalPages, onPageChange }) => {
     return (
-        <div className="flex items-center mt-4 border-t">
+        <div className="flex items-center pt-3 border-b border-x rounded-b-xl">
             <button
                 className="mx-2 p-2 flex items-center"
                 disabled={currentPage === 1}

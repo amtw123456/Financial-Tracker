@@ -7,6 +7,7 @@ import TransactionRow from "../components/transactionRow";
 import TransactionModal from "./addTransactionModal";
 import Pagination from "./pagination";
 import axios from "axios";
+import { FaEdit, FaTrash } from "react-icons/fa";
 
 interface Transaction {
     dateTimePosted: string; // or Date, depending on how you handle dates
@@ -76,10 +77,10 @@ export default function Transactions() {
             <Sidebar></Sidebar>
             <div className="flex flex-col flex-1 overflow-y-hidden">
                 <Header></Header >
-                <div className="flex flex-col h-screen p-2">
-                    <div className="flex flex-row w-full h-full bg-white rounded-2xl shadow">
-                        <div className="relative w-4/5 py-2 px-4 flex items-center justify-center h-full">
-                            <div className="flex flex-col w-full h-full">
+                <div className="flex flex-row h-screen p-2">
+                    <div className="flex flex-row w-full bg-white rounded-2xl shadow">
+                        <div className="relative w-full py-2 px-4">
+                            <div className="flex flex-col w-full pt-1">
                                 <div className="flex w-full">
                                     <input
                                         type="text"
@@ -93,18 +94,31 @@ export default function Transactions() {
                                         onOpenChange={handleOpenChange}
                                     />
                                 </div>
-
-                                <div className="flex flex-col flex-grow w-full border rounded-xl mt-2">
-                                    <div className="flex flex-row w-full border-b items-center">
-                                        <span className="text-lg font-medium border-r ml-2 py-1">
-                                            <input type="checkbox" className="mr-2" />
-                                        </span>
-                                        <span className="w-1/5 text-lg font-medium border-r ml-2 py-1">Date</span>
-                                        <span className="w-1/5 text-lg font-medium border-r ml-2 py-1">Category</span>
-                                        <span className="w-2/5 text-lg font-medium border-r ml-2 py-1">Description</span>
-                                        <span className="w-1/5 text-lg font-medium ml-2 py-1">Amount</span>
+                                <div className="flex w-full py-2 px-4 border-t border-x rounded-t-xl mt-4">
+                                    <div className="ml-auto flex items-center justify-center space-x-2 pb-1">
+                                        <button className="p-2 bg-purple-500 text-white rounded flex items-center hover:bg-purple-700">
+                                            <FaEdit />
+                                            <span className="ml-1">Edit</span>
+                                        </button>
+                                        <button className="p-2 bg-red-500 text-white rounded flex items-center hover:bg-red-700">
+                                            <FaTrash />
+                                            <span className="ml-1">Delete</span>
+                                        </button>
                                     </div>
 
+                                </div>
+
+                                <div className="flex flex-row w-full border items-center">
+                                    <span className="text-lg font-medium border-r ml-2 py-1">
+                                        <input type="checkbox" className="mr-2" />
+                                    </span>
+                                    <span className="w-1/5 text-lg font-bold border-r ml-2 py-1">Date</span>
+                                    <span className="w-1/5 text-lg font-bold border-r ml-2 py-1">Category</span>
+                                    <span className="w-2/5 text-lg font-bold border-r ml-2 py-1">Description</span>
+                                    <span className="w-1/5 text-lg font-bold ml-2 py-1">Amount</span>
+                                </div>
+
+                                <div className="flex flex-col w-full border-x overflow-y-auto">
                                     {/* Render TransactionRow for each transaction in the state */}
                                     <div className="flex-grow overflow-y-auto"> {/* This will fill the space */}
                                         {transactions.slice((currentPage - 1) * 15, currentPage * 15).map((transaction, index) => (
@@ -120,22 +134,18 @@ export default function Transactions() {
                                         ))}
 
                                     </div>
-
                                     {/* Pagination Component */}
-
-                                    <Pagination
-                                        currentPage={currentPage}
-                                        totalPages={totalPages}
-                                        onPageChange={handlePageChange}
-                                    />
-
                                 </div>
+                                <Pagination
+                                    currentPage={currentPage}
+                                    totalPages={totalPages}
+                                    onPageChange={handlePageChange}
+                                />
                             </div>
                         </div>
-
-                        <div className="flex flex-col w-1/5 h-full py-2 px-4">
-                            <div className="border w-full h-full rounded-xl"> Sidebar</div>
-                        </div>
+                    </div>
+                    <div className="flex flex-col w-1/5 h-full py-2 px-4">
+                        <div className="border w-full h-full rounded-xl"> Sidebar</div>
                     </div>
                 </div>
             </div>
