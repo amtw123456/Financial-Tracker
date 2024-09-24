@@ -10,7 +10,7 @@ export async function middleware(request: NextRequest) {
     const token = cookieStore.get('jwtToken'); // Get the JWT token from cookies
 
     // If the token exists, verify its validity
-    if (token && (url.pathname !== '/login' && url.pathname !== '/signup')) {
+    if (token) {
         try {
             // Call the /isAuth endpoint to verify the token
             const response = await axios.get(`${process.env.NEXT_PUBLIC_BACKEND_URL}/isAuth`, {
@@ -29,21 +29,25 @@ export async function middleware(request: NextRequest) {
             }
 
         } catch (error) {
-
-            return NextResponse.redirect(new URL('/login', request.url));
-
-
-
-
+            if (url.pathname !== '/login' && url.pathname !== '/signup') {
+                return NextResponse.redirect(new URL('/login', request.url));
+            }
+            // return NextResponse.redirect(new URL('/login', request.url));
+            return NextResponse.next();
         }
     }
 
-    if (url.pathname !== '/login' && url.pathname !== '/signup') {
+    if (!token) {
+        if (url.pathname == '/login' || url.pathname == '/signup') {
+            return NextResponse.next();
+        }
         return NextResponse.redirect(new URL('/login', request.url));
     }
+
+
     // Allow access to /login and /register pages for unauthenticated users
 
-    return NextResponse.next();
+
 }
 
 // Apply middleware only to these routes
