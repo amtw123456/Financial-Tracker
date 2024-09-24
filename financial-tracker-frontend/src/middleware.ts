@@ -8,7 +8,9 @@ export async function middleware(request: NextRequest) {
     const url = request.nextUrl.clone();
     const cookieStore = cookies();
     const token = cookieStore.get('jwtToken'); // Get the JWT token from cookies
-
+    console.log("this is runnning")
+    console.log(process.env.NEXT_PUBLIC_BACKEND_URL)
+    console.log("this is runnning")
     // If the token exists, verify its validity
     if (token) {
         try {
