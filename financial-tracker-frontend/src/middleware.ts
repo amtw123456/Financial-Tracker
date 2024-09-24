@@ -10,7 +10,7 @@ export async function middleware(request: NextRequest) {
     const token = cookieStore.get('jwtToken'); // Get the JWT token from cookies
 
     // If the token exists, verify its validity
-    if (token) {
+    if (token && (url.pathname !== '/login' && url.pathname !== '/signup')) {
         try {
             // Call the /isAuth endpoint to verify the token
             const response = await axios.get(`${process.env.NEXT_PUBLIC_BACKEND_URL}/isAuth`, {
@@ -29,11 +29,11 @@ export async function middleware(request: NextRequest) {
             }
 
         } catch (error) {
-            if (url.pathname == '/') {
-                return NextResponse.redirect(new URL('/login', request.url));
-            }
 
-            return NextResponse.next();
+            return NextResponse.redirect(new URL('/login', request.url));
+
+
+
 
         }
     }
