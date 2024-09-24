@@ -8,9 +8,7 @@ export async function middleware(request: NextRequest) {
     const url = request.nextUrl.clone();
     const cookieStore = cookies();
     const token = cookieStore.get('jwtToken'); // Get the JWT token from cookies
-    console.log("this is runnning")
-    console.log(process.env.NEXT_PUBLIC_BACKEND_URL)
-    console.log("this is runnning")
+
     // If the token exists, verify its validity
     if (token) {
         try {
@@ -21,25 +19,30 @@ export async function middleware(request: NextRequest) {
                 },
             });
             // If the token is valid, redirect to the dashboard if accessing login or register
+
             if (response.status === 200) {
                 if (url.pathname === '/login' || url.pathname === '/signup') {
-
                     return NextResponse.redirect(new URL('/dashboard', request.url));
                 }
                 // Proceed with the request if authenticated and accessing other routes
                 return NextResponse.next();
             }
+
         } catch (error) {
-            console.error('Error checking authentication:', error);
-            return NextResponse.redirect(new URL('/login', request.url));
+            if (url.pathname == '/') {
+                return NextResponse.redirect(new URL('/login', request.url));
+            }
+
+            return NextResponse.next();
+
         }
     }
 
     if (url.pathname !== '/login' && url.pathname !== '/signup') {
         return NextResponse.redirect(new URL('/login', request.url));
     }
-
     // Allow access to /login and /register pages for unauthenticated users
+
     return NextResponse.next();
 }
 
