@@ -14,7 +14,7 @@ export async function GET() {
         }
 
         const response = await axios.get(
-            `${process.env.BACKEND_URL}/transaction/getAll/${userId}`,
+            `${process.env.NEXT_PUBLIC_BACKEND_URL}/transaction/getAll/${userId}`,
 
             {
                 headers: {

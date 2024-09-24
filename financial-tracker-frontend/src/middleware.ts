@@ -13,7 +13,7 @@ export async function middleware(request: NextRequest) {
     if (token) {
         try {
             // Call the /isAuth endpoint to verify the token
-            const response = await axios.get(`${process.env.BACKEND_URL}/isAuth`, {
+            const response = await axios.get(`${process.env.NEXT_PUBLIC_BACKEND_URL}/isAuth`, {
                 headers: {
                     Authorization: `Bearer ${token.value}`, // Pass the JWT token as a Bearer token
                 },

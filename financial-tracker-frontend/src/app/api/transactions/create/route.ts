@@ -16,7 +16,7 @@ export async function POST(req: NextRequest) {
 
         // Make the POST request to the backend
         const response = await axios.post(
-            `${process.env.BACKEND_URL}/transaction/create/${userId}`,
+            `${process.env.NEXT_PUBLIC_BACKEND_URL}/transaction/create/${userId}`,
             {
                 "transactionAmount": transactionAmount,
                 "dateTimePosted": dateTimePosted,
