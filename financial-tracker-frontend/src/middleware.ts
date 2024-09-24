@@ -8,12 +8,12 @@ export async function middleware(request: NextRequest) {
     const url = request.nextUrl.clone();
     const cookieStore = cookies();
     const token = cookieStore.get('jwtToken'); // Get the JWT token from cookies
-    console.log(process.env.BACKEND_URL)
+
     // If the token exists, verify its validity
     if (token) {
         try {
             // Call the /isAuth endpoint to verify the token
-            const response = await axios.get(`https://financial-tracker-s47q.onrender.com/isAuth`, {
+            const response = await axios.get(`${process.env.BACKEND_URL}/isAuth`, {
                 headers: {
                     Authorization: `Bearer ${token.value}`, // Pass the JWT token as a Bearer token
                 },
