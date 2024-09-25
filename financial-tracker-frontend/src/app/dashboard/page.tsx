@@ -1,12 +1,11 @@
+"use client"
 
-
+import React, { useEffect, useState } from "react";
 import { connectedScatterplotData } from "./connectedScatterplotData";
 import { ConnectedScatterplot } from './connectedScatterplotChart';
 
-
 import { ringData } from "./ringData";
 import { RingChart } from "./ringChart";
-
 
 import { verticalGroupedBarplotData } from './verticalGroupedBarplotData';
 import { VerticalGroupedBarplotChart } from './verticalGroupedBarplotChart';
@@ -14,7 +13,47 @@ import { VerticalGroupedBarplotChart } from './verticalGroupedBarplotChart';
 import Sidebar from "../components/sidebar";
 import Header from "../components/header";
 
+import axios from "axios";
+import TransactionRow from "../components/transactionRow";
+
+interface Transaction {
+    transactionId: number,
+    dateTimePosted: string; // or Date, depending on how you handle dates
+    transactionAmount: number;
+    expenseCategory: string;
+    transactionDescription: string;
+    // Add any other properties that are relevant
+}
+
 export default function Dashboard() {
+
+    const [selectedTransactionIds, setSelectedTransactionIds] = useState<number[]>([]);
+    const [transactions, setTransactions] = useState<Transaction[]>([]);
+    const [isOpen, setIsOpen] = useState(false);
+
+    const getUserTransaction = async () => {
+        try {
+            const response = await axios.get('/api/transactions/readAll');
+            console.log('User transactions:', response.data.listOfUserTransactions);
+            return response.data.listOfUserTransactions
+
+        } catch (error) {
+            console.error('Error creating transaction:', error);
+        }
+    }
+
+    const fetchTransactions = async () => {
+        try {
+            setTransactions(await getUserTransaction())
+        } catch (error) {
+            console.error("Failed to fetch transactions:", error);
+        }
+    };
+
+    useEffect(() => {
+        fetchTransactions();
+    }, []);
+
     return (
         <div className="flex h-screen bg-gray-100">
             <Sidebar></Sidebar>
@@ -254,38 +293,23 @@ export default function Dashboard() {
                         </div>
                         <div className="flex flex-row relative p-6 rounded-2xl bg-white shadow dark:bg-gray-800 mx-2 mt-4">
 
-                            <div className="flex-col w-full">
-                                <div className="flex-1 w-full">Recent Transactions</div>
-                                <div className="flex flex-row w-full border-t border-r border-l">
-                                    <span className="w-1/5 text-lg font-medium border-r ml-2">Date</span>
-                                    <span className="w-2/5 text-lg font-medium border-r ml-2">Description</span>
-                                    <span className="w-1/5 text-lg font-medium border-r ml-2">Category</span>
-                                    <span className="w-1/5 text-lg font-medium ml-2">Amount</span>
+                            <div className="flex-col w-full border-x border-t">
+                                <div className="flex flex-row w-full border-b items-center">
+
+                                    <span className="w-1/5 text-lg font-bold border-r ml-2 py-1">Date</span>
+                                    <span className="w-1/5 text-lg font-bold border-r ml-2 py-1">Category</span>
+                                    <span className="w-2/5 text-lg font-bold border-r ml-2 py-1">Description</span>
+                                    <span className="w-1/5 text-lg font-bold ml-2 py-1">Amount</span>
                                 </div>
-                                <div className="flex flex-row border-t border-r border-l">
-                                    <span className="w-1/5 text-lg font-medium border-r ml-2">2024-08-28</span>
-                                    <span className="w-2/5 text-lg font-medium border-r ml-2">Lunch with Clients</span>
-                                    <span className="w-1/5 text-lg font-medium border-r ml-2">Food</span>
-                                    <span className="w-1/5 text-lg font-medium ml-2">$45</span>
-                                </div>
-                                <div className="flex flex-row border-t border-r border-l">
-                                    <span className="w-1/5 text-lg font-medium border-r ml-2">2024-08-28</span>
-                                    <span className="w-2/5 text-lg font-medium border-r ml-2">Lunch with Clients</span>
-                                    <span className="w-1/5 text-lg font-medium border-r ml-2">Food</span>
-                                    <span className="w-1/5 text-lg font-medium ml-2">$45</span>
-                                </div>
-                                <div className="flex flex-row border-t border-r border-l">
-                                    <span className="w-1/5 text-lg font-medium border-r ml-2">2024-08-28</span>
-                                    <span className="w-2/5 text-lg font-medium border-r ml-2">Lunch with Clients</span>
-                                    <span className="w-1/5 text-lg font-medium border-r ml-2">Food</span>
-                                    <span className="w-1/5 text-lg font-medium ml-2">$45</span>
-                                </div>
-                                <div className="flex flex-row border-t border-r border-l border-b">
-                                    <span className="w-1/5 text-lg font-medium border-r ml-2">2024-08-28</span>
-                                    <span className="w-2/5 text-lg font-medium border-r ml-2">Lunch with Clients</span>
-                                    <span className="w-1/5 text-lg font-medium border-r ml-2">Food</span>
-                                    <span className="w-1/5 text-lg font-medium ml-2">$45</span>
-                                </div>
+                                {transactions.slice(0, 5).map((transaction, index) => (
+                                    <TransactionRow
+                                        key={transaction.transactionId}
+                                        date={transaction.dateTimePosted}
+                                        description={transaction.transactionDescription}
+                                        category={transaction.expenseCategory}
+                                        amount={transaction.transactionAmount}
+                                    />
+                                ))}
                             </div>
                         </div>
 
