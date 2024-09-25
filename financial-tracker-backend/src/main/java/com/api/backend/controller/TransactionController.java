@@ -39,6 +39,13 @@ public class TransactionController {
         return service.getTransactions(transactionId);
     }
 
+    @CrossOrigin
+    @PostMapping("/getSpecificTransactions")
+    public ResponseEntity<List<Transaction>> getSpecificTransactions(@RequestBody List<Integer> transactionIds) {
+        return service.getSpecificTransaction(transactionIds);
+    }
+
+    @CrossOrigin
     @PostMapping("/create/{userId}")
     public ResponseEntity<Transaction> createTransactions(@PathVariable Integer userId,
             @RequestBody Transaction transaction) {
@@ -46,9 +53,17 @@ public class TransactionController {
         return service.createTransactions(userId, transaction);
     }
 
+    @CrossOrigin
     @DeleteMapping("/delete/{transactionId}")
     public ResponseEntity<Transaction> deleteTransactions(@PathVariable Integer transactionId) {
-        return service.deleteTransactions(transactionId);
+        return service.deleteTransaction(transactionId);
+    }
+
+    @CrossOrigin
+    @RequestMapping(value = "/deleteByIds", method = { RequestMethod.DELETE, RequestMethod.POST, RequestMethod.GET })
+    public ResponseEntity<List<Transaction>> deleteByTransactionIds(@RequestBody List<Integer> transactionIds) {
+        System.out.println("this api is running");
+        return service.deleteTransactionsByIds(transactionIds);
     }
 
     @PutMapping("/update/{transactionId}")
