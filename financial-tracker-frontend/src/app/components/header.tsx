@@ -1,6 +1,8 @@
 import { DatePicker } from "@nextui-org/react";
+import { now, getLocalTimeZone } from "@internationalized/date";
 
 export default function Header() {
+    console.log(getLocalTimeZone());
     return (
         <div className="flex items-center justify-between p-2 h-16 bg-white border-b border-gray-200">
             <div className="pl-5">
@@ -13,8 +15,13 @@ export default function Header() {
                         granularity="day"
                         labelPlacement={"outside-left"}
                         label={"Start Date"}
+                        defaultValue={
+                            now(getLocalTimeZone()).subtract({ weeks: 1 })
+                        }
 
-
+                        onChange={(newDate) => {
+                            // Handle date change
+                        }}
                     />
 
                 </div>
@@ -24,8 +31,8 @@ export default function Header() {
                         className="max-w-[284px]"
                         granularity="day"
                         labelPlacement={"outside-left"}
+                        defaultValue={now(getLocalTimeZone())}
                         label={"End Date"}
-
                     />
                 </div>
             </div>
