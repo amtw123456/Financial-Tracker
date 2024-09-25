@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import axios from 'axios';
 import { cookies } from 'next/headers';
 
-export async function GET() {
+export async function DELETE(request: NextRequest) {
 
     try {
         // Retrieve token and userId from cookies
@@ -13,8 +13,20 @@ export async function GET() {
             return NextResponse.json({ message: 'Unauthorized' }, { status: 401 });
         }
 
-        const response = await axios.get(
-            `${process.env.NEXT_PUBLIC_BACKEND_URL}/transaction/getAll/${userId}`,
+        // Extract transactionId from the request URL
+        const { searchParams } = new URL(request.url);
+        const transactionId = searchParams.get('transactionId');
+        console.log(transactionId)
+
+        if (!transactionId) {
+            return NextResponse.json({ message: 'Transaction ID is required' }, { status: 400 });
+        }
+
+        console.log("RED")
+
+        // Make delete request to the backend
+        const response = await axios.delete(
+            `${process.env.NEXT_PUBLIC_BACKEND_URL}/transaction/delete/${transactionId}`,
             {
                 headers: {
                     'Content-Type': 'application/json',
@@ -24,10 +36,9 @@ export async function GET() {
         );
 
         // Return success response
-        return NextResponse.json({ message: 'Get all user specific Transactions Successfully', listOfUserTransactions: response.data }, { status: 200 });
+        return NextResponse.json({ message: 'Transaction deleted successfully' }, { status: 200 });
 
     } catch (error) {
-
-        return NextResponse.json({ message: 'Get all user specific Transactions Failed' }, { status: 500 });
+        return NextResponse.json({ message: 'Failed to delete transaction' }, { status: 500 });
     }
 }

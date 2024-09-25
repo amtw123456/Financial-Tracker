@@ -62,13 +62,13 @@ public class TransactionController {
     @CrossOrigin
     @RequestMapping(value = "/deleteByIds", method = { RequestMethod.DELETE, RequestMethod.POST, RequestMethod.GET })
     public ResponseEntity<List<Transaction>> deleteByTransactionIds(@RequestBody List<Integer> transactionIds) {
-        System.out.println("this api is running");
         return service.deleteTransactionsByIds(transactionIds);
     }
 
     @PutMapping("/update/{transactionId}")
-    public ResponseEntity<Transaction> PutTransactions(@PathVariable Integer transactionId) {
-        return service.updateTransactions(transactionId);
+    public ResponseEntity<Transaction> PutTransactions(@PathVariable Integer transactionId,
+            @RequestBody Transaction transaction) {
+        return service.updateTransaction(transactionId, transaction);
     }
 
 }

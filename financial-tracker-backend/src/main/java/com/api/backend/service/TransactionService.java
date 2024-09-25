@@ -60,8 +60,23 @@ public class TransactionService {
         return new ResponseEntity<>(transactions, HttpStatus.OK);
     }
 
-    public ResponseEntity<Transaction> updateTransactions(Integer transactionId) {
-        throw new UnsupportedOperationException("Unimplemented method 'updateTransactions'");
+    public ResponseEntity<Transaction> updateTransaction(Integer transactionId, Transaction updatedTransaction) {
+        Optional<Transaction> transactionOptional = repo.findById(transactionId);
+
+        if (transactionOptional.isPresent()) {
+            Transaction existingTransaction = transactionOptional.get();
+            
+            existingTransaction.setDateTimePosted(updatedTransaction.getDateTimePosted());
+            existingTransaction.setTransactionDescription(updatedTransaction.getTransactionDescription());
+            existingTransaction.setExpenseCategory(updatedTransaction.getExpenseCategory());
+            existingTransaction.setTransactionAmount(updatedTransaction.getTransactionAmount());
+
+            repo.save(existingTransaction);
+            return ResponseEntity.ok(existingTransaction);
+        } else {
+            // Transaction not found
+            return ResponseEntity.notFound().build();
+        }
     }
 
 }

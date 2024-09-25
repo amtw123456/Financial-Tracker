@@ -2,8 +2,8 @@ import { NextRequest, NextResponse } from 'next/server';
 import axios from 'axios';
 import { cookies } from 'next/headers';
 
-export async function POST(req: NextRequest) {
-    const { transactionAmount, dateTimePosted, expenseCategory, transactionType, transactionDescription } = await req.json(); // Extract transaction data from the request body
+export async function POST(request: NextRequest) {
+    const { transactionAmount, dateTimePosted, expenseCategory, transactionType, transactionDescription } = await request.json(); // Extract transaction data from the request body
 
     try {
         // Retrieve token from cookies
