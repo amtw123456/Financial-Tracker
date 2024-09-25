@@ -104,8 +104,6 @@ export default function Transactions() {
     };
 
     useEffect(() => {
-
-
         fetchTransactions();
     }, []);
 
