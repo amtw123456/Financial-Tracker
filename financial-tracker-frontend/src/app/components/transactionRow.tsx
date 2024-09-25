@@ -3,8 +3,8 @@ type TransactionRowProps = {
     description: string;
     category: string;
     amount: number;
-    isCheck: boolean; // Add this line
-    onCheckToggle: () => void; // Function to handle checkbox toggle
+    isCheck?: boolean; // Add this line
+    onCheckToggle?: () => void; // Function to handle checkbox toggle
 };
 
 
@@ -88,10 +88,14 @@ export default function TransactionRow({ date, description, category, amount, is
     return (
         <div className="flex flex-row border-b w-full items-center">
             <div className="flex flex-row w-full">
-                <span className="text-lg font-medium border-r ml-2 py-1">
-                    <input type="checkbox" className="mr-2" checked={isCheck} onChange={onCheckToggle}
-                    />
-                </span>
+                {onCheckToggle && (
+
+                    <span className="text-lg font-medium border-r ml-2 py-1">
+                        <input type="checkbox" className="mr-2" checked={isCheck} onChange={onCheckToggle}
+                        />
+                    </span>
+                )}
+
                 <span className="w-1/5 text-lg font-medium border-r ml-2 py-1 flex items-center ">
                     {date.substring(0, 10)}
                 </span>
