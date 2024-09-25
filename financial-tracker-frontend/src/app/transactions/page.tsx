@@ -86,6 +86,15 @@ export default function Transactions() {
             console.log('Transaction successfully deleted');
             // Optionally, refresh transaction list or update UI
         }
+        fetchTransactions();
+    };
+
+    const fetchTransactions = async () => {
+        try {
+            setTransactions(await getUserTransaction())
+        } catch (error) {
+            console.error("Failed to fetch transactions:", error);
+        }
     };
 
     // Function to handle page change
@@ -95,13 +104,7 @@ export default function Transactions() {
     };
 
     useEffect(() => {
-        const fetchTransactions = async () => {
-            try {
-                setTransactions(await getUserTransaction())
-            } catch (error) {
-                console.error("Failed to fetch transactions:", error);
-            }
-        };
+
 
         fetchTransactions();
     }, []);
@@ -134,7 +137,12 @@ export default function Transactions() {
                                 </div>
                                 <div className="flex w-full py-2 px-4 border-t border-x rounded-t-xl mt-4">
                                     <div className="ml-auto flex items-center justify-center space-x-2 pb-1">
-                                        <button className="p-2 bg-purple-500 text-white rounded flex items-center hover:bg-purple-700">
+                                        <button
+                                            className={`p-2 text-white rounded flex items-center ${selectedTransactionIds.length > 1
+                                                ? 'bg-gray-400 cursor-not-allowed'  // Gray background and disabled cursor if disabled
+                                                : 'bg-purple-500 hover:bg-purple-700' // Purple background when active
+                                                }`}
+                                        >
                                             <FaEdit />
                                             <span className="ml-1">Edit</span>
                                         </button>
