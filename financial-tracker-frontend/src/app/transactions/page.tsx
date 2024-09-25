@@ -10,6 +10,7 @@ import axios from "axios";
 import { FaEdit, FaTrash } from "react-icons/fa";
 
 interface Transaction {
+    transactionId: number,
     dateTimePosted: string; // or Date, depending on how you handle dates
     transactionAmount: number;
     expenseCategory: string;
@@ -19,6 +20,7 @@ interface Transaction {
 
 export default function Transactions() {
 
+    const [selectedTransactionIds, setSelectedTransactionIds] = useState<number[]>([]);
     const [transactions, setTransactions] = useState<Transaction[]>([]);
     const [isOpen, setIsOpen] = useState(false);
 
@@ -35,10 +37,23 @@ export default function Transactions() {
     );
 
     // Function to toggle the checked state
-    const toggleCheck = (index: any) => {
+    const toggleCheck = (index: any, transactionId: number) => {
         setCheckedTransactions((prev) =>
             prev.map((checked, i) => (i === index ? !checked : checked))
         );
+
+        setSelectedTransactionIds((prevSelected) => {
+            if (prevSelected.includes(transactionId)) {
+                // If transactionId is already in the list, remove it
+                return prevSelected.filter((id) => id !== transactionId);
+            } else {
+                // Otherwise, add it to the list
+                return [...prevSelected, transactionId];
+            }
+        });
+
+        console.log(selectedTransactionIds)
+
     };
 
     const getUserTransaction = async () => {
@@ -52,12 +67,32 @@ export default function Transactions() {
         }
     }
 
+    const deleteTransaction = async (transactionIds: number[]) => {
+        try {
+            const response = await axios.post(`/api/transactions/deleteByIds`, {
+                "transactionIds": transactionIds,
+            });
+            console.log('Transaction deleted:', response.data.message);
+
+            return response.data.message;
+        } catch (error) {
+            console.error('Error deleting transaction:', error);
+        }
+    };
+
+    const handleDelete = async (ids: number[]) => {
+        const result = await deleteTransaction(ids);
+        if (result) {
+            console.log('Transaction successfully deleted');
+            // Optionally, refresh transaction list or update UI
+        }
+    };
+
     // Function to handle page change
     const handlePageChange = (page: number) => {
         if (page < 1 || page > totalPages) return; // Prevent out-of-bounds
         setCurrentPage(page);
     };
-
 
     useEffect(() => {
         const fetchTransactions = async () => {
@@ -70,6 +105,10 @@ export default function Transactions() {
 
         fetchTransactions();
     }, []);
+
+    useEffect(() => {
+        console.log(selectedTransactionIds)
+    }, [selectedTransactionIds]);
 
     return (
         <div className="flex h-screen bg-gray-100">
@@ -99,7 +138,8 @@ export default function Transactions() {
                                             <FaEdit />
                                             <span className="ml-1">Edit</span>
                                         </button>
-                                        <button className="p-2 bg-red-500 text-white rounded flex items-center hover:bg-red-700">
+                                        <button className="p-2 bg-red-500 text-white rounded flex items-center hover:bg-red-700" onClick={() => handleDelete(selectedTransactionIds)}
+                                        >
                                             <FaTrash />
                                             <span className="ml-1">Delete</span>
                                         </button>
@@ -122,13 +162,13 @@ export default function Transactions() {
                                     <div className="flex-grow overflow-y-auto"> {/* This will fill the space */}
                                         {transactions.slice((currentPage - 1) * 15, currentPage * 15).map((transaction, index) => (
                                             <TransactionRow
-                                                key={index}
+                                                key={transaction.transactionId}
                                                 date={transaction.dateTimePosted}
                                                 description={transaction.transactionDescription}
                                                 category={transaction.expenseCategory}
                                                 amount={transaction.transactionAmount}
                                                 isCheck={checkedTransactions[index]} // Pass the current check state
-                                                onCheckToggle={() => toggleCheck(index)} // Pass the toggle function
+                                                onCheckToggle={() => toggleCheck(index, transaction.transactionId)} // Pass the toggle function
                                             />
                                         ))}
 
