@@ -5,6 +5,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.api.backend.model.DateRangeDTO;
 import com.api.backend.model.Transaction;
 import com.api.backend.model.Users;
 import com.api.backend.service.TransactionService;
@@ -37,6 +38,13 @@ public class TransactionController {
     @GetMapping("/getTransaction/{transactionId}")
     public ResponseEntity<Transaction> getTransaction(@PathVariable Integer transactionId) {
         return service.getTransactions(transactionId);
+    }
+
+    @CrossOrigin
+    @PostMapping("/getTransactionsByDate/{userId}")
+    public ResponseEntity<List<Transaction>> getTransactionsByDate(@RequestBody DateRangeDTO dateRangeDTO,
+            @PathVariable Integer userId) {
+        return service.getTransactionsByDate(userId, dateRangeDTO.getStartDate(), dateRangeDTO.getEndDate());
     }
 
     @CrossOrigin

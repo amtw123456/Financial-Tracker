@@ -11,11 +11,14 @@ import org.springframework.stereotype.Repository;
 import com.api.backend.model.Transaction;
 
 import jakarta.transaction.Transactional;
+import java.util.Date;
 
 @Repository
 public interface TransactionRepo extends JpaRepository<Transaction, Integer> {
 
     List<Transaction> findAllByTransactionUserId(int userId);
+
+    Transaction findByTransactionId(int transactionId);
 
     @Query("SELECT t FROM Transaction t WHERE t.transactionId IN :transactionIds")
     List<Transaction> findAllByTransactionId(@Param("transactionIds") List<Integer> transactionIds);
@@ -25,6 +28,9 @@ public interface TransactionRepo extends JpaRepository<Transaction, Integer> {
     @Query("DELETE FROM Transaction t WHERE t.transactionId IN :transactionIds")
     void deleteAllByTransactionId(@Param("transactionIds") List<Integer> transactionIds);
 
-    Transaction findByTransactionId(int transactionId);
-
+    @Query("SELECT t FROM Transaction t WHERE t.dateTimePosted >= :startDate AND t.dateTimePosted < :endDate ORDER BY t.transactionId ASC")
+    List<Transaction> findByDateTimePostedBetween(
+            @Param("userId") Integer userId,
+            @Param("startDate") Date startDate,
+            @Param("endDate") Date endDate);
 }

@@ -1,5 +1,6 @@
 package com.api.backend.service;
 
+import java.sql.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -35,6 +36,15 @@ public class TransactionService {
         }
     }
 
+    public ResponseEntity<List<Transaction>> getTransactionsByDate(int userId, Date DateStart,
+            Date DateEnd) {
+
+        List<Transaction> transactions = repo.findByDateTimePostedBetween(userId, DateStart, DateEnd);
+
+        return new ResponseEntity<>(transactions, HttpStatus.OK);
+
+    }
+
     public ResponseEntity<List<Transaction>> getSpecificTransaction(List<Integer> transactionId) {
 
         List<Transaction> transactions = repo.findAllByTransactionId(transactionId);
@@ -65,7 +75,7 @@ public class TransactionService {
 
         if (transactionOptional.isPresent()) {
             Transaction existingTransaction = transactionOptional.get();
-            
+
             existingTransaction.setDateTimePosted(updatedTransaction.getDateTimePosted());
             existingTransaction.setTransactionDescription(updatedTransaction.getTransactionDescription());
             existingTransaction.setExpenseCategory(updatedTransaction.getExpenseCategory());
