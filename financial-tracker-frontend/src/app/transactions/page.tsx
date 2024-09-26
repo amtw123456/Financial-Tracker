@@ -1,6 +1,6 @@
 "use client"
 
-import React, { useEffect, useState } from "react";
+import React, { Dispatch, SetStateAction, useEffect, useState } from "react";
 import Sidebar from "../components/sidebar";
 import Header from "../components/header";
 import TransactionRow from "../components/transactionRow";
@@ -8,6 +8,8 @@ import TransactionModal from "./addTransactionModal";
 import Pagination from "./pagination";
 import axios from "axios";
 import { FaEdit, FaTrash } from "react-icons/fa";
+import { now, getLocalTimeZone } from "@internationalized/date";
+import { DateValue } from "@nextui-org/react";
 
 interface Transaction {
     transactionId: number,
@@ -19,6 +21,9 @@ interface Transaction {
 }
 
 export default function Transactions() {
+
+    const [startDate, setStartDate] = useState<DateValue>(now(getLocalTimeZone()).subtract({ weeks: 1 }) as DateValue);
+    const [endDate, setEndDate] = useState<DateValue>(now(getLocalTimeZone()) as DateValue);
 
     const [selectedTransactionIds, setSelectedTransactionIds] = useState<number[]>([]);
     const [transactions, setTransactions] = useState<Transaction[]>([]);
@@ -109,13 +114,20 @@ export default function Transactions() {
 
     useEffect(() => {
         console.log(selectedTransactionIds)
+
     }, [selectedTransactionIds]);
 
     return (
+
         <div className="flex h-screen bg-gray-100">
             <Sidebar></Sidebar>
             <div className="flex flex-col flex-1 overflow-y-hidden">
-                <Header></Header >
+                <Header
+                    startDate={startDate}
+                    endDate={endDate}
+                    onStartDateChange={setStartDate} // Pass the setter function for startDate
+                    onEndDateChange={setEndDate} // Pass the setter function for endDate
+                />
                 <div className="flex flex-row h-screen p-2">
                     <div className="flex flex-row w-full bg-white rounded-2xl shadow">
                         <div className="relative w-full py-2 px-4">
@@ -150,9 +162,7 @@ export default function Transactions() {
                                             <span className="ml-1">Delete</span>
                                         </button>
                                     </div>
-
                                 </div>
-
                                 <div className="flex flex-row w-full border items-center">
                                     <span className="text-lg font-medium border-r ml-2 py-1">
                                         <input type="checkbox" className="mr-2" />
@@ -195,6 +205,7 @@ export default function Transactions() {
                 </div>
             </div>
         </div>
+
     );
 }
 

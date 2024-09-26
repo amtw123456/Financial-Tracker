@@ -1,6 +1,6 @@
 "use client"
 
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { connectedScatterplotData } from "./connectedScatterplotData";
 import { ConnectedScatterplot } from './connectedScatterplotChart';
 
@@ -16,6 +16,9 @@ import Header from "../components/header";
 import axios from "axios";
 import TransactionRow from "../components/transactionRow";
 
+import { now, getLocalTimeZone } from "@internationalized/date";
+import { DateValue } from "@nextui-org/react";
+
 interface Transaction {
     transactionId: number,
     dateTimePosted: string; // or Date, depending on how you handle dates
@@ -26,6 +29,9 @@ interface Transaction {
 }
 
 export default function Dashboard() {
+
+    const [startDate, setStartDate] = useState<DateValue>(now(getLocalTimeZone()).subtract({ weeks: 1 }) as DateValue);
+    const [endDate, setEndDate] = useState<DateValue>(now(getLocalTimeZone()) as DateValue);
 
     const [selectedTransactionIds, setSelectedTransactionIds] = useState<number[]>([]);
     const [transactions, setTransactions] = useState<Transaction[]>([]);
@@ -52,13 +58,26 @@ export default function Dashboard() {
 
     useEffect(() => {
         fetchTransactions();
+
+
     }, []);
 
+    useEffect(() => {
+        console.log(startDate)
+        console.log(endDate)
+    }, [startDate, endDate]);
+
     return (
+
         <div className="flex h-screen bg-gray-100">
             <Sidebar></Sidebar>
             <div className="flex flex-col flex-1 overflow-y-auto">
-                <Header></Header >
+                <Header
+                    startDate={startDate}
+                    endDate={endDate}
+                    onStartDateChange={setStartDate} // Pass the setter function for startDate
+                    onEndDateChange={setEndDate} // Pass the setter function for endDate
+                />
                 <div className="p-2">
                     <div className="">
                         <div className="grid gap-2 lg:gap-4 md:grid-cols-5 p-2 pt-1">
@@ -318,5 +337,6 @@ export default function Dashboard() {
             </div>
 
         </div >
+
     );
 }

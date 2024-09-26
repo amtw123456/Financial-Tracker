@@ -1,10 +1,12 @@
-import React from "react";
+import React, { createContext, useState, ReactNode, Dispatch, SetStateAction } from 'react';
 import Link from "next/link";
 import { NextUIProvider } from "@nextui-org/react";
+
 
 export default function App() {
   return (
     <NextUIProvider>
+
       <main>
         <div className="w-full h-20 bg-emerald-800 sticky top-0">
           <div className="container mx-auto px-4 h-full">
@@ -40,6 +42,7 @@ export default function App() {
           </div>
         </div>
       </main>
+
     </NextUIProvider>
 
   );
