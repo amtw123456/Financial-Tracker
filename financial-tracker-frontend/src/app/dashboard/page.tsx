@@ -62,9 +62,30 @@ export default function Dashboard() {
 
     }, []);
 
+    const getUserTransactionByDate = async (startDate: DateValue, endDate: DateValue) => {
+        try {
+            const response = await axios.post('/api/transactions/readByDate', { startDate, endDate });
+            console.log('User transactions:', response.data.transactions); // Adjusted to access transactions
+            return response.data.transactions; // Ensure you're returning the correct data structure
+        } catch (error) {
+            // console.error('Error fetching transactions:', error);
+            // throw error; 
+        }
+    };
+
+
     useEffect(() => {
-        console.log(startDate)
-        console.log(endDate)
+        const fetchTransactionsByDate = async () => {
+            try {
+                const transactions = await getUserTransactionByDate(startDate, endDate);
+                // Handle the transactions as needed
+                console.log('Fetched transactions:', transactions);
+            } catch (error) {
+                console.error('Failed to fetch transactions:', error);
+            }
+        };
+
+        fetchTransactionsByDate();
     }, [startDate, endDate]);
 
     return (
