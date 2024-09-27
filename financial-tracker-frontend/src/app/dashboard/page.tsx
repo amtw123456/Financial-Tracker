@@ -37,6 +37,8 @@ export default function Dashboard() {
     const [transactions, setTransactions] = useState<Transaction[]>([]);
     const [isOpen, setIsOpen] = useState(false);
 
+    // const [ringTransactionsData, setRingTransactionsData] = 
+
     const getUserTransaction = async () => {
         try {
             const response = await axios.get('/api/transactions/readAll');

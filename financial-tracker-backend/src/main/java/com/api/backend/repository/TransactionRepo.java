@@ -33,4 +33,15 @@ public interface TransactionRepo extends JpaRepository<Transaction, Integer> {
             @Param("userId") Integer userId,
             @Param("startDate") Date startDate,
             @Param("endDate") Date endDate);
+
+    @Query("SELECT t.expenseCategory, SUM(t.transactionAmount) " +
+            "FROM Transaction t " +
+            "WHERE t.userId = :userId AND t.dateTimePosted >= :startDate AND t.dateTimePosted < :endDate " +
+            "GROUP BY t.expenseCategory " +
+            "ORDER BY t.transactionId ASC")
+    List<Object[]> findTransactionSumsByCategoryAndDateRange(
+            @Param("userId") Integer userId,
+            @Param("startDate") Date startDate,
+            @Param("endDate") Date endDate);
+
 }

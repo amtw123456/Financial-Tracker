@@ -45,6 +45,15 @@ public class TransactionService {
 
     }
 
+    public ResponseEntity<Object> getTransactionsByCategoryAndDate(int userId, Date DateStart,
+            Date DateEnd) {
+
+        List<Object[]> transactions = repo.findTransactionSumsByCategoryAndDateRange(userId, DateStart, DateEnd);
+
+        return new ResponseEntity<>(transactions, HttpStatus.OK);
+
+    }
+
     public ResponseEntity<List<Transaction>> getSpecificTransaction(List<Integer> transactionId) {
 
         List<Transaction> transactions = repo.findAllByTransactionId(transactionId);
