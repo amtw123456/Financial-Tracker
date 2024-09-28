@@ -103,6 +103,7 @@ export default function Dashboard() {
             try {
                 const transactions = await getUserTransactionByCategoryAndDate(startDate, endDate);
                 // Handle the transactions as needed
+
                 setSelectectedTransactionsByCategoryAndDate(transactions);
                 console.log(transactions)
             } catch (error) {
@@ -285,8 +286,7 @@ export default function Dashboard() {
                                                     </ul>
                                                 </div>
                                                 <div>
-                                                    <ul className="list-disc w-32">
-                                                        <div className="h-8 pl-1 pt-3">Mortage / Rent</div>
+                                                    {/* <div className="h-8 pl-1 pt-3">House / Rent</div>
                                                         <div className="h-8 pl-1 pt-3">Food</div>
                                                         <div className="h-8 pl-1 pt-3">Utilities</div>
                                                         <div className="h-8 pl-1 pt-3">Bills</div>
@@ -295,12 +295,16 @@ export default function Dashboard() {
                                                         <div className="h-8 pl-1 pt-3">Insurance</div>
                                                         <div className="h-8 pl-1 pt-3">Health Care</div>
                                                         <div className="h-8 pl-1 pt-3">Clothing</div>
-                                                        <div className="h-8 pl-1 pt-3">Others</div>
+                                                        <div className="h-8 pl-1 pt-3">Others</div> */}
+                                                    <ul className="list-disc w-32">
+                                                        {selectectedTransactionsByCategoryAndDate.map((transaction: any, index: number) => (
+                                                            <div className="h-8 pl-1 pt-3">{transaction.name}</div>
+                                                        ))}
                                                     </ul>
                                                 </div>
                                                 <div>
                                                     <ul className="list-disc w-24">
-                                                        <div className="h-8 pl-1 pt-3"> $ 7521</div>
+                                                        {/* <div className="h-8 pl-1 pt-3"> $ 7521</div>
                                                         <div className="h-8 pl-1 pt-3"> $ 18345</div>
                                                         <div className="h-8 pl-1 pt-3"> $ 4079</div>
                                                         <div className="h-8 pl-1 pt-3"> $ 2190</div>
@@ -309,7 +313,10 @@ export default function Dashboard() {
                                                         <div className="h-8 pl-1 pt-3"> $ 3452</div>
                                                         <div className="h-8 pl-1 pt-3"> $ 4987</div>
                                                         <div className="h-8 pl-1 pt-3"> $ 6578</div>
-                                                        <div className="h-8 pl-1 pt-3"> $ 2994</div>
+                                                        <div className="h-8 pl-1 pt-3"> $ 2994</div> */}
+                                                        {selectectedTransactionsByCategoryAndDate.map((transaction: any, index: number) => (
+                                                            <div className="h-8 pl-1 pt-3">₱ {transaction.value}</div>
+                                                        ))}
                                                     </ul>
                                                 </div>
                                                 {/* <div className="w-48 border-1">
