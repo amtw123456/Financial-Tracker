@@ -54,7 +54,7 @@ public class TransactionController {
     }
 
     @CrossOrigin
-    @PostMapping("/getSpecificTransactionsByCategoryAndDate")
+    @PostMapping("/getSpecificTransactionsByCategoryAndDate/{userId}")
     public ResponseEntity<Object> getTransactionsByCategoryAndDate(@RequestBody DateRangeDTO dateRangeDTO,
             @PathVariable Integer userId) {
         return service.getTransactionsByCategoryAndDate(userId, dateRangeDTO.getStartDate(), dateRangeDTO.getEndDate());

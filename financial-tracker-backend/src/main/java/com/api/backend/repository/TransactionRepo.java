@@ -16,32 +16,28 @@ import java.util.Date;
 @Repository
 public interface TransactionRepo extends JpaRepository<Transaction, Integer> {
 
-    List<Transaction> findAllByTransactionUserId(int userId);
+        List<Transaction> findAllByTransactionUserId(int userId);
 
-    Transaction findByTransactionId(int transactionId);
+        Transaction findByTransactionId(int transactionId);
 
-    @Query("SELECT t FROM Transaction t WHERE t.transactionId IN :transactionIds")
-    List<Transaction> findAllByTransactionId(@Param("transactionIds") List<Integer> transactionIds);
+        @Query("SELECT t FROM Transaction t WHERE t.transactionId IN :transactionIds")
+        List<Transaction> findAllByTransactionId(@Param("transactionIds") List<Integer> transactionIds);
 
-    @Modifying
-    @Transactional
-    @Query("DELETE FROM Transaction t WHERE t.transactionId IN :transactionIds")
-    void deleteAllByTransactionId(@Param("transactionIds") List<Integer> transactionIds);
+        @Modifying
+        @Transactional
+        @Query("DELETE FROM Transaction t WHERE t.transactionId IN :transactionIds")
+        void deleteAllByTransactionId(@Param("transactionIds") List<Integer> transactionIds);
 
-    @Query("SELECT t FROM Transaction t WHERE t.dateTimePosted >= :startDate AND t.dateTimePosted < :endDate ORDER BY t.transactionId ASC")
-    List<Transaction> findByDateTimePostedBetween(
-            @Param("userId") Integer userId,
-            @Param("startDate") Date startDate,
-            @Param("endDate") Date endDate);
+        @Query("SELECT t FROM Transaction t WHERE t.dateTimePosted >= :startDate AND t.dateTimePosted < :endDate ORDER BY t.transactionId ASC")
+        List<Transaction> findByDateTimePostedBetween(
+                        @Param("userId") Integer userId,
+                        @Param("startDate") Date startDate,
+                        @Param("endDate") Date endDate);
 
-    @Query("SELECT t.expenseCategory, SUM(t.transactionAmount) " +
-            "FROM Transaction t " +
-            "WHERE t.userId = :userId AND t.dateTimePosted >= :startDate AND t.dateTimePosted < :endDate " +
-            "GROUP BY t.expenseCategory " +
-            "ORDER BY t.transactionId ASC")
-    List<Object[]> findTransactionSumsByCategoryAndDateRange(
-            @Param("userId") Integer userId,
-            @Param("startDate") Date startDate,
-            @Param("endDate") Date endDate);
+        @Query("SELECT t.expenseCategory, SUM(t.transactionAmount) FROM Transaction t WHERE t.transactionUserId = :userId AND t.dateTimePosted >= :startDate AND t.dateTimePosted < :endDate GROUP BY t.expenseCategory")
+        List<Object[]> findTransactionSumsByCategoryAndDateRange(
+                        @Param("userId") Integer userId,
+                        @Param("startDate") Date startDate,
+                        @Param("endDate") Date endDate);
 
 }
