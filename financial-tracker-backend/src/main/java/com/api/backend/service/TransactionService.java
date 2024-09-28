@@ -4,6 +4,7 @@ import java.sql.Date;
 import java.util.List;
 import java.util.Optional;
 
+import org.hibernate.mapping.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -11,6 +12,9 @@ import org.springframework.stereotype.Service;
 
 import com.api.backend.model.Transaction;
 import com.api.backend.repository.TransactionRepo;
+
+import java.util.HashMap;
+import java.util.ArrayList;
 
 @Service
 public class TransactionService {
@@ -45,12 +49,24 @@ public class TransactionService {
 
     }
 
-    public ResponseEntity<Object> getTransactionsByCategoryAndDate(int userId, Date DateStart,
-            Date DateEnd) {
+    public ResponseEntity<List<HashMap<String, Object>>> getTransactionsByCategoryAndDate(int userId, Date dateStart,
+            Date dateEnd) {
 
-        List<Object[]> transactions = repo.findTransactionSumsByCategoryAndDateRange(userId, DateStart, DateEnd);
+        List<Object[]> transactions = repo.findTransactionSumsByCategoryAndDateRange(userId, dateStart, dateEnd);
 
-        return new ResponseEntity<>(transactions, HttpStatus.OK);
+        // Create a list to store the transformed data
+        List<HashMap<String, Object>> transactionsMap = new ArrayList<>();
+
+        // Transform each Object[] into a Map<String, Object>
+        for (Object[] transaction : transactions) {
+            HashMap<String, Object> data = new HashMap<>();
+            data.put("name", (String) transaction[0]); // Ensure it's a String
+            data.put("value", ((Number) transaction[1]).intValue());
+
+            transactionsMap.add(data);
+        }
+
+        return new ResponseEntity<>(transactionsMap, HttpStatus.OK);
 
     }
 

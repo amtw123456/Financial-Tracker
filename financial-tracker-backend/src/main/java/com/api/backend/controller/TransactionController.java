@@ -10,6 +10,7 @@ import com.api.backend.model.Transaction;
 import com.api.backend.model.Users;
 import com.api.backend.service.TransactionService;
 
+import java.util.HashMap;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -55,7 +56,8 @@ public class TransactionController {
 
     @CrossOrigin
     @PostMapping("/getSpecificTransactionsByCategoryAndDate/{userId}")
-    public ResponseEntity<Object> getTransactionsByCategoryAndDate(@RequestBody DateRangeDTO dateRangeDTO,
+    public ResponseEntity<List<HashMap<String, Object>>> getTransactionsByCategoryAndDate(
+            @RequestBody DateRangeDTO dateRangeDTO,
             @PathVariable Integer userId) {
         return service.getTransactionsByCategoryAndDate(userId, dateRangeDTO.getStartDate(), dateRangeDTO.getEndDate());
     }

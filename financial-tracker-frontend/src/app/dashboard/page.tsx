@@ -34,6 +34,7 @@ export default function Dashboard() {
     const [endDate, setEndDate] = useState<DateValue>(now(getLocalTimeZone()) as DateValue);
 
     const [selectedTransactionIds, setSelectedTransactionIds] = useState<number[]>([]);
+    const [selectectedTransactionsByCategoryAndDate, setSelectectedTransactionsByCategoryAndDate] = useState<any>([]);
     const [transactions, setTransactions] = useState<Transaction[]>([]);
     const [isOpen, setIsOpen] = useState(false);
 
@@ -75,6 +76,17 @@ export default function Dashboard() {
         }
     };
 
+    const getUserTransactionByCategoryAndDate = async (startDate: DateValue, endDate: DateValue) => {
+        try {
+            const response = await axios.post('/api/transactions/readByCategoryAndDate', { startDate, endDate });
+            console.log('User transactions:', response.data.transactions); // Adjusted to access transactions
+            return response.data.transactions; // Ensure you're returning the correct data structure
+        } catch (error) {
+            // console.error('Error fetching transactions:', error);
+            // throw error; 
+        }
+    };
+
 
     useEffect(() => {
         const fetchTransactionsByDate = async () => {
@@ -87,7 +99,19 @@ export default function Dashboard() {
             }
         };
 
+        const fetchTransactionsByCategoryAndDate = async () => {
+            try {
+                const transactions = await getUserTransactionByCategoryAndDate(startDate, endDate);
+                // Handle the transactions as needed
+                setSelectectedTransactionsByCategoryAndDate(transactions);
+                console.log(transactions)
+            } catch (error) {
+                console.error('Failed to fetch transactions:', error);
+            }
+        };
+
         fetchTransactionsByDate();
+        fetchTransactionsByCategoryAndDate()
     }, [startDate, endDate]);
 
     return (
@@ -242,7 +266,7 @@ export default function Dashboard() {
                                     <div>Total Expenses</div>
                                     <div className="flex flex-row pt-2">
                                         <div className="bg-red-100 flex-1 flex items-center justify-center">
-                                            <RingChart data={ringData} width={400} height={400} />
+                                            <RingChart categoryExpenseData={selectectedTransactionsByCategoryAndDate} width={400} height={400} />
                                         </div>
                                         <div className="flex-1">
                                             <div className="flex flex-row">
