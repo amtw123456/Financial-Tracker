@@ -7,9 +7,6 @@ import { ConnectedScatterplot } from './connectedScatterplotChart';
 import { ringData } from "./ringData";
 import { RingChart } from "./ringChart";
 
-import { verticalGroupedBarplotData } from './verticalGroupedBarplotData';
-import { VerticalGroupedBarplotChart } from './verticalGroupedBarplotChart';
-
 import Sidebar from "../components/sidebar";
 import Header from "../components/header";
 
@@ -18,6 +15,8 @@ import TransactionRow from "../components/transactionRow";
 
 import { now, getLocalTimeZone } from "@internationalized/date";
 import { DateValue } from "@nextui-org/react";
+
+import { BarChart } from "./BarChart"
 
 interface Transaction {
     transactionId: number,
@@ -133,7 +132,7 @@ export default function Dashboard() {
                                 <div className="space-y-2">
                                     <div
                                         className="flex items-center space-x-2 rtl:space-x-reverse text-sm font-medium text-gray-500 dark:text-gray-400">
-                                        <span>Revenue</span>
+                                        <span>Income</span>
                                     </div>
 
                                     <div className="text-3xl dark:text-gray-100">
@@ -158,7 +157,7 @@ export default function Dashboard() {
                                 <div className="space-y-2">
                                     <div
                                         className="flex items-center space-x-2 rtl:space-x-reverse text-sm font-medium text-gray-500 dark:text-gray-400">
-                                        <span>Revenue</span>
+                                        <span>Expenses</span>
                                     </div>
 
                                     <div className="text-3xl dark:text-gray-100">
@@ -183,7 +182,7 @@ export default function Dashboard() {
                                 <div className="space-y-2">
                                     <div
                                         className="flex items-center space-x-2 rtl:space-x-reverse text-sm font-medium text-gray-500 dark:text-gray-400">
-                                        <span>Revenue</span>
+                                        <span>Balance</span>
                                     </div>
 
                                     <div className="text-3xl dark:text-gray-100">
@@ -208,7 +207,7 @@ export default function Dashboard() {
                                 <div className="space-y-2">
                                     <div
                                         className="flex items-center space-x-2 rtl:space-x-reverse text-sm font-medium text-gray-500 dark:text-gray-400">
-                                        <span>New customers</span>
+                                        <span>Transactions</span>
                                     </div>
 
                                     <div className="text-3xl dark:text-gray-100">
@@ -259,8 +258,10 @@ export default function Dashboard() {
                         </div>
                         <div className="relative max-w-full flex flex-row">
                             <div className="relative p-2 rounded-2xl bg-white shadow dark:bg-gray-800 w-3/5 m-2">
-                                red
-                                <VerticalGroupedBarplotChart data={verticalGroupedBarplotData} width={650} height={400} />,
+
+                                <BarChart width={800} height={450} data={selectectedTransactionsByCategoryAndDate} />
+
+
                             </div>
                             <div className="relative p-4 rounded-2xl bg-white shadow dark:bg-gray-800 w-2/5 m-2">
                                 <div className="flex-col">
@@ -358,7 +359,7 @@ export default function Dashboard() {
                                     <div>Jun 1 - Nov 30</div>
                                     <div className="flex flex-row pt-6">
                                         <div className="flex-1 flex">
-                                            <VerticalGroupedBarplotChart data={verticalGroupedBarplotData} width={650} height={400} />,
+                                            {/* <VerticalGroupedBarplotChart data={verticalGroupedBarplotData} width={650} height={400} />, */}
                                         </div>
                                     </div>
                                 </div>
