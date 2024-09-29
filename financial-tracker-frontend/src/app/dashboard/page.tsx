@@ -211,20 +211,10 @@ export default function Dashboard() {
                                     </div>
 
                                     <div className="text-3xl dark:text-gray-100">
-                                        1340
+                                        {transactions.length}
                                     </div>
 
-                                    <div className="flex items-center space-x-1 rtl:space-x-reverse text-sm font-medium text-red-600">
 
-                                        <span>3% decrease</span>
-
-                                        <svg className="w-4 h-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
-                                            aria-hidden="true">
-                                            <path fillRule="evenodd"
-                                                d="M12 13a1 1 0 100 2h5a1 1 0 001-1V9a1 1 0 10-2 0v2.586l-4.293-4.293a1 1 0 00-1.414 0L8 9.586 3.707 5.293a1 1 0 00-1.414 1.414l5 5a1 1 0 001.414 0L11 9.414 14.586 13H12z"
-                                                clipRule="evenodd"></path>
-                                        </svg>
-                                    </div>
                                 </div>
 
                             </div>
@@ -258,10 +248,7 @@ export default function Dashboard() {
                         </div>
                         <div className="relative max-w-full flex flex-row">
                             <div className="relative p-2 rounded-2xl bg-white shadow dark:bg-gray-800 w-3/5 m-2">
-
                                 <BarChart width={800} height={450} data={selectectedTransactionsByCategoryAndDate} />
-
-
                             </div>
                             <div className="relative p-4 rounded-2xl bg-white shadow dark:bg-gray-800 w-2/5 m-2">
                                 <div className="flex-col">
@@ -299,7 +286,7 @@ export default function Dashboard() {
                                                         <div className="h-8 pl-1 pt-3">Others</div> */}
                                                     <ul className="list-disc w-32">
                                                         {selectectedTransactionsByCategoryAndDate.map((transaction: any, index: number) => (
-                                                            <div className="h-8 pl-1 pt-3">{transaction.name}</div>
+                                                            <div key={index} className="h-8 pl-1 pt-3">{transaction.name}</div>
                                                         ))}
                                                     </ul>
                                                 </div>
@@ -316,7 +303,7 @@ export default function Dashboard() {
                                                         <div className="h-8 pl-1 pt-3"> $ 6578</div>
                                                         <div className="h-8 pl-1 pt-3"> $ 2994</div> */}
                                                         {selectectedTransactionsByCategoryAndDate.map((transaction: any, index: number) => (
-                                                            <div className="h-8 pl-1 pt-3">₱ {transaction.value}</div>
+                                                            <div key={index} className="h-8 pl-1 pt-3">₱ {transaction.value}</div>
                                                         ))}
                                                     </ul>
                                                 </div>
