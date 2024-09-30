@@ -4,7 +4,7 @@ import * as d3 from 'd3';
 
 const MARGIN = { top: 30, right: 30, bottom: 50, left: 50 };
 
-type DataPoint = { x: number; y: number };
+type DataPoint = { x: any; y: number };
 type ConnectedScatterplotProps = {
     width: number;
     height: number;

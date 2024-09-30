@@ -17,6 +17,7 @@ import { now, getLocalTimeZone } from "@internationalized/date";
 import { DateValue } from "@nextui-org/react";
 
 import { BarChart } from "./BarChart"
+import { DoubleBarChart } from "./DoubleBarChart"
 
 interface Transaction {
     transactionId: number,
@@ -248,7 +249,7 @@ export default function Dashboard() {
                         </div>
                         <div className="relative max-w-full flex flex-row">
                             <div className="relative p-2 rounded-2xl bg-white shadow dark:bg-gray-800 w-3/5 m-2">
-                                <BarChart width={800} height={450} data={selectectedTransactionsByCategoryAndDate} />
+                                <BarChart width={920} height={450} data={selectectedTransactionsByCategoryAndDate} />
                             </div>
                             <div className="relative p-4 rounded-2xl bg-white shadow dark:bg-gray-800 w-2/5 m-2">
                                 <div className="flex-col">
@@ -347,6 +348,10 @@ export default function Dashboard() {
                                     <div className="flex flex-row pt-6">
                                         <div className="flex-1 flex">
                                             {/* <VerticalGroupedBarplotChart data={verticalGroupedBarplotData} width={650} height={400} />, */}
+                                            <DoubleBarChart
+                                                width={750}
+                                                height={400}
+                                            />
                                         </div>
                                     </div>
                                 </div>

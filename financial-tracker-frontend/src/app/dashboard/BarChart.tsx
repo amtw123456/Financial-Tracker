@@ -77,7 +77,7 @@ export const BarChart = ({ width, height, data }: BarplotProps) => {
             .data(data)
             .enter()
             .append("rect")
-            .attr("x", (d) => x(d.name) as number)
+            .attr("x", (d) => (x(d.name) as number))
             .attr("y", (d) => y(d.value))
             .attr("width", x.bandwidth())
             .attr("height", (d) => innerHeight - y(d.value))
