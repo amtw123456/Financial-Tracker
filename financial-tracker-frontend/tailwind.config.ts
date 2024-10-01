@@ -11,6 +11,20 @@ const config: Config = {
   ],
   theme: {
     extend: {
+      colors: {
+        customPalette: {
+          deepBlue: '#1E3A8A',
+          skyBlue: '#3B82F6',
+          turquoise: '#22D3EE',
+          mintGreen: '#34D399',
+          limeGreen: '#A3E635',
+          yellow: '#FDE047',
+          tangerine: '#F97316',
+          coralRed: '#EF4444',
+          magenta: '#D946EF',
+          violet: '#8B5CF6',
+        },
+      },
       backgroundImage: {
         "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",
         "gradient-conic":

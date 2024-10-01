@@ -15,7 +15,7 @@ export async function GET(request: NextRequest) {
         console.log("greenssss")
         // Make GET request to the backend API for the last six months transactions summary
         const response = await axios.get(
-            `${process.env.NEXT_PUBLIC_BACKEND_URL}/transaction/getLastSixMonthsTransactionsSummary`,
+            `${process.env.NEXT_PUBLIC_BACKEND_URL}/transaction/getLastSixMonthsTransactionsSummary/${userId}`,
             {
                 headers: {
                     'Content-Type': 'application/json',

@@ -14,17 +14,30 @@ type DonutChartProps = {
 
 const MARGIN = 20;
 
+// const colors = [
+//     "#3b82f6", // blue-500
+//     "#22c55e", // green-500
+//     "#eab308", // yellow-500
+//     "#9333ea", // purple-500
+//     "#ef4444", // red-500
+//     "#fb923c", // orange-500
+//     "#ec4899", // pink-500
+//     "#1e40af", // blue-800
+//     "#7c2d12", // yellow-800
+//     "#60a5fa", // blue-200
+// ];
+
 const colors = [
-    "#3b82f6", // blue-500
-    "#22c55e", // green-500
-    "#eab308", // yellow-500
-    "#9333ea", // purple-500
-    "#ef4444", // red-500
-    "#fb923c", // orange-500
-    "#ec4899", // pink-500
-    "#1e40af", // blue-800
-    "#7c2d12", // yellow-800
-    "#60a5fa", // blue-200
+    '#1E3A8A',  // Deep Blue
+    '#3B82F6',  // Sky Blue
+    '#22D3EE',  // Turquoise
+    '#34D399',  // Mint Green
+    '#A3E635',  // Lime Green
+    '#FDE047',  // Sunshine Yellow
+    '#F97316',  // Tangerine
+    '#EF4444',  // Coral Red
+    '#D946EF',  // Magenta
+    '#8B5CF6',  // Violet
 ];
 
 

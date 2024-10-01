@@ -312,16 +312,17 @@ export default function Dashboard() {
                                             <div className="flex flex-row">
                                                 <div className="w-2">
                                                     <ul className="list-disc pl-6">
-                                                        <div className="h-8"><li className="marker:text-blue-500 marker:text-5xl"></li></div>
-                                                        <div className="h-8"><li className="marker:text-green-500 marker:text-5xl"></li></div>
-                                                        <div className="h-8"><li className="marker:text-yellow-500 marker:text-5xl"></li></div>
-                                                        <div className="h-8"><li className="marker:text-purple-500 marker:text-5xl"></li></div>
-                                                        <div className="h-8"><li className="marker:text-red-500 marker:text-5xl"></li></div>
-                                                        <div className="h-8"><li className="marker:text-orange-500 marker:text-5xl"></li></div>
-                                                        <div className="h-8"><li className="marker:text-pink-500 marker:text-5xl"></li></div>
-                                                        <div className="h-8"><li className="marker:text-blue-800 marker:text-5xl"></li></div>
-                                                        <div className="h-8"><li className="marker:text-yellow-800 marker:text-5xl"></li></div>
-                                                        <div className="h-8"><li className="marker:text-blue-200 marker:text-5xl"></li></div>
+                                                        <div className="h-8"><li className="marker:text-customPalette-deepBlue marker:text-5xl"></li></div>
+                                                        <div className="h-8"><li className="marker:text-customPalette-skyBlue marker:text-5xl"></li></div>
+                                                        <div className="h-8"><li className="marker:text-customPalette-turquoise marker:text-5xl"></li></div>
+                                                        <div className="h-8"><li className="marker:text-customPalette-mintGreen marker:text-5xl"></li></div>
+                                                        <div className="h-8"><li className="marker:text-customPalette-limeGreen marker:text-5xl"></li></div>
+                                                        <div className="h-8"><li className="marker:text-customPalette-yellow marker:text-5xl"></li></div>
+                                                        <div className="h-8"><li className="marker:text-customPalette-tangerine marker:text-5xl"></li></div>
+                                                        <div className="h-8"><li className="marker:text-customPalette-coralRed marker:text-5xl"></li></div>
+                                                        <div className="h-8"><li className="marker:text-customPalette-magenta marker:text-5xl"></li></div>
+                                                        <div className="h-8"><li className="marker:text-customPalette-violet marker:text-5xl"></li></div>
+
                                                     </ul>
                                                 </div>
                                                 <div>
@@ -379,34 +380,34 @@ export default function Dashboard() {
 
                         </div>
                         <div className="flex flex-row relative p-6 rounded-2xl bg-white shadow dark:bg-gray-800 max-w mx-2 mt-4">
-                            <div className="relative p-6 rounded-2xl bg-white shadow dark:bg-gray-800 w-1/2 mx-8 mt-4">
-                                <div className="flex-col">
-                                    <div>Total Expenses</div>
-                                    <div>Jun 1 - Nov 30</div>
-                                    <div className="flex flex-row pt-6">
-                                        <div className="flex-1 flex">
-                                            <ConnectedScatterplot data={selectedTransactionsSumLast14Days} width={700} height={400} />,
-                                        </div>
 
+                            <div className="flex-col">
+                                <div>Total Expenses</div>
+                                <div>Jun 1 - Nov 30</div>
+                                <div className="flex flex-row pt-6">
+                                    <div className="flex-1 flex">
+                                        <ConnectedScatterplot data={selectedTransactionsSumLast14Days} width={775} height={400} />
+                                    </div>
+
+                                </div>
+                            </div>
+
+
+                            <div className="flex-col">
+                                <div>Total Expenses</div>
+                                <div>Jun 1 - Nov 30</div>
+                                <div className="flex flex-row pt-6">
+                                    <div className="flex-1 flex">
+                                        {/* <VerticalGroupedBarplotChart data={verticalGroupedBarplotData} width={650} height={400} />, */}
+                                        <DoubleBarChart
+                                            width={775}
+                                            height={400}
+                                            data={selectedTransactionsSumLastSixMonths}
+                                        />
                                     </div>
                                 </div>
                             </div>
-                            <div className="relative p-6 rounded-2xl bg-white shadow dark:bg-gray-800 w-1/2 mx-8 mt-4">
-                                <div className="flex-col">
-                                    <div>Total Expenses</div>
-                                    <div>Jun 1 - Nov 30</div>
-                                    <div className="flex flex-row pt-6">
-                                        <div className="flex-1 flex">
-                                            {/* <VerticalGroupedBarplotChart data={verticalGroupedBarplotData} width={650} height={400} />, */}
-                                            <DoubleBarChart
-                                                width={750}
-                                                height={400}
-                                                data={selectedTransactionsSumLastSixMonths}
-                                            />
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+
                         </div>
                         <div className="flex flex-row relative p-6 rounded-2xl bg-white shadow dark:bg-gray-800 mx-2 mt-4">
 
