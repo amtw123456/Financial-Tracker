@@ -24,6 +24,7 @@ interface Transaction {
     dateTimePosted: string; // or Date, depending on how you handle dates
     transactionAmount: number;
     expenseCategory: string;
+    transactionType: string;
     transactionDescription: string;
     // Add any other properties that are relevant
 }
@@ -35,6 +36,7 @@ export default function Dashboard() {
 
     const [selectedTransactionIds, setSelectedTransactionIds] = useState<number[]>([]);
     const [selectectedTransactionsByCategoryAndDate, setSelectectedTransactionsByCategoryAndDate] = useState<any>([]);
+    const [selectedTransactionsSumLastSixMonths, setSelectedTransactionsSumLastSixMonths] = useState<any>([]);
     const [transactions, setTransactions] = useState<Transaction[]>([]);
     const [isOpen, setIsOpen] = useState(false);
 
@@ -43,7 +45,7 @@ export default function Dashboard() {
     const getUserTransaction = async () => {
         try {
             const response = await axios.get('/api/transactions/readAll');
-            console.log('User transactions:', response.data.listOfUserTransactions);
+            // console.log('User transactions:', response.data.listOfUserTransactions);
             return response.data.listOfUserTransactions
 
         } catch (error) {
@@ -68,7 +70,6 @@ export default function Dashboard() {
     const getUserTransactionByDate = async (startDate: DateValue, endDate: DateValue) => {
         try {
             const response = await axios.post('/api/transactions/readByDate', { startDate, endDate });
-            console.log('User transactions:', response.data.transactions); // Adjusted to access transactions
             return response.data.transactions; // Ensure you're returning the correct data structure
         } catch (error) {
             // console.error('Error fetching transactions:', error);
@@ -79,8 +80,17 @@ export default function Dashboard() {
     const getUserTransactionByCategoryAndDate = async (startDate: DateValue, endDate: DateValue) => {
         try {
             const response = await axios.post('/api/transactions/readByCategoryAndDate', { startDate, endDate });
-            console.log('User transactions:', response.data.transactions); // Adjusted to access transactions
             return response.data.transactions; // Ensure you're returning the correct data structure
+        } catch (error) {
+            // console.error('Error fetching transactions:', error);
+            // throw error; 
+        }
+    };
+
+    const getUserTransactionByLastSixMonths = async () => {
+        try {
+            const response = await axios.get('/api/transactions/readTransactionsLastSixMonths');
+            return response.data.transactionsSummary; // Ensure you're returning the correct data structure
         } catch (error) {
             // console.error('Error fetching transactions:', error);
             // throw error; 
@@ -93,7 +103,7 @@ export default function Dashboard() {
             try {
                 const transactions = await getUserTransactionByDate(startDate, endDate);
                 // Handle the transactions as needed
-                console.log('Fetched transactions:', transactions);
+                // console.log('Fetched transactions:', transactions);
             } catch (error) {
                 console.error('Failed to fetch transactions:', error);
             }
@@ -105,7 +115,17 @@ export default function Dashboard() {
                 // Handle the transactions as needed
 
                 setSelectectedTransactionsByCategoryAndDate(transactions);
-                console.log(transactions)
+
+            } catch (error) {
+                console.error('Failed to fetch transactions:', error);
+            }
+        };
+
+        const fetchTransactionsByLastSixMonths = async () => {
+            try {
+                const transactions = await getUserTransactionByLastSixMonths();
+                // Handle the transactions as needed
+                setSelectedTransactionsSumLastSixMonths(transactions)
             } catch (error) {
                 console.error('Failed to fetch transactions:', error);
             }
@@ -113,7 +133,14 @@ export default function Dashboard() {
 
         fetchTransactionsByDate();
         fetchTransactionsByCategoryAndDate()
+        fetchTransactionsByLastSixMonths()
     }, [startDate, endDate]);
+
+    useEffect(() => {
+        console.log(selectedTransactionsSumLastSixMonths)
+    }, [selectedTransactionsSumLastSixMonths]);
+
+
 
     return (
 
@@ -351,6 +378,7 @@ export default function Dashboard() {
                                             <DoubleBarChart
                                                 width={750}
                                                 height={400}
+                                                data={selectedTransactionsSumLastSixMonths}
                                             />
                                         </div>
                                     </div>
@@ -365,6 +393,7 @@ export default function Dashboard() {
                                     <span className="w-1/5 text-lg font-bold border-r ml-2 py-1">Date</span>
                                     <span className="w-1/5 text-lg font-bold border-r ml-2 py-1">Category</span>
                                     <span className="w-2/5 text-lg font-bold border-r ml-2 py-1">Description</span>
+                                    <span className="w-1/5 text-lg font-bold border-r ml-2 py-1">Type</span>
                                     <span className="w-1/5 text-lg font-bold ml-2 py-1">Amount</span>
                                 </div>
                                 {transactions.slice(0, 5).map((transaction, index) => (
@@ -373,6 +402,7 @@ export default function Dashboard() {
                                         date={transaction.dateTimePosted}
                                         description={transaction.transactionDescription}
                                         category={transaction.expenseCategory}
+                                        type={transaction.transactionType}
                                         amount={transaction.transactionAmount}
                                     />
                                 ))}

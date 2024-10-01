@@ -16,6 +16,7 @@ interface Transaction {
     dateTimePosted: string; // or Date, depending on how you handle dates
     transactionAmount: number;
     expenseCategory: string;
+    transactionType: string;
     transactionDescription: string;
     // Add any other properties that are relevant
 }
@@ -170,6 +171,7 @@ export default function Transactions() {
                                     <span className="w-1/5 text-lg font-bold border-r ml-2 py-1">Date</span>
                                     <span className="w-1/5 text-lg font-bold border-r ml-2 py-1">Category</span>
                                     <span className="w-2/5 text-lg font-bold border-r ml-2 py-1">Description</span>
+                                    <span className="w-1/5 text-lg font-bold border-r ml-2 py-1">Type</span>
                                     <span className="w-1/5 text-lg font-bold ml-2 py-1">Amount</span>
                                 </div>
 
@@ -183,6 +185,7 @@ export default function Transactions() {
                                                 description={transaction.transactionDescription}
                                                 category={transaction.expenseCategory}
                                                 amount={transaction.transactionAmount}
+                                                type={transaction.transactionType}
                                                 isCheck={checkedTransactions[index]} // Pass the current check state
                                                 onCheckToggle={() => toggleCheck(index, transaction.transactionId)} // Pass the toggle function
                                             />

@@ -13,7 +13,7 @@ export const BarChart = ({ width, height, data }: BarplotProps) => {
 
     useEffect(() => {
         // Set margins around the chart
-
+        console.log(data)
         var barplotData = [
             { name: "House", value: 0 },
             { name: "Food", value: 0 },
@@ -30,7 +30,6 @@ export const BarChart = ({ width, height, data }: BarplotProps) => {
         barplotData = barplotData.map((category) => {
             // Find if there's a matching category in `data`
             const matchingData = data.find((d) => d.name === category.name);
-
             // If matching data exists, update the value
             if (matchingData) {
                 return {

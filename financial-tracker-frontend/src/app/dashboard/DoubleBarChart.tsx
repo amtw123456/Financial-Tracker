@@ -3,36 +3,28 @@ import * as d3 from "d3";
 
 
 interface DataItem {
-    group: string;
-    Income: number;
-    Expense: number;
+    group: any;
+    expense: any;
+    income: any;
 }
 
-type StackedBarChartProps = {
+type DoubleBarplotProps = {
     width: number;
     height: number;
+    data: [string, number, number][];
 };
 
-export const DoubleBarChart: React.FC<StackedBarChartProps> = ({
-    width,
-    height,
-}) => {
+export const DoubleBarChart = ({ width, height, data }: DoubleBarplotProps) => {
     const svgRef = useRef<SVGSVGElement>(null);
+    console.log(data)
 
-    // Hardcoded data based on your CSV
-    const data: DataItem[] = [
-        { group: "June", Income: 12, Expense: 1 },
-        { group: "July", Income: 6, Expense: 6 },
-        { group: "August", Income: 11, Expense: 5 },
-        { group: "September", Income: 19, Expense: 5 },
-    ];
+    const doubleBarPlotData: DataItem[] = data.map((item) => ({
+        group: item[0],     // First element as group
+        expense: item[1],   // Second element as Expense
+        income: item[2],     // Third element as Income
+    }));
 
-    // const data: DataItem[] = [
-    //     { group: "banana", Nitrogen: 12, normal: 1, stress: 13 },
-    //     { group: "poacee", Nitrogen: 6, normal: 6, stress: 33 },
-    //     { group: "sorgho", Nitrogen: 11, normal: 28, stress: 12 },
-    //     { group: "triticum", Nitrogen: 19, normal: 6, stress: 1 },
-    // ];
+    console.log(doubleBarPlotData)
 
     useEffect(() => {
         const margin = { top: 10, right: 30, bottom: 20, left: 50 };
@@ -47,8 +39,8 @@ export const DoubleBarChart: React.FC<StackedBarChartProps> = ({
             .append("g")
             .attr("transform", `translate(${margin.left},${margin.top})`);
 
-        const subgroups = ["Income", "Expense"];
-        const groups = data.map((d) => d.group);
+        const subgroups = ["income", "expense"];
+        const groups = doubleBarPlotData.map((d) => d.group);
 
         // X axis
         const x = d3
@@ -64,7 +56,7 @@ export const DoubleBarChart: React.FC<StackedBarChartProps> = ({
         // Y axis
         const y = d3
             .scaleLinear()
-            .domain([0, 40])
+            .domain([0, d3.max(doubleBarPlotData, (d) => Math.max(d.income, d.expense)) || 0])
             .range([innerHeight, 0]);
         g.append("g").call(d3.axisLeft(y));
 
@@ -84,7 +76,7 @@ export const DoubleBarChart: React.FC<StackedBarChartProps> = ({
         // Add bars to the chart
         g.append("g")
             .selectAll("g")
-            .data(data)
+            .data(doubleBarPlotData)
             .join("g")
             .attr("transform", (d) => `translate(${x(d.group)}, 0)`)
             .selectAll("rect")
