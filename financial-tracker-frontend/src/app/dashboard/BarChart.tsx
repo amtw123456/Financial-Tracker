@@ -8,41 +8,51 @@ type BarplotProps = {
     data: { name: string; value: number }[];
 };
 
+const colors = [
+    '#1E3A8A',  // Deep Blue
+    '#3B82F6',  // Sky Blue
+    '#22D3EE',  // Turquoise
+    '#34D399',  // Mint Green
+    '#A3E635',  // Lime Green
+    '#FDE047',  // Sunshine Yellow
+    '#F97316',  // Tangerine
+    '#EF4444',  // Coral Red
+    '#D946EF',  // Magenta
+    '#8B5CF6',  // Violet
+];
+
+
 export const BarChart = ({ width, height, data }: BarplotProps) => {
     const svgRef = useRef<SVGSVGElement>(null);
 
     useEffect(() => {
-        // Set margins around the chart
-        console.log(data)
-        var barplotData = [
-            { name: "House", value: 0 },
-            { name: "Food", value: 0 },
-            { name: "Utilities", value: 0 },
-            { name: "Bills", value: 0 },
-            { name: "Shopping", value: 0 },
-            { name: "Transportation", value: 0 },
-            { name: "Insurance", value: 0 },
-            { name: "Healthcare", value: 0 },
-            { name: "Clothes", value: 0 },
-            { name: "Others", value: 0 },
-        ]
+        // var barplotData = [
+        //     { name: "House", value: 0 },
+        //     { name: "Food", value: 0 },
+        //     { name: "Utilities", value: 0 },
+        //     { name: "Bills", value: 0 },
+        //     { name: "Shopping", value: 0 },
+        //     { name: "Transportation", value: 0 },
+        //     { name: "Insurance", value: 0 },
+        //     { name: "Healthcare", value: 0 },
+        //     { name: "Clothes", value: 0 },
+        //     { name: "Others", value: 0 },
+        // ]
 
-        barplotData = barplotData.map((category) => {
-            // Find if there's a matching category in `data`
-            const matchingData = data.find((d) => d.name === category.name);
-            // If matching data exists, update the value
-            if (matchingData) {
-                return {
-                    ...category,
-                    value: category.value + matchingData.value,
-                };
-            }
+        // barplotData = barplotData.map((category) => {
+        //     // Find if there's a matching category in `data`
+        //     const matchingData = data.find((d) => d.name === category.name);
+        //     // If matching data exists, update the value
+        //     if (matchingData) {
+        //         return {
+        //             ...category,
+        //             value: category.value + matchingData.value,
+        //         };
+        //     }
 
-            // Otherwise, return the category unchanged
-            return category;
-        });
-
-        data = barplotData
+        //     // Otherwise, return the category unchanged
+        //     return category;
+        // });
 
         const margin = { top: 30, right: 30, bottom: 70, left: 60 };
         const innerWidth = width - margin.left - margin.right;
@@ -80,7 +90,7 @@ export const BarChart = ({ width, height, data }: BarplotProps) => {
             .attr("y", (d) => y(d.value))
             .attr("width", x.bandwidth())
             .attr("height", (d) => innerHeight - y(d.value))
-            .attr("fill", "#69b3a2");
+            .attr("fill", (d, i) => colors[i % colors.length]);
 
         // Append the Y axis to the SVG
         g.append("g").call(d3.axisLeft(y));

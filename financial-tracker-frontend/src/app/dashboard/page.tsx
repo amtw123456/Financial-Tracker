@@ -35,7 +35,7 @@ export default function Dashboard() {
     const [endDate, setEndDate] = useState<DateValue>(now(getLocalTimeZone()) as DateValue);
 
     const [selectedTransactionIds, setSelectedTransactionIds] = useState<number[]>([]);
-    const [selectectedTransactionsByCategoryAndDate, setSelectectedTransactionsByCategoryAndDate] = useState<any>([]);
+    const [selectedTransactionsByCategoryAndDate, setSelectedTransactionsByCategoryAndDate] = useState<any>([]);
     const [selectedTransactionsSumLastSixMonths, setSelectedTransactionsSumLastSixMonths] = useState<any>([]);
     const [selectedTransactionsSumLast14Days, setSelectedTransactionsSumLast14Days] = useState<any>([]);
     const [transactions, setTransactions] = useState<Transaction[]>([]);
@@ -125,7 +125,7 @@ export default function Dashboard() {
                 const transactions = await getUserTransactionByCategoryAndDate(startDate, endDate);
                 // Handle the transactions as needed
 
-                setSelectectedTransactionsByCategoryAndDate(transactions);
+                setSelectedTransactionsByCategoryAndDate(transactions);
 
             } catch (error) {
                 console.error('Failed to fetch transactions:', error);
@@ -152,16 +152,57 @@ export default function Dashboard() {
             }
         };
 
+        var categories = [
+            { name: "House / Rent", value: 0 },
+            { name: "Food", value: 0 },
+            { name: "Utilities", value: 0 },
+            { name: "Bills", value: 0 },
+            { name: "Shopping", value: 0 },
+            { name: "Transportation", value: 0 },
+            { name: "Insurance", value: 0 },
+            { name: "Health Care", value: 0 },
+            { name: "Clothing", value: 0 },
+            { name: "Others", value: 0 },
+        ];
+
         fetchTransactionsByDate();
         fetchTransactionsByCategoryAndDate()
         fetchTransactionsByLastSixMonths()
         fetchTransactionsByLast14Days()
     }, [startDate, endDate]);
 
+    const [categories, setCategories] = useState([
+        { name: "House / Rent", value: 0 },
+        { name: "Food", value: 0 },
+        { name: "Utilities", value: 0 },
+        { name: "Bills", value: 0 },
+        { name: "Shopping", value: 0 },
+        { name: "Transportation", value: 0 },
+        { name: "Insurance", value: 0 },
+        { name: "Health Care", value: 0 },
+        { name: "Clothing", value: 0 },
+        { name: "Others", value: 0 },
+    ]);
+
     useEffect(() => {
-        console.log(selectedTransactionsSumLastSixMonths)
-        console.log(selectedTransactionsSumLast14Days)
-    }, [selectedTransactionsSumLastSixMonths, selectedTransactionsSumLast14Days]);
+
+        const updatedCategories = categories.map(category => {
+            // Find the matching transaction for the category
+            const transaction = selectedTransactionsByCategoryAndDate.find((t: any) => t.name === category.name);
+            // Update the value if a transaction exists
+            return {
+                ...category,
+                value: transaction ? transaction.value : 0 // Default to 0 if no transaction found
+            };
+        });
+
+        setCategories(updatedCategories);
+
+        console.log(categories)
+
+    }, [selectedTransactionsByCategoryAndDate]);
+
+
 
 
 
@@ -299,14 +340,14 @@ export default function Dashboard() {
                         </div>
                         <div className="relative max-w-full flex flex-row">
                             <div className="relative p-2 rounded-2xl bg-white shadow dark:bg-gray-800 w-3/5 m-2">
-                                <BarChart width={920} height={450} data={selectectedTransactionsByCategoryAndDate} />
+                                <BarChart width={920} height={450} data={categories} />
                             </div>
                             <div className="relative p-4 rounded-2xl bg-white shadow dark:bg-gray-800 w-2/5 m-2">
                                 <div className="flex-col">
                                     <div>Total Expenses</div>
                                     <div className="flex flex-row pt-2">
                                         <div className="bg-red-100 flex-1 flex items-center justify-center">
-                                            <RingChart categoryExpenseData={selectectedTransactionsByCategoryAndDate} width={400} height={400} />
+                                            <RingChart categoryExpenseData={categories} width={400} height={400} />
                                         </div>
                                         <div className="flex-1">
                                             <div className="flex flex-row">
@@ -337,24 +378,14 @@ export default function Dashboard() {
                                                         <div className="h-8 pl-1 pt-3">Clothing</div>
                                                         <div className="h-8 pl-1 pt-3">Others</div> */}
                                                     <ul className="list-disc w-32">
-                                                        {selectectedTransactionsByCategoryAndDate.map((transaction: any, index: number) => (
+                                                        {categories.map((transaction: any, index: number) => (
                                                             <div key={index} className="h-8 pl-1 pt-3">{transaction.name}</div>
                                                         ))}
                                                     </ul>
                                                 </div>
                                                 <div>
                                                     <ul className="list-disc w-24">
-                                                        {/* <div className="h-8 pl-1 pt-3"> $ 7521</div>
-                                                        <div className="h-8 pl-1 pt-3"> $ 18345</div>
-                                                        <div className="h-8 pl-1 pt-3"> $ 4079</div>
-                                                        <div className="h-8 pl-1 pt-3"> $ 2190</div>
-                                                        <div className="h-8 pl-1 pt-3"> $ 5643</div>
-                                                        <div className="h-8 pl-1 pt-3"> $ 12367</div>
-                                                        <div className="h-8 pl-1 pt-3"> $ 3452</div>
-                                                        <div className="h-8 pl-1 pt-3"> $ 4987</div>
-                                                        <div className="h-8 pl-1 pt-3"> $ 6578</div>
-                                                        <div className="h-8 pl-1 pt-3"> $ 2994</div> */}
-                                                        {selectectedTransactionsByCategoryAndDate.map((transaction: any, index: number) => (
+                                                        {categories.map((transaction: any, index: number) => (
                                                             <div key={index} className="h-8 pl-1 pt-3">₱ {transaction.value}</div>
                                                         ))}
                                                     </ul>

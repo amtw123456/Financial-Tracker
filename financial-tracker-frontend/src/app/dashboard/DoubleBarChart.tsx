@@ -16,15 +16,12 @@ type DoubleBarplotProps = {
 
 export const DoubleBarChart = ({ width, height, data }: DoubleBarplotProps) => {
     const svgRef = useRef<SVGSVGElement>(null);
-    console.log(data)
 
     const doubleBarPlotData: DataItem[] = data.map((item) => ({
         group: item[0],     // First element as group
         expense: item[1],   // Second element as Expense
         income: item[2],     // Third element as Income
     }));
-
-    console.log(doubleBarPlotData)
 
     useEffect(() => {
         const margin = { top: 10, right: 30, bottom: 20, left: 50 };
