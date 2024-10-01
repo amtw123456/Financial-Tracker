@@ -63,15 +63,15 @@ public class TransactionController {
     }
 
     @CrossOrigin
-    @GetMapping("/getLastSixMonthsTransactionsSummary")
-    public List<Object[]> getTransactionSummaryMonthly() {
-        return service.getMonthlyTransactionSummary();
+    @GetMapping("/getLastSixMonthsTransactionsSummary/{userId}")
+    public List<Object[]> getTransactionSummaryMonthly(@PathVariable Integer userId) {
+        return service.getMonthlyTransactionSummary(userId);
     }
 
     @CrossOrigin
-    @GetMapping("/getLast14DaysExpenses")
-    public List<Object[]> getTransactionSummaryDaily() {
-        return service.getLast14DaysExpenses();
+    @GetMapping("/getLast14DaysExpenses/{userId}")
+    public List<Object[]> getTransactionSummaryDaily(@PathVariable Integer userId) {
+        return service.getLast14DaysExpenses(userId);
     }
 
     @CrossOrigin

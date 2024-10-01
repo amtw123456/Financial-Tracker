@@ -41,33 +41,35 @@ public interface TransactionRepo extends JpaRepository<Transaction, Integer> {
             @Param("endDate") Date endDate);
 
     @Query(value = """
-                WITH latest_transaction_month AS (
-                    SELECT date_trunc('month', MAX(t.date_time_posted)) AS latest_month
-                    FROM transactions t
-                ),
-                months AS (
-                    SELECT
-                        date_trunc('month', generate_series) AS month_start,
-                        (date_trunc('month', generate_series) + interval '1 month - 1 day') AS month_end
-                    FROM latest_transaction_month,
-                    generate_series(
-                        latest_month - interval '5 months',   -- 6 months ago from the latest month
-                        latest_month,                         -- Latest month
-                        '1 month'::interval                   -- Interval of 1 month
-                    ) AS generate_series
-                )
+                            WITH latest_transaction_month AS (
+                SELECT date_trunc('month', MAX(t.date_time_posted)) AS latest_month
+                FROM transactions t
+            ),
+            months AS (
                 SELECT
-                    TO_CHAR(months.month_end, 'YYYY-MM') AS year_month,
-                    COALESCE(SUM(CASE WHEN t.transaction_type = 'Expense' THEN t.transaction_amount ELSE 0 END), 0) AS total_expense,
-                    COALESCE(SUM(CASE WHEN t.transaction_type = 'Income' THEN t.transaction_amount ELSE 0 END), 0) AS total_income
-                FROM months
-                LEFT JOIN transactions t
-                    ON t.date_time_posted >= months.month_start
-                    AND t.date_time_posted <= months.month_end
-                GROUP BY year_month
-                ORDER BY year_month;
-            """, nativeQuery = true)
-    List<Object[]> getLastSixMonthsTransactionSummary();
+                    date_trunc('month', generate_series) AS month_start,
+                    (date_trunc('month', generate_series) + interval '1 month - 1 day') AS month_end
+                FROM latest_transaction_month,
+                generate_series(
+                    latest_month - interval '5 months',   -- 6 months ago from the latest month
+                    latest_month,                         -- Latest month
+                    '1 month'::interval                   -- Interval of 1 month
+                ) AS generate_series
+            )
+            SELECT
+                TO_CHAR(months.month_end, 'YYYY-MM') AS year_month,
+                COALESCE(SUM(CASE WHEN t.transaction_type = 'Expense' THEN t.transaction_amount ELSE 0 END), 0) AS total_expense,
+                COALESCE(SUM(CASE WHEN t.transaction_type = 'Income' THEN t.transaction_amount ELSE 0 END), 0) AS total_income
+            FROM months
+            LEFT JOIN transactions t
+                ON t.date_time_posted >= months.month_start
+                AND t.date_time_posted <= months.month_end
+                AND t.transaction_user_id = :userId  -- Filter by user ID
+            GROUP BY year_month
+            ORDER BY year_month;
+
+                        """, nativeQuery = true)
+    List<Object[]> getLastSixMonthsTransactionSummary(int userId);
 
     @Query(value = """
                             WITH last_14_days AS (
@@ -79,9 +81,9 @@ public interface TransactionRepo extends JpaRepository<Transaction, Integer> {
                 COALESCE(SUM(CASE WHEN t.transaction_type = 'Expense' THEN t.transaction_amount ELSE 0 END), 0) AS total_expense,
                 COALESCE(SUM(CASE WHEN t.transaction_type = 'Income' THEN t.transaction_amount ELSE 0 END), 0) AS total_income
             FROM last_14_days l
-            LEFT JOIN transactions t ON t.date_time_posted::date = l.transaction_date
+            LEFT JOIN transactions t ON t.date_time_posted::date = l.transaction_date AND t.transaction_user_id = :userId  -- Filter by user ID
             GROUP BY l.transaction_date
             ORDER BY l.transaction_date;
                         """, nativeQuery = true)
-    List<Object[]> getLast14DaysExpenses();
+    List<Object[]> getLast14DaysExpenses(int userId);
 }

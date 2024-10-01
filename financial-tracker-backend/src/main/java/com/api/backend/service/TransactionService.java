@@ -79,14 +79,14 @@ public class TransactionService {
 
     }
 
-    public List<Object[]> getMonthlyTransactionSummary() {
-        List<Object[]> result = repo.getLastSixMonthsTransactionSummary();
+    public List<Object[]> getMonthlyTransactionSummary(int userId) {
+        List<Object[]> result = repo.getLastSixMonthsTransactionSummary(userId);
 
         return result;
     }
 
-    public List<Object[]> getLast14DaysExpenses() {
-        List<Object[]> result = repo.getLast14DaysExpenses();
+    public List<Object[]> getLast14DaysExpenses(int userId) {
+        List<Object[]> result = repo.getLast14DaysExpenses(userId);
         return result;
     }
 
