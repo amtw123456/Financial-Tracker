@@ -3,6 +3,7 @@ type TransactionRowProps = {
     description: string;
     category: string;
     amount: number;
+    type: string;
     isCheck?: boolean; // Add this line
     onCheckToggle?: () => void; // Function to handle checkbox toggle
 };
@@ -84,7 +85,7 @@ const iconMap: { [key: string]: JSX.Element } = {
 // <div className="h-8"><li className="marker:text-yellow-800 marker:text-5xl"></li></div>
 // <div className="h-8"><li className="marker:text-blue-200 marker:text-5xl"></li></div>
 
-export default function TransactionRow({ date, description, category, amount, isCheck, onCheckToggle }: TransactionRowProps) {
+export default function TransactionRow({ date, description, category, amount, type, isCheck, onCheckToggle }: TransactionRowProps) {
     return (
         <div className="flex flex-row border-b w-full items-center">
             <div className="flex flex-row w-full">
@@ -110,7 +111,11 @@ export default function TransactionRow({ date, description, category, amount, is
 
                 <span className="w-2/5 text-lg font-medium border-r ml-2 py-1 flex items-center">{description}</span>
 
+                <span className="w-1/5 text-lg font-medium border-r ml-2 py-1 flex items-center">{type}</span>
+
                 <span className="w-1/5 text-lg font-medium ml-2 py-1 flex items-center">{amount.toFixed(2)}</span>
+
+
             </div>
 
         </div>
