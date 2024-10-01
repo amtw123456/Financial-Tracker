@@ -1,5 +1,6 @@
 package com.api.backend.service;
 
+import java.math.BigDecimal;
 import java.sql.Date;
 import java.util.List;
 import java.util.Optional;
@@ -76,6 +77,12 @@ public class TransactionService {
 
         return new ResponseEntity<>(transactions, HttpStatus.OK);
 
+    }
+
+    public List<Object[]> getMonthlyTransactionSummary() {
+        List<Object[]> result = repo.getMonthlyTransactionSummary();
+
+        return result;
     }
 
     public ResponseEntity<Transaction> createTransactions(Integer userId, Transaction transaction) {

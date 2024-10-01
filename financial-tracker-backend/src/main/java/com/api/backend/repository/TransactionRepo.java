@@ -16,28 +16,56 @@ import java.util.Date;
 @Repository
 public interface TransactionRepo extends JpaRepository<Transaction, Integer> {
 
-        List<Transaction> findAllByTransactionUserId(int userId);
+    List<Transaction> findAllByTransactionUserId(int userId);
 
-        Transaction findByTransactionId(int transactionId);
+    Transaction findByTransactionId(int transactionId);
 
-        @Query("SELECT t FROM Transaction t WHERE t.transactionId IN :transactionIds")
-        List<Transaction> findAllByTransactionId(@Param("transactionIds") List<Integer> transactionIds);
+    @Query("SELECT t FROM Transaction t WHERE t.transactionId IN :transactionIds")
+    List<Transaction> findAllByTransactionId(@Param("transactionIds") List<Integer> transactionIds);
 
-        @Modifying
-        @Transactional
-        @Query("DELETE FROM Transaction t WHERE t.transactionId IN :transactionIds")
-        void deleteAllByTransactionId(@Param("transactionIds") List<Integer> transactionIds);
+    @Modifying
+    @Transactional
+    @Query("DELETE FROM Transaction t WHERE t.transactionId IN :transactionIds")
+    void deleteAllByTransactionId(@Param("transactionIds") List<Integer> transactionIds);
 
-        @Query("SELECT t FROM Transaction t WHERE t.dateTimePosted >= :startDate AND t.dateTimePosted < :endDate ORDER BY t.transactionId ASC")
-        List<Transaction> findByDateTimePostedBetween(
-                        @Param("userId") Integer userId,
-                        @Param("startDate") Date startDate,
-                        @Param("endDate") Date endDate);
+    @Query("SELECT t FROM Transaction t WHERE t.dateTimePosted >= :startDate AND t.dateTimePosted < :endDate ORDER BY t.transactionId ASC")
+    List<Transaction> findByDateTimePostedBetween(
+            @Param("userId") Integer userId,
+            @Param("startDate") Date startDate,
+            @Param("endDate") Date endDate);
 
-        @Query("SELECT t.expenseCategory, SUM(t.transactionAmount) FROM Transaction t WHERE t.transactionUserId = :userId AND t.dateTimePosted >= :startDate AND t.dateTimePosted < :endDate GROUP BY t.expenseCategory")
-        List<Object[]> findTransactionSumsByCategoryAndDateRange(
-                        @Param("userId") Integer userId,
-                        @Param("startDate") Date startDate,
-                        @Param("endDate") Date endDate);
+    @Query("SELECT t.expenseCategory, SUM(t.transactionAmount) FROM Transaction t WHERE t.transactionUserId = :userId AND t.dateTimePosted >= :startDate AND t.dateTimePosted <= :endDate AND t.transactionType = 'Expense' GROUP BY t.expenseCategory")
+    List<Object[]> findTransactionSumsByCategoryAndDateRange(
+            @Param("userId") Integer userId,
+            @Param("startDate") Date startDate,
+            @Param("endDate") Date endDate);
 
+    @Query(value = """
+                WITH latest_transaction_month AS (
+                    SELECT date_trunc('month', MAX(t.date_time_posted)) AS latest_month
+                    FROM transactions t
+                ),
+                months AS (
+                    SELECT
+                        date_trunc('month', generate_series) AS month_start,
+                        (date_trunc('month', generate_series) + interval '1 month - 1 day') AS month_end
+                    FROM latest_transaction_month,
+                    generate_series(
+                        latest_month - interval '5 months',   -- 6 months ago from the latest month
+                        latest_month,                         -- Latest month
+                        '1 month'::interval                   -- Interval of 1 month
+                    ) AS generate_series
+                )
+                SELECT
+                    TO_CHAR(months.month_end, 'YYYY-MM') AS year_month,
+                    COALESCE(SUM(CASE WHEN t.transaction_type = 'Expense' THEN t.transaction_amount ELSE 0 END), 0) AS total_expense,
+                    COALESCE(SUM(CASE WHEN t.transaction_type = 'Income' THEN t.transaction_amount ELSE 0 END), 0) AS total_income
+                FROM months
+                LEFT JOIN transactions t
+                    ON t.date_time_posted >= months.month_start
+                    AND t.date_time_posted <= months.month_end
+                GROUP BY year_month
+                ORDER BY year_month;
+            """, nativeQuery = true)
+    List<Object[]> getMonthlyTransactionSummary();
 }

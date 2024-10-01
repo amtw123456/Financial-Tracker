@@ -62,6 +62,11 @@ public class TransactionController {
         return service.getTransactionsByCategoryAndDate(userId, dateRangeDTO.getStartDate(), dateRangeDTO.getEndDate());
     }
 
+    @GetMapping("/getLastSixMonthsTransactionsSummary")
+    public List<Object[]> getTransactionSummary() {
+        return service.getMonthlyTransactionSummary();
+    }
+
     @CrossOrigin
     @PostMapping("/create/{userId}")
     public ResponseEntity<Transaction> createTransactions(@PathVariable Integer userId,
