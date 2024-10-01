@@ -1,101 +1,81 @@
-"use client"
-import { useEffect, useMemo, useRef } from 'react';
-import * as d3 from 'd3';
+import React, { useEffect, useRef } from "react";
+import * as d3 from "d3";
 
-const MARGIN = { top: 30, right: 30, bottom: 50, left: 50 };
-
-type DataPoint = { x: any; y: number };
-type ConnectedScatterplotProps = {
-    width: number;
-    height: number;
-    data: DataPoint[];
+// Define the type for the data
+type DataPoint = {
+    date: Date;
+    value: number;
 };
 
-export const ConnectedScatterplot = ({
-    width,
-    height,
-    data,
-}: ConnectedScatterplotProps) => {
-    // bounds = area inside the graph axis = calculated by substracting the margins
-    const axesRef = useRef(null);
-    const boundsWidth = width - MARGIN.right - MARGIN.left;
-    const boundsHeight = height - MARGIN.top - MARGIN.bottom;
+type LineChartProps = {
+    data: DataPoint[]; // Accept data as a prop
+    width: number;     // Accept width as a prop
+    height: number;    // Accept height as a prop
+};
 
-    // Y axis
-    const [min, max] = d3.extent(data, (d) => d.y);
-    const yScale = d3
-        .scaleLinear()
-        .domain([0, max || 0])
-        .range([boundsHeight, 0]);
+export const ConnectedScatterplot: React.FC<LineChartProps> = ({ data, width, height }) => {
+    const svgRef = useRef<SVGSVGElement | null>(null);
 
-    // X axis
-    const [xMin, xMax] = d3.extent(data, (d) => d.x);
-    const xScale = d3
-        .scaleLinear()
-        .domain([0, xMax || 0])
-        .range([0, boundsWidth]);
-
-    // Render the X and Y axis using d3.js, not react
     useEffect(() => {
-        const svgElement = d3.select(axesRef.current);
-        svgElement.selectAll('*').remove();
-        const xAxisGenerator = d3.axisBottom(xScale);
-        svgElement
-            .append('g')
-            .attr('transform', 'translate(0,' + boundsHeight + ')')
-            .call(xAxisGenerator);
+        // Set the dimensions and margins of the graph
+        const margin = { top: 10, right: 30, bottom: 30, left: 60 };
+        const innerWidth = width - margin.left - margin.right;
+        const innerHeight = height - margin.top - margin.bottom;
 
-        const yAxisGenerator = d3.axisLeft(yScale);
-        svgElement.append('g').call(yAxisGenerator);
-    }, [xScale, yScale, boundsHeight]);
+        // Clear previous chart content
+        const svg = d3.select(svgRef.current);
+        svg.selectAll("*").remove(); // Clear previous content
 
-    // Build the line
-    const lineBuilder = d3
-        .line<DataPoint>()
-        .x((d) => xScale(d.x))
-        .y((d) => yScale(d.y));
-    const linePath = lineBuilder(data);
-    if (!linePath) {
-        return null;
-    }
+        const g = svg
+            .append("g")
+            .attr("transform", `translate(${margin.left},${margin.top})`);
 
-    // Build the circles
-    const allCircles = data.map((item, i) => {
-        return (
-            <circle
-                key={i}
-                cx={xScale(item.x)}
-                cy={yScale(item.y)}
-                r={4}
-                fill={'#cb1dd1'}
-            />
-        );
-    });
+        // Parse the date and create x-axis scale
+        const x = d3.scaleTime()
+            .domain(d3.extent(data, (d) => d.date) as [Date, Date])
+            .range([0, innerWidth]);
+
+        // Create X axis
+        g.append("g")
+            .attr("transform", `translate(0, ${innerHeight})`)
+            .call(d3.axisBottom(x));
+
+        // Create Y axis scale
+        const y = d3.scaleLinear()
+            .domain([0, d3.max(data, (d) => d.value) as number])
+            .range([innerHeight, 0]);
+
+        // Create Y axis
+        g.append("g").call(d3.axisLeft(y));
+
+        // Create the line
+        g.append("path")
+            .datum(data)
+            .attr("fill", "none")
+            .attr("stroke", "#69b3a2")
+            .attr("stroke-width", 1.5)
+            .attr("d", d3.line<DataPoint>()
+                .x((d) => x(d.date) as number) // x positions
+                .y((d) => y(d.value))         // y positions
+            );
+
+        // Add the points
+        g.append("g")
+            .selectAll("dot")
+            .data(data)
+            .join("circle")
+            .attr("cx", (d) => x(d.date) as number) // Use x scale for positioning
+            .attr("cy", (d) => y(d.value))         // Use y scale for positioning
+            .attr("r", 5)
+            .attr("fill", "#69b3a2");
+
+    }, [data, width, height]); // Re-render when data, width or height changes
 
     return (
-        <div>
-            <svg width={width} height={height}>
-                <g
-                    width={boundsWidth}
-                    height={boundsHeight}
-                    transform={`translate(${[MARGIN.left, MARGIN.top].join(',')})`}
-                >
-                    <path
-                        d={linePath}
-                        opacity={0.3}
-                        stroke="#cb1dd1"
-                        fill="none"
-                        strokeWidth={2}
-                    />
-                    {allCircles}
-                </g>
-                <g
-                    width={boundsWidth}
-                    height={boundsHeight}
-                    ref={axesRef}
-                    transform={`translate(${[MARGIN.left, MARGIN.top].join(',')})`}
-                />
-            </svg>
-        </div>
+        <svg
+            ref={svgRef}
+            width={width}  // Set width from props
+            height={height} // Set height from props
+        />
     );
 };

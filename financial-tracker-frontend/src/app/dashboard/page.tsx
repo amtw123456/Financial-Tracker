@@ -362,7 +362,7 @@ export default function Dashboard() {
                                     <div>Jun 1 - Nov 30</div>
                                     <div className="flex flex-row pt-6">
                                         <div className="flex-1 flex">
-                                            <ConnectedScatterplot data={connectedScatterplotData} width={650} height={400} />,
+                                            <ConnectedScatterplot data={connectedScatterplotData} width={700} height={400} />,
                                         </div>
 
                                     </div>
