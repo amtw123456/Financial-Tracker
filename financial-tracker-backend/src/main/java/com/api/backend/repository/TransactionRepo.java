@@ -67,5 +67,21 @@ public interface TransactionRepo extends JpaRepository<Transaction, Integer> {
                 GROUP BY year_month
                 ORDER BY year_month;
             """, nativeQuery = true)
-    List<Object[]> getMonthlyTransactionSummary();
+    List<Object[]> getLastSixMonthsTransactionSummary();
+
+    @Query(value = """
+                            WITH last_14_days AS (
+                SELECT
+                    CURRENT_DATE - INTERVAL '1 day' * generate_series(0, 13) AS transaction_date -- Generates the last 14 days including today
+            )
+            SELECT
+                l.transaction_date,
+                COALESCE(SUM(CASE WHEN t.transaction_type = 'Expense' THEN t.transaction_amount ELSE 0 END), 0) AS total_expense,
+                COALESCE(SUM(CASE WHEN t.transaction_type = 'Income' THEN t.transaction_amount ELSE 0 END), 0) AS total_income
+            FROM last_14_days l
+            LEFT JOIN transactions t ON t.date_time_posted::date = l.transaction_date
+            GROUP BY l.transaction_date
+            ORDER BY l.transaction_date;
+                        """, nativeQuery = true)
+    List<Object[]> getLast14DaysExpenses();
 }

@@ -1,5 +1,5 @@
 export const connectedScatterplotData = [
-    { date: new Date("04-14"), value: 8140.71 },
+    { date: new Date("04-14"), value: 0 },
     { date: new Date("04-15"), value: 8338.42 },
     { date: new Date("04-16"), value: 6432.15 },
     { date: new Date("04-17"), value: 8285.96 },

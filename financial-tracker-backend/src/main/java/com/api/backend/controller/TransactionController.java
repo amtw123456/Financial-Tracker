@@ -62,9 +62,16 @@ public class TransactionController {
         return service.getTransactionsByCategoryAndDate(userId, dateRangeDTO.getStartDate(), dateRangeDTO.getEndDate());
     }
 
+    @CrossOrigin
     @GetMapping("/getLastSixMonthsTransactionsSummary")
-    public List<Object[]> getTransactionSummary() {
+    public List<Object[]> getTransactionSummaryMonthly() {
         return service.getMonthlyTransactionSummary();
+    }
+
+    @CrossOrigin
+    @GetMapping("/getLast14DaysExpenses")
+    public List<Object[]> getTransactionSummaryDaily() {
+        return service.getLast14DaysExpenses();
     }
 
     @CrossOrigin

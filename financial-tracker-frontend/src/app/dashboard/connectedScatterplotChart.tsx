@@ -8,13 +8,31 @@ type DataPoint = {
 };
 
 type LineChartProps = {
-    data: DataPoint[]; // Accept data as a prop
     width: number;     // Accept width as a prop
     height: number;    // Accept height as a prop
+    data: [Date, number][]; // Accept data as a prop
 };
 
-export const ConnectedScatterplot: React.FC<LineChartProps> = ({ data, width, height }) => {
+export const ConnectedScatterplot = ({ width, height, data }: LineChartProps) => {
     const svgRef = useRef<SVGSVGElement | null>(null);
+
+    function formatDate(dateString: Date): Date {
+        const date = new Date(dateString); // Convert the string to a Date object
+        const year = date.getFullYear(); // Get the full year
+        const month = date.getMonth();    // Get the month (0-based)
+        const day = date.getDate();       // Get the day (1-based)
+
+        // Return a new Date object with the same year, month, and day
+        return new Date(year, month, day);
+    }
+
+    const connectedScatterplotData: DataPoint[] = data.map((item) => ({
+        date: formatDate(item[0]), // Format the date from the first element
+        value: item[1],   // Second element as Expense
+        // Third element as Income
+    }));
+
+
 
     useEffect(() => {
         // Set the dimensions and margins of the graph
@@ -32,7 +50,7 @@ export const ConnectedScatterplot: React.FC<LineChartProps> = ({ data, width, he
 
         // Parse the date and create x-axis scale
         const x = d3.scaleTime()
-            .domain(d3.extent(data, (d) => d.date) as [Date, Date])
+            .domain(d3.extent(connectedScatterplotData, (d) => d.date) as [Date, Date])
             .range([0, innerWidth]);
 
         // Create X axis
@@ -42,7 +60,7 @@ export const ConnectedScatterplot: React.FC<LineChartProps> = ({ data, width, he
 
         // Create Y axis scale
         const y = d3.scaleLinear()
-            .domain([0, d3.max(data, (d) => d.value) as number])
+            .domain([0, d3.max(connectedScatterplotData, (d) => d.value) as number])
             .range([innerHeight, 0]);
 
         // Create Y axis
@@ -50,7 +68,7 @@ export const ConnectedScatterplot: React.FC<LineChartProps> = ({ data, width, he
 
         // Create the line
         g.append("path")
-            .datum(data)
+            .datum(connectedScatterplotData)
             .attr("fill", "none")
             .attr("stroke", "#69b3a2")
             .attr("stroke-width", 1.5)
@@ -62,7 +80,7 @@ export const ConnectedScatterplot: React.FC<LineChartProps> = ({ data, width, he
         // Add the points
         g.append("g")
             .selectAll("dot")
-            .data(data)
+            .data(connectedScatterplotData)
             .join("circle")
             .attr("cx", (d) => x(d.date) as number) // Use x scale for positioning
             .attr("cy", (d) => y(d.value))         // Use y scale for positioning

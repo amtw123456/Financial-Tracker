@@ -80,8 +80,13 @@ public class TransactionService {
     }
 
     public List<Object[]> getMonthlyTransactionSummary() {
-        List<Object[]> result = repo.getMonthlyTransactionSummary();
+        List<Object[]> result = repo.getLastSixMonthsTransactionSummary();
 
+        return result;
+    }
+
+    public List<Object[]> getLast14DaysExpenses() {
+        List<Object[]> result = repo.getLast14DaysExpenses();
         return result;
     }
 

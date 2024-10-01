@@ -37,6 +37,7 @@ export default function Dashboard() {
     const [selectedTransactionIds, setSelectedTransactionIds] = useState<number[]>([]);
     const [selectectedTransactionsByCategoryAndDate, setSelectectedTransactionsByCategoryAndDate] = useState<any>([]);
     const [selectedTransactionsSumLastSixMonths, setSelectedTransactionsSumLastSixMonths] = useState<any>([]);
+    const [selectedTransactionsSumLast14Days, setSelectedTransactionsSumLast14Days] = useState<any>([]);
     const [transactions, setTransactions] = useState<Transaction[]>([]);
     const [isOpen, setIsOpen] = useState(false);
 
@@ -97,6 +98,16 @@ export default function Dashboard() {
         }
     };
 
+    const getUserTransactionByLast14Days = async () => {
+        try {
+            const response = await axios.get('/api/transactions/readTransactionsLast14Days');
+            return response.data.transactionsSummary; // Ensure you're returning the correct data structure
+        } catch (error) {
+            // console.error('Error fetching transactions:', error);
+            // throw error; 
+        }
+    };
+
 
     useEffect(() => {
         const fetchTransactionsByDate = async () => {
@@ -131,14 +142,26 @@ export default function Dashboard() {
             }
         };
 
+        const fetchTransactionsByLast14Days = async () => {
+            try {
+                const transactions = await getUserTransactionByLast14Days();
+                // Handle the transactions as needed
+                setSelectedTransactionsSumLast14Days(transactions)
+            } catch (error) {
+                console.error('Failed to fetch transactions:', error);
+            }
+        };
+
         fetchTransactionsByDate();
         fetchTransactionsByCategoryAndDate()
         fetchTransactionsByLastSixMonths()
+        fetchTransactionsByLast14Days()
     }, [startDate, endDate]);
 
     useEffect(() => {
         console.log(selectedTransactionsSumLastSixMonths)
-    }, [selectedTransactionsSumLastSixMonths]);
+        console.log(selectedTransactionsSumLast14Days)
+    }, [selectedTransactionsSumLastSixMonths, selectedTransactionsSumLast14Days]);
 
 
 
@@ -362,7 +385,7 @@ export default function Dashboard() {
                                     <div>Jun 1 - Nov 30</div>
                                     <div className="flex flex-row pt-6">
                                         <div className="flex-1 flex">
-                                            <ConnectedScatterplot data={connectedScatterplotData} width={700} height={400} />,
+                                            <ConnectedScatterplot data={selectedTransactionsSumLast14Days} width={700} height={400} />,
                                         </div>
 
                                     </div>
