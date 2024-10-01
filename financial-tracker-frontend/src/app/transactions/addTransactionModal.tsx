@@ -42,7 +42,7 @@ const TransactionModal: React.FC<TransactionModalProps> = ({ isOpen, onOpenChang
                 "transactionAmount": transactionData.amount,
                 "dateTimePosted": transactionData.date,
                 "expenseCategory": transactionData.category,
-                "transactionType": transactionData.type,
+                "transactionType": transactionData.transactionType,
                 "transactionDescription": transactionData.description,
             });
 
