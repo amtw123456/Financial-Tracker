@@ -1,5 +1,41 @@
+import { DateValue } from "@nextui-org/react";
+import axios from "axios";
+import { useEffect, useState } from "react";
+import { now, getLocalTimeZone } from "@internationalized/date";
 
 export default function Sidebar() {
+
+    const [recentTransactions, setRecentTransactions] = useState<number[]>([]);
+
+    const [startDate, setStartDate] = useState<DateValue>(now(getLocalTimeZone()).subtract({ weeks: 4 }) as DateValue);
+    const [endDate, setEndDate] = useState<DateValue>(now(getLocalTimeZone()) as DateValue);
+
+    const getUserTransactionByDate = async (startDate: DateValue, endDate: DateValue) => {
+        try {
+            const response = await axios.post('/api/transactions/readByDate', { startDate, endDate });
+            return response.data.transactions; // Ensure you're returning the correct data structure
+        } catch (error) {
+            // console.error('Error fetching transactions:', error);
+            // throw error; 
+        }
+    };
+
+    useEffect(() => {
+        const fetchTransactionsByDate = async () => {
+            try {
+                const transactions = await getUserTransactionByDate(startDate, endDate);
+                // Handle the transactions as needed
+                // console.log('Fetched transactions:', transactions);
+                setRecentTransactions(transactions)
+            } catch (error) {
+                console.error('Failed to fetch transactions:', error);
+            }
+        };
+
+
+        fetchTransactionsByDate();
+
+    }, [startDate, endDate]);
 
     return (
         <div className="hidden md:flex flex-col w-64 bg-gray-800">
@@ -130,9 +166,14 @@ export default function Sidebar() {
 
                                 <article className="px-4 pb-4">
                                     <ul className="flex flex-col gap-1 pl-2">
-                                        <li><a href="" className="text-white">Document title</a></li>
-                                        <li><a href="" className="text-white">Document title</a></li>
-                                        <li><a href="" className="text-white">Document title</a></li>
+                                        {recentTransactions.slice(0, 3).map((transaction: any, index) => (
+                                            <li key={index}>
+                                                <a href="" className="text-white">
+                                                    {transaction.transactionCategory}
+                                                </a>
+                                            </li>
+                                        ))}
+
                                     </ul>
                                 </article>
                             </details>
