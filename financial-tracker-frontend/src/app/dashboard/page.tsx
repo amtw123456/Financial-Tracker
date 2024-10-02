@@ -36,6 +36,7 @@ export default function Dashboard() {
 
     const [incomeValue, setIncomeValue] = useState<number>(0);
     const [expenseValue, setExpenseValue] = useState<number>(0);
+    const [sumOfValues, setSumOfValues] = useState<number>(0);
 
     const [selectedTransactionIds, setSelectedTransactionIds] = useState<number[]>([]);
     const [selectedTransactionsByCategoryAndDate, setSelectedTransactionsByCategoryAndDate] = useState<any>([]);
@@ -207,8 +208,11 @@ export default function Dashboard() {
             };
         });
 
+        const sum = updatedCategories
+            .map(category => category.value) // Extract values
+            .reduce((accumulator, currentValue) => accumulator + currentValue, 0); // Sum them
 
-        console.log(selectedTransactionsByDate)
+
         selectedTransactionsByDate.map((transaction: any) => {
             if (transaction.transactionType === "Expense") {
                 expense += transaction.transactionAmount;
@@ -220,6 +224,7 @@ export default function Dashboard() {
         setIncomeValue(income)
         setExpenseValue(expense)
         setCategories(updatedCategories);
+        setSumOfValues(sum)
 
     }, [selectedTransactionsByCategoryAndDate]);
 
@@ -240,103 +245,76 @@ export default function Dashboard() {
                         <div className="grid gap-2 lg:gap-4 md:grid-cols-4 p-2 pt-1">
                             <div className="relative p-6 rounded-2xl bg-white shadow dark:bg-gray-800">
                                 <div className="space-y-2">
+                                    <div className="flex items-center justify-center text-3xl text-green-500 dark:text-gray-100">
+                                        ₱{incomeValue.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+                                    </div>
+
                                     <div
-                                        className="flex items-center space-x-2 rtl:space-x-reverse text-sm font-medium text-gray-500 dark:text-gray-400">
+                                        className="flex items-center justify-center space-x-2 rtl:space-x-reverse text-sm font-medium text-gray-500 dark:text-gray-400">
                                         <span>Income</span>
-                                    </div>
-
-                                    <div className="text-3xl dark:text-gray-100">
-                                        ₱  {incomeValue}
-                                    </div>
-
-                                    <div className="flex items-center space-x-1 rtl:space-x-reverse text-sm font-medium text-green-600">
-
-                                        <span>32k increase</span>
-
-                                        <svg className="w-4 h-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
-                                            aria-hidden="true">
-                                            <path fillRule="evenodd"
-                                                d="M12 7a1 1 0 110-2h5a1 1 0 011 1v5a1 1 0 11-2 0V8.414l-4.293 4.293a1 1 0 01-1.414 0L8 10.414l-4.293 4.293a1 1 0 01-1.414-1.414l5-5a1 1 0 011.414 0L11 10.586 14.586 7H12z"
-                                                clipRule="evenodd"></path>
-                                        </svg>
                                     </div>
                                 </div>
                             </div>
 
-                            <div className="relative p-6 rounded-2xl bg-white shadow dark:bg-gray-800">
+                            <div className="relative p-6 rounded-2xl bg-white shadow text-red-500 dark:bg-gray-800">
                                 <div className="space-y-2">
+
+
+                                    <div className="flex items-center justify-center text-3xl dark:text-gray-100">
+                                        ₱{expenseValue.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+                                    </div>
                                     <div
-                                        className="flex items-center space-x-2 rtl:space-x-reverse text-sm font-medium text-gray-500 dark:text-gray-400">
+                                        className="flex items-center justify-center space-x-2 rtl:space-x-reverse text-sm font-medium text-gray-500 dark:text-gray-400">
                                         <span>Expenses</span>
                                     </div>
 
-                                    <div className="text-3xl dark:text-gray-100">
-                                        ₱ {expenseValue}
-                                    </div>
-
-                                    <div className="flex items-center space-x-1 rtl:space-x-reverse text-sm font-medium text-green-600">
-                                        <span>32k increase</span>
-                                        <svg className="w-4 h-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
-                                            aria-hidden="true">
-                                            <path fillRule="evenodd"
-                                                d="M12 7a1 1 0 110-2h5a1 1 0 011 1v5a1 1 0 11-2 0V8.414l-4.293 4.293a1 1 0 01-1.414 0L8 10.414l-4.293 4.293a1 1 0 01-1.414-1.414l5-5a1 1 0 011.414 0L11 10.586 14.586 7H12z"
-                                                clipRule="evenodd"></path>
-                                        </svg>
-                                    </div>
                                 </div>
                             </div>
 
-                            <div className="relative p-6 rounded-2xl bg-white shadow dark:bg-gray-800">
+                            <div className="relative p-6 rounded-2xl bg-white shadow text-blue-500 dark:bg-gray-800">
                                 <div className="space-y-2">
+
+
+                                    <div className="flex items-center justify-center text-3xl dark:text-gray-100">
+                                        ₱{(incomeValue - expenseValue).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+                                    </div>
                                     <div
-                                        className="flex items-center space-x-2 rtl:space-x-reverse text-sm font-medium text-gray-500 dark:text-gray-400">
+                                        className="flex items-center justify-center space-x-2 rtl:space-x-reverse text-sm font-medium text-gray-500 dark:text-gray-400">
                                         <span>Balance</span>
                                     </div>
 
-                                    <div className="text-3xl dark:text-gray-100">
-                                        ₱ {incomeValue - expenseValue}
-                                    </div>
-
-                                    <div className="flex items-center space-x-1 rtl:space-x-reverse text-sm font-medium text-green-600">
-                                        <span>32k increase</span>
-                                        <svg className="w-4 h-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
-                                            aria-hidden="true">
-                                            <path fillRule="evenodd"
-                                                d="M12 7a1 1 0 110-2h5a1 1 0 011 1v5a1 1 0 11-2 0V8.414l-4.293 4.293a1 1 0 01-1.414 0L8 10.414l-4.293 4.293a1 1 0 01-1.414-1.414l5-5a1 1 0 011.414 0L11 10.586 14.586 7H12z"
-                                                clipRule="evenodd"></path>
-                                        </svg>
-                                    </div>
                                 </div>
                             </div>
 
-                            <div className="relative p-6 rounded-2xl bg-white shadow dark:bg-gray-800">
+                            <div className="relative p-6 rounded-2xl bg-white shadow text-teal-500 dark:bg-gray-800">
                                 <div className="space-y-2">
-                                    <div
-                                        className="flex items-center space-x-2 rtl:space-x-reverse text-sm font-medium text-gray-500 dark:text-gray-400">
-                                        <span>Transactions</span>
-                                    </div>
 
-                                    <div className="text-3xl dark:text-gray-100">
+
+                                    <div className="flex items-center justify-center text-3xl dark:text-gray-100">
                                         {selectedTransactionsByDate.length}
+                                    </div>
+                                    <div
+                                        className="flex items-center justify-center space-x-2 rtl:space-x-reverse text-sm font-medium text-gray-500 dark:text-gray-400">
+                                        <span>Transactions</span>
                                     </div>
                                 </div>
                             </div>
                         </div>
                         <div className="relative max-w-full flex flex-row">
-                            <div className="relative p-2 rounded-2xl bg-white shadow dark:bg-gray-800 w-3/5 m-2">
-                                <BarChart width={920} height={450} data={categories} />
+                            <div className="relative p-2 rounded-2xl bg-white shadow dark:bg-gray-800 w-2/4 m-2">
+                                <BarChart width={800} height={450} data={categories} />
                             </div>
-                            <div className="relative p-4 rounded-2xl bg-white shadow dark:bg-gray-800 w-2/5 m-2">
+                            <div className="relative p-4 rounded-2xl bg-white shadow dark:bg-gray-800 w-2/4 m-2">
                                 <div className="flex-col">
-                                    <div>Total Expenses</div>
+                                    {/* <div>Total Expenses</div> */}
                                     <div className="flex flex-row pt-2">
                                         <div className="flex-1 flex items-center justify-center">
                                             <RingChart categoryExpenseData={categories} width={400} height={400} />
                                         </div>
-                                        <div className="flex-1">
+                                        <div className="flex-1 pt-8">
                                             <div className="flex flex-row">
                                                 <div className="w-2">
-                                                    <ul className="list-disc pl-6">
+                                                    <ul className="list-disc pl-10">
                                                         <div className="h-8"><li className="marker:text-customPalette-deepBlue marker:text-5xl"></li></div>
                                                         <div className="h-8"><li className="marker:text-customPalette-skyBlue marker:text-5xl"></li></div>
                                                         <div className="h-8"><li className="marker:text-customPalette-turquoise marker:text-5xl"></li></div>
@@ -363,14 +341,23 @@ export default function Dashboard() {
                                                         <div className="h-8 pl-1 pt-3">Others</div> */}
                                                     <ul className="list-disc w-32">
                                                         {categories.map((transaction: any, index: number) => (
-                                                            <div key={index} className="h-8 pl-1 pt-3">{transaction.name}</div>
+                                                            <div key={index} className="h-8 pl-5 pt-3">{transaction.name}</div>
                                                         ))}
                                                     </ul>
                                                 </div>
                                                 <div>
                                                     <ul className="list-disc w-24">
                                                         {categories.map((transaction: any, index: number) => (
-                                                            <div key={index} className="h-8 pl-1 pt-3">₱ {transaction.value}</div>
+                                                            <div key={index} className="h-8 pl-5 pt-3">₱{(transaction.value).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</div>
+                                                        ))}
+                                                    </ul>
+                                                </div>
+                                                <div>
+                                                    <ul className="list-disc w-24">
+                                                        {categories.map((transaction: any, index: number) => (
+                                                            <div key={index} className="h-8 pl-8 pt-3">
+                                                                {((transaction.value / sumOfValues) * 100).toFixed(2)}%
+                                                            </div>
                                                         ))}
                                                     </ul>
                                                 </div>
@@ -398,7 +385,7 @@ export default function Dashboard() {
 
                             <div className="flex-col">
                                 <div>Total Expenses</div>
-                                <div>Jun 1 - Nov 30</div>
+                                <div className="text-gray-400 text-sm pl-1">Last 14 Days</div>
                                 <div className="flex flex-row pt-6">
                                     <div className="flex-1 flex">
                                         <ConnectedScatterplot data={selectedTransactionsSumLast14Days} width={775} height={400} />
@@ -409,8 +396,8 @@ export default function Dashboard() {
 
 
                             <div className="flex-col">
-                                <div>Total Expenses</div>
-                                <div>Jun 1 - Nov 30</div>
+                                <div>Total Expenses/Income</div>
+                                <div className="text-gray-400 text-sm pl-1">Last 6 Months</div>
                                 <div className="flex flex-row pt-6">
                                     <div className="flex-1 flex">
                                         {/* <VerticalGroupedBarplotChart data={verticalGroupedBarplotData} width={650} height={400} />, */}

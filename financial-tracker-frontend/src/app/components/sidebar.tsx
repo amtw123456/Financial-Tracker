@@ -1,6 +1,6 @@
 
-
 export default function Sidebar() {
+
     return (
         <div className="hidden md:flex flex-col w-64 bg-gray-800">
             <div className="flex items-center justify-center h-16 bg-gray-900">
@@ -10,7 +10,7 @@ export default function Sidebar() {
                 <nav className="flex-1 px-2 py-4 bg-gray-800">
                     <ul className="flex flex-col gap-2 max-w-[280px] mx-2">
                         <li>
-                            <details className="group">
+                            {/* <details className="group">
                                 <summary
                                     className="flex items-center justify-between gap-2 p-2 font-medium marker:content-none hover:cursor-pointer">
                                     <span className="flex gap-2">
@@ -19,7 +19,7 @@ export default function Sidebar() {
                                             alt="" />
 
                                         <span className="text-white">
-                                            Prajwal Hallale
+                                            {email}
                                         </span>
                                     </span>
                                     <svg className="w-5 h-5 text-gray-500 transition group-open:rotate-90" xmlns="http://www.w3.org/2000/svg"
@@ -100,7 +100,7 @@ export default function Sidebar() {
 
                                 </article>
 
-                            </details>
+                            </details> */}
                         </li>
 
                         <li>
@@ -135,7 +135,6 @@ export default function Sidebar() {
                                         <li><a href="" className="text-white">Document title</a></li>
                                     </ul>
                                 </article>
-
                             </details>
                         </li>
                     </ul>
@@ -155,7 +154,7 @@ export default function Sidebar() {
                         </svg>
                         Transactions
                     </a>
-                    <a href="#" className="flex items-center px-4 py-2 mt-2 text-gray-100 hover:bg-gray-700">
+                    {/* <a href="#" className="flex items-center px-4 py-2 mt-2 text-gray-100 hover:bg-gray-700">
                         <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 mr-2" fill="none" viewBox="0 0 24 24"
                             stroke="currentColor">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2"
@@ -170,7 +169,7 @@ export default function Sidebar() {
                                 d="M13 10V3L4 14h7v7l9-11h-7z" />
                         </svg>
                         About
-                    </a>
+                    </a> */}
                 </nav>
             </div>
         </div>
