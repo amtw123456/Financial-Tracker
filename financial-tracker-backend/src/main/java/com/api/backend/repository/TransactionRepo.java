@@ -28,7 +28,7 @@ public interface TransactionRepo extends JpaRepository<Transaction, Integer> {
     @Query("DELETE FROM Transaction t WHERE t.transactionId IN :transactionIds")
     void deleteAllByTransactionId(@Param("transactionIds") List<Integer> transactionIds);
 
-    @Query("SELECT t FROM Transaction t WHERE t.dateTimePosted >= :startDate AND t.dateTimePosted < :endDate ORDER BY t.transactionId ASC")
+    @Query("SELECT t FROM Transaction t WHERE t.transactionUserId = :userId AND t.dateTimePosted >= :startDate AND t.dateTimePosted <= :endDate ORDER BY t.transactionId ASC")
     List<Transaction> findByDateTimePostedBetween(
             @Param("userId") Integer userId,
             @Param("startDate") Date startDate,
@@ -41,7 +41,7 @@ public interface TransactionRepo extends JpaRepository<Transaction, Integer> {
             @Param("endDate") Date endDate);
 
     @Query(value = """
-                            WITH latest_transaction_month AS (
+                WITH latest_transaction_month AS (
                 SELECT date_trunc('month', MAX(t.date_time_posted)) AS latest_month
                 FROM transactions t
             ),
@@ -69,6 +69,7 @@ public interface TransactionRepo extends JpaRepository<Transaction, Integer> {
             ORDER BY year_month;
 
                         """, nativeQuery = true)
+
     List<Object[]> getLastSixMonthsTransactionSummary(int userId);
 
     @Query(value = """

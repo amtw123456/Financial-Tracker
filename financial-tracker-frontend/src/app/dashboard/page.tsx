@@ -31,11 +31,15 @@ interface Transaction {
 
 export default function Dashboard() {
 
-    const [startDate, setStartDate] = useState<DateValue>(now(getLocalTimeZone()).subtract({ weeks: 1 }) as DateValue);
+    const [startDate, setStartDate] = useState<DateValue>(now(getLocalTimeZone()).subtract({ weeks: 4 }) as DateValue);
     const [endDate, setEndDate] = useState<DateValue>(now(getLocalTimeZone()) as DateValue);
+
+    const [incomeValue, setIncomeValue] = useState<number>(0);
+    const [expenseValue, setExpenseValue] = useState<number>(0);
 
     const [selectedTransactionIds, setSelectedTransactionIds] = useState<number[]>([]);
     const [selectedTransactionsByCategoryAndDate, setSelectedTransactionsByCategoryAndDate] = useState<any>([]);
+    const [selectedTransactionsByDate, setSelectedTransactionsByDate] = useState<any>([]);
     const [selectedTransactionsSumLastSixMonths, setSelectedTransactionsSumLastSixMonths] = useState<any>([]);
     const [selectedTransactionsSumLast14Days, setSelectedTransactionsSumLast14Days] = useState<any>([]);
     const [transactions, setTransactions] = useState<Transaction[]>([]);
@@ -110,11 +114,15 @@ export default function Dashboard() {
 
 
     useEffect(() => {
+
+
+
         const fetchTransactionsByDate = async () => {
             try {
                 const transactions = await getUserTransactionByDate(startDate, endDate);
                 // Handle the transactions as needed
                 // console.log('Fetched transactions:', transactions);
+                setSelectedTransactionsByDate(transactions)
             } catch (error) {
                 console.error('Failed to fetch transactions:', error);
             }
@@ -126,7 +134,6 @@ export default function Dashboard() {
                 // Handle the transactions as needed
 
                 setSelectedTransactionsByCategoryAndDate(transactions);
-
             } catch (error) {
                 console.error('Failed to fetch transactions:', error);
             }
@@ -152,18 +159,7 @@ export default function Dashboard() {
             }
         };
 
-        var categories = [
-            { name: "House / Rent", value: 0 },
-            { name: "Food", value: 0 },
-            { name: "Utilities", value: 0 },
-            { name: "Bills", value: 0 },
-            { name: "Shopping", value: 0 },
-            { name: "Transportation", value: 0 },
-            { name: "Insurance", value: 0 },
-            { name: "Health Care", value: 0 },
-            { name: "Clothing", value: 0 },
-            { name: "Others", value: 0 },
-        ];
+
 
         fetchTransactionsByDate();
         fetchTransactionsByCategoryAndDate()
@@ -172,19 +168,34 @@ export default function Dashboard() {
     }, [startDate, endDate]);
 
     const [categories, setCategories] = useState([
-        { name: "House / Rent", value: 0 },
+        { name: "House", value: 0 },
         { name: "Food", value: 0 },
         { name: "Utilities", value: 0 },
         { name: "Bills", value: 0 },
         { name: "Shopping", value: 0 },
         { name: "Transportation", value: 0 },
         { name: "Insurance", value: 0 },
-        { name: "Health Care", value: 0 },
-        { name: "Clothing", value: 0 },
+        { name: "Healthcare", value: 0 },
+        { name: "Clothes", value: 0 },
         { name: "Others", value: 0 },
     ]);
 
     useEffect(() => {
+        var categories = [
+            { name: "House", value: 0 },
+            { name: "Food", value: 0 },
+            { name: "Utilities", value: 0 },
+            { name: "Bills", value: 0 },
+            { name: "Shopping", value: 0 },
+            { name: "Transportation", value: 0 },
+            { name: "Insurance", value: 0 },
+            { name: "Healthcare", value: 0 },
+            { name: "Clothes", value: 0 },
+            { name: "Others", value: 0 },
+        ];
+
+        var income = 0
+        var expense = 0
 
         const updatedCategories = categories.map(category => {
             // Find the matching transaction for the category
@@ -196,14 +207,21 @@ export default function Dashboard() {
             };
         });
 
+
+        console.log(selectedTransactionsByDate)
+        selectedTransactionsByDate.map((transaction: any) => {
+            if (transaction.transactionType === "Expense") {
+                expense += transaction.transactionAmount;
+            } else if (transaction.transactionType === "Income") {
+                income += transaction.transactionAmount;
+            }
+        });
+
+        setIncomeValue(income)
+        setExpenseValue(expense)
         setCategories(updatedCategories);
 
-        console.log(categories)
-
     }, [selectedTransactionsByCategoryAndDate]);
-
-
-
 
 
     return (
@@ -219,7 +237,7 @@ export default function Dashboard() {
                 />
                 <div className="p-2">
                     <div className="">
-                        <div className="grid gap-2 lg:gap-4 md:grid-cols-5 p-2 pt-1">
+                        <div className="grid gap-2 lg:gap-4 md:grid-cols-4 p-2 pt-1">
                             <div className="relative p-6 rounded-2xl bg-white shadow dark:bg-gray-800">
                                 <div className="space-y-2">
                                     <div
@@ -228,7 +246,7 @@ export default function Dashboard() {
                                     </div>
 
                                     <div className="text-3xl dark:text-gray-100">
-                                        $192.1k
+                                        ₱  {incomeValue}
                                     </div>
 
                                     <div className="flex items-center space-x-1 rtl:space-x-reverse text-sm font-medium text-green-600">
@@ -253,13 +271,11 @@ export default function Dashboard() {
                                     </div>
 
                                     <div className="text-3xl dark:text-gray-100">
-                                        $192.1k
+                                        ₱ {expenseValue}
                                     </div>
 
                                     <div className="flex items-center space-x-1 rtl:space-x-reverse text-sm font-medium text-green-600">
-
                                         <span>32k increase</span>
-
                                         <svg className="w-4 h-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
                                             aria-hidden="true">
                                             <path fillRule="evenodd"
@@ -278,13 +294,11 @@ export default function Dashboard() {
                                     </div>
 
                                     <div className="text-3xl dark:text-gray-100">
-                                        $192.1k
+                                        ₱ {incomeValue - expenseValue}
                                     </div>
 
                                     <div className="flex items-center space-x-1 rtl:space-x-reverse text-sm font-medium text-green-600">
-
                                         <span>32k increase</span>
-
                                         <svg className="w-4 h-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
                                             aria-hidden="true">
                                             <path fillRule="evenodd"
@@ -303,40 +317,10 @@ export default function Dashboard() {
                                     </div>
 
                                     <div className="text-3xl dark:text-gray-100">
-                                        {transactions.length}
-                                    </div>
-
-
-                                </div>
-
-                            </div>
-
-                            <div className="relative p-6 rounded-2xl bg-white shadow dark:bg-gray-800">
-                                <div className="space-y-2">
-                                    <div
-                                        className="flex items-center space-x-2 rtl:space-x-reverse text-sm font-medium text-gray-500 dark:text-gray-400">
-
-                                        <span>New orders</span>
-                                    </div>
-
-                                    <div className="text-3xl dark:text-gray-100">
-                                        3543
-                                    </div>
-
-                                    <div className="flex items-center space-x-1 rtl:space-x-reverse text-sm font-medium text-green-600">
-
-                                        <span>7% increase</span>
-
-                                        <svg className="w-4 h-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
-                                            aria-hidden="true">
-                                            <path fillRule="evenodd"
-                                                d="M12 7a1 1 0 110-2h5a1 1 0 011 1v5a1 1 0 11-2 0V8.414l-4.293 4.293a1 1 0 01-1.414 0L8 10.414l-4.293 4.293a1 1 0 01-1.414-1.414l5-5a1 1 0 011.414 0L11 10.586 14.586 7H12z"
-                                                clipRule="evenodd"></path>
-                                        </svg>
+                                        {selectedTransactionsByDate.length}
                                     </div>
                                 </div>
                             </div>
-
                         </div>
                         <div className="relative max-w-full flex flex-row">
                             <div className="relative p-2 rounded-2xl bg-white shadow dark:bg-gray-800 w-3/5 m-2">
@@ -346,7 +330,7 @@ export default function Dashboard() {
                                 <div className="flex-col">
                                     <div>Total Expenses</div>
                                     <div className="flex flex-row pt-2">
-                                        <div className="bg-red-100 flex-1 flex items-center justify-center">
+                                        <div className="flex-1 flex items-center justify-center">
                                             <RingChart categoryExpenseData={categories} width={400} height={400} />
                                         </div>
                                         <div className="flex-1">
