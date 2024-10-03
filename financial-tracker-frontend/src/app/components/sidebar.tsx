@@ -163,7 +163,7 @@ export default function Sidebar() {
                         <li>
                             <details className="group">
                                 <summary
-                                    className="flex items-center justify-between gap-2 p-2 font-medium marker:content-none hover:cursor-pointer">
+                                    className="flex items-center justify-between gap-2 p-2 marker:content-none hover:cursor-pointer">
                                     <span className="flex gap-2">
                                         <CgProfile className="w-6 h-6 rounded-lg text-white" />
                                         <span className="text-white">
