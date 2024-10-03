@@ -12,7 +12,6 @@ export async function GET(request: NextRequest) {
         if (!token || !userId) {
             return NextResponse.json({ message: 'Unauthorized' }, { status: 401 });
         }
-        console.log("greenssss")
         // Make GET request to the backend API for the last six months transactions summary
         const response = await axios.get(
             `${process.env.NEXT_PUBLIC_BACKEND_URL}/transaction/getLastSixMonthsTransactionsSummary/${userId}`,

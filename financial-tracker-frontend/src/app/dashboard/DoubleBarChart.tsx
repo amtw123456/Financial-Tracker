@@ -68,7 +68,7 @@ export const DoubleBarChart = ({ width, height, data }: DoubleBarplotProps) => {
         const color = d3
             .scaleOrdinal<string>()
             .domain(subgroups)
-            .range(["#e41a1c", "#377eb8", "#4daf4a"]);
+            .range(["#6a0dad", "#377eb8", "#4daf4a"]);
 
         // Add bars to the chart
         g.append("g")

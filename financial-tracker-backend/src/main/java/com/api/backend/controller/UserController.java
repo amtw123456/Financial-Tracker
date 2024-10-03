@@ -33,5 +33,4 @@ public class UserController {
     public ResponseEntity<LoginResponse> login(@RequestBody Users user) {
         return service.verify(user);
     }
-
 }

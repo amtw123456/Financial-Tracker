@@ -1,11 +1,81 @@
 import { DateValue } from "@nextui-org/react";
+
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { now, getLocalTimeZone } from "@internationalized/date";
 
-export default function Sidebar() {
+import { FaHouse } from "react-icons/fa6"; // house
+import { FaHandHoldingWater } from "react-icons/fa"; // utilities
+import { FaMoneyBills } from "react-icons/fa6"; // debts bills
+import { GiClothes } from "react-icons/gi"; // clothes
+import { FaCarSide } from "react-icons/fa"; // transportation
+import { MdHealthAndSafety } from "react-icons/md"; // healthcare
+import { IoFastFood } from "react-icons/io5"; // food
+import { MdShoppingCart } from "react-icons/md"; // shopping cart
+import { HiDotsCircleHorizontal } from "react-icons/hi"; // others
+import { FaShieldAlt } from "react-icons/fa"; // insurance
 
+import { CgProfile } from "react-icons/cg";
+
+
+const iconMap: { [key: string]: JSX.Element } = {
+    House: (
+        <div className="w-8 h-8 flex items-center justify-center rounded-full bg-blue-100">
+            <FaHouse className="text-blue-500" />
+        </div>
+    ),
+    Utilities: (
+        <div className="w-8 h-8 flex items-center justify-center rounded-full bg-yellow-100">
+            <FaHandHoldingWater className="text-yellow-600" />
+        </div>
+    ),
+    Bills: (
+        <div className="w-8 h-8 flex items-center justify-center rounded-full bg-purple-100">
+            <FaMoneyBills className="text-purple-600" />
+        </div>
+    ),
+    Clothes: (
+        <div className="w-8 h-8 flex items-center justify-center rounded-full bg-amber-100">
+            <GiClothes className="text-amber-600" />
+        </div>
+    ),
+    Transportation: (
+        <div className="w-8 h-8 flex items-center justify-center rounded-full bg-orange-100">
+            <FaCarSide className="text-orange-600" />
+        </div>
+    ),
+    Healthcare: (
+        <div className="w-8 h-8 flex items-center justify-center rounded-full bg-sky-100">
+            <MdHealthAndSafety className="text-sky-600" />
+        </div>
+    ),
+    Food: (
+        <div className="w-8 h-8 flex items-center justify-center rounded-full bg-green-100">
+            <IoFastFood className="text-green-600" />
+        </div>
+    ),
+    Shopping: (
+        <div className="w-8 h-8 flex items-center justify-center rounded-full bg-red-100">
+            <MdShoppingCart className="text-red-600" />
+        </div>
+    ),
+    Others: (
+        <div className="w-8 h-8 flex items-center justify-center rounded-full bg-cyan-100">
+            <HiDotsCircleHorizontal className="text-cyan-600" />
+        </div>
+    ),
+    Insurance: (
+        <div className="w-8 h-8 flex items-center justify-center rounded-full bg-pink-100">
+            <FaShieldAlt className="text-pink-600" />
+        </div>
+    ),
+
+};
+
+
+export default function Sidebar() {
     const [recentTransactions, setRecentTransactions] = useState<number[]>([]);
+    const [userEmail, setUserEmail] = useState<String>();
 
     const [startDate, setStartDate] = useState<DateValue>(now(getLocalTimeZone()).subtract({ weeks: 4 }) as DateValue);
     const [endDate, setEndDate] = useState<DateValue>(now(getLocalTimeZone()) as DateValue);
@@ -14,6 +84,29 @@ export default function Sidebar() {
         try {
             const response = await axios.post('/api/transactions/readByDate', { startDate, endDate });
             return response.data.transactions; // Ensure you're returning the correct data structure
+        } catch (error) {
+            // console.error('Error fetching transactions:', error);
+            // throw error; 
+        }
+    };
+
+    const logout = async () => {
+        try {
+            const response = await axios.get('/api/authentication/logout');
+            if (response.status === 200) {
+                window.location.reload(); // This will refresh the page
+            }
+            return response.data; // Ensure you're returning the correct data structure
+        } catch (error) {
+            // console.error('Error fetching transactions:', error);
+            // throw error; 
+        }
+    };
+
+    const getUserEmail = async () => {
+        try {
+            const response = await axios.get('/api/users/readEmail');
+            return response.data; // Ensure you're returning the correct data structure
         } catch (error) {
             // console.error('Error fetching transactions:', error);
             // throw error; 
@@ -31,11 +124,33 @@ export default function Sidebar() {
                 console.error('Failed to fetch transactions:', error);
             }
         };
-
-
         fetchTransactionsByDate();
 
     }, [startDate, endDate]);
+
+    useEffect(() => {
+        console.log(recentTransactions)
+
+    }, [recentTransactions]);
+
+    useEffect(() => {
+        const fetchUserEmail = async () => {
+            try {
+                const response = await getUserEmail();
+                // Handle the transactions as needed
+                console.log('Fetched userEmail:', response.email);
+                setUserEmail(response.email);
+
+            } catch (error) {
+                console.error('Failed to userEmail:', error);
+            }
+        };
+
+        fetchUserEmail()
+
+    }, []);
+
+
 
     return (
         <div className="hidden md:flex flex-col w-64 bg-gray-800">
@@ -46,16 +161,13 @@ export default function Sidebar() {
                 <nav className="flex-1 px-2 py-4 bg-gray-800">
                     <ul className="flex flex-col gap-2 max-w-[280px] mx-2">
                         <li>
-                            {/* <details className="group">
+                            <details className="group">
                                 <summary
                                     className="flex items-center justify-between gap-2 p-2 font-medium marker:content-none hover:cursor-pointer">
                                     <span className="flex gap-2">
-                                        <img className="w-6 h-6 rounded-lg"
-                                            src="https://lh3.googleusercontent.com/a/AGNmyxbSlMgTRzE3_SMIxpDAhpNad-_CN5_tmph1NQ1KhA=s96-c"
-                                            alt="" />
-
+                                        <CgProfile className="w-6 h-6 rounded-lg text-white" />
                                         <span className="text-white">
-                                            {email}
+                                            {userEmail}
                                         </span>
                                     </span>
                                     <svg className="w-5 h-5 text-gray-500 transition group-open:rotate-90" xmlns="http://www.w3.org/2000/svg"
@@ -68,47 +180,6 @@ export default function Sidebar() {
 
                                 <article className="px-4 pb-4">
                                     <ul className="flex flex-col gap-4 pl-2 mt-4">
-
-                                        <li className="flex gap-2">
-                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5"
-                                                stroke="currentColor" className="w-6 h-6 text-white">
-                                                <path strokeLinecap="round" strokeLinejoin="round"
-                                                    d="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09zM18.259 8.715L18 9.75l-.259-1.035a3.375 3.375 0 00-2.455-2.456L14.25 6l1.036-.259a3.375 3.375 0 002.455-2.456L18 2.25l.259 1.035a3.375 3.375 0 002.456 2.456L21.75 6l-1.035.259a3.375 3.375 0 00-2.456 2.456zM16.894 20.567L16.5 21.75l-.394-1.183a2.25 2.25 0 00-1.423-1.423L13.5 18.75l1.183-.394a2.25 2.25 0 001.423-1.423l.394-1.183.394 1.183a2.25 2.25 0 001.423 1.423l1.183.394-1.183.394a2.25 2.25 0 00-1.423 1.423z">
-                                                </path>
-                                            </svg>
-
-                                            <a className="text-white">
-                                                Dashboard
-                                            </a>
-                                        </li>
-
-                                        <li className="flex gap-2">
-                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5"
-                                                stroke="currentColor" className="w-6 h-6 text-white">
-                                                <path strokeLinecap="round" strokeLinejoin="round"
-                                                    d="M17.593 3.322c1.1.128 1.907 1.077 1.907 2.185V21L12 17.25 4.5 21V5.507c0-1.108.806-2.057 1.907-2.185a48.507 48.507 0 0111.186 0z">
-                                                </path>
-                                            </svg>
-
-                                            <a className="text-white">
-                                                Study Lists
-                                            </a>
-                                        </li>
-
-                                        <li className="flex gap-2">
-                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5"
-                                                stroke="currentColor" className="w-6 h-6 text-white">
-                                                <path strokeLinecap="round" strokeLinejoin="round"
-                                                    d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m6.75 12l-3-3m0 0l-3 3m3-3v6m-1.5-15H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z">
-                                                </path>
-                                            </svg>
-
-
-                                            <a className="text-white">
-                                                Your contribution
-                                            </a>
-                                        </li>
-
                                         <li className="flex gap-2">
                                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5"
                                                 stroke="currentColor" className="w-6 h-6 text-white">
@@ -125,9 +196,8 @@ export default function Sidebar() {
                                             </a>
                                         </li>
 
-                                        <form action="http://127.0.0.1:8000/auth/logout" method="POST">
-                                            <input type="hidden" name="_token" value="ymEkCLBFpgkdaSbidUArRsdHbER5DkT6ByS3eJYb" />
-                                            <button type="submit" className="text-white text-sm px-2 py-1 hover:bg-red-200 rounded-md">
+                                        <form action={() => { logout(); }} method="POST">
+                                            <button type="submit" className="text-white text-sm px-2 py-1 rounded-md">
                                                 Log Out
                                             </button>
                                         </form>
@@ -136,7 +206,7 @@ export default function Sidebar() {
 
                                 </article>
 
-                            </details> */}
+                            </details>
                         </li>
 
                         <li>
@@ -168,12 +238,23 @@ export default function Sidebar() {
                                     <ul className="flex flex-col gap-1 pl-2">
                                         {recentTransactions.slice(0, 3).map((transaction: any, index) => (
                                             <li key={index}>
-                                                <a href="" className="text-white">
-                                                    {transaction.transactionCategory}
-                                                </a>
+                                                <div className="ml-10 flex flex-row justify-left items-center text-white">
+                                                    <div>
+                                                        {iconMap[transaction.expenseCategory] || <HiDotsCircleHorizontal className="text-gray-600" />}
+                                                    </div>
+                                                    {/* <div className="ml-2">
+                                                        {new Date(transaction.dateTimePosted).toLocaleDateString('en-GB', {
+                                                            year: 'numeric',
+                                                            month: '2-digit',
+                                                            day: '2-digit'
+                                                        })}
+                                                    </div> */}
+                                                    <div className="ml-2">
+                                                        {transaction.expenseCategory}
+                                                    </div>
+                                                </div>
                                             </li>
                                         ))}
-
                                     </ul>
                                 </article>
                             </details>
@@ -213,7 +294,7 @@ export default function Sidebar() {
                     </a> */}
                 </nav>
             </div>
-        </div>
+        </div >
 
     )
 }
