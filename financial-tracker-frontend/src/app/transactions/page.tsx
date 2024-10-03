@@ -34,7 +34,7 @@ export default function Transactions() {
     const handleOpenChange = () => setIsOpen(!isOpen);
 
     const [currentPage, setCurrentPage] = useState(1);
-    const itemsPerPage = 20; // Number of items to display per page
+    const itemsPerPage = 15; // Number of items to display per page
 
     const totalPages = Math.ceil(transactions.length / itemsPerPage);
 
