@@ -17,6 +17,9 @@ import { FaShieldAlt } from "react-icons/fa"; // insurance
 
 import { CgProfile } from "react-icons/cg";
 
+import TrackIt from "../../components/TrackIt.png";
+import Image from 'next/image';
+
 
 const iconMap: { [key: string]: JSX.Element } = {
     House: (
@@ -150,12 +153,10 @@ export default function Sidebar() {
 
     }, []);
 
-
-
     return (
         <div className="hidden md:flex flex-col w-64 bg-gray-800">
-            <div className="flex items-center justify-center h-16 bg-gray-900">
-                <span className="text-white font-bold uppercase">Financial Tracker</span>
+            <div className="flex flex-row items-center justify-center h-16 bg-gray-900">
+                <span className="text-white font-bold uppercase">TrackIt</span>
             </div>
             <div className="flex flex-col flex-1 overflow-y-auto">
                 <nav className="flex-1 px-2 py-4 bg-gray-800">

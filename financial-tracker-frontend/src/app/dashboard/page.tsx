@@ -19,6 +19,8 @@ import { DateValue } from "@nextui-org/react";
 import { BarChart } from "./BarChart"
 import { DoubleBarChart } from "./DoubleBarChart"
 
+import TrackIt from "../../components/TrackIt.png"
+
 interface Transaction {
     transactionId: number,
     dateTimePosted: string; // or Date, depending on how you handle dates
@@ -434,11 +436,9 @@ export default function Dashboard() {
                                 ))}
                             </div>
                         </div>
-
                     </div>
                 </div>
             </div>
-
         </div >
 
     );

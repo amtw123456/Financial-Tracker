@@ -5,6 +5,9 @@ import axios from "axios";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 
+import TrackIt from "../../components/TrackIt.png";
+import Image from 'next/image';
+
 interface LoginResponse {
     token: string; // Adjust this based on your API response structure
 }
@@ -54,6 +57,7 @@ export default function Signup() {
             <div className="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0">
                 <div className="w-full bg-white rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700">
                     <div className="p-6 space-y-4 md:space-y-6 sm:p-8">
+                        <Image src={TrackIt} alt="Track It" width={500} height={300} /> {/* Set appropriate width and height */}
                         <h1 className="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
                             Create an account
                         </h1>
@@ -112,7 +116,7 @@ export default function Signup() {
                                     required
                                 />
                             </div>
-                            <div className="flex items-start">
+                            {/* <div className="flex items-start">
                                 <div className="flex items-center h-5">
                                     <input
                                         id="terms"
@@ -135,8 +139,8 @@ export default function Signup() {
                                             Terms and Conditions
                                         </a>
                                     </label>
-                                </div>
-                            </div>
+                                </div> */}
+                            {/* </div> */}
                             <button
                                 type="submit"
                                 className="w-full text-white bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
@@ -154,7 +158,7 @@ export default function Signup() {
                         </form>
                     </div>
                 </div>
-            </div>
-        </main>
+            </div >
+        </main >
     );
 }
