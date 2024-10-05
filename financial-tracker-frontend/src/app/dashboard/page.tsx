@@ -245,7 +245,7 @@ export default function Dashboard() {
                 <div className="p-2">
                     <div className="">
                         <div className="grid gap-2 lg:gap-4 lg:grid-cols-4 md:grid-cols-2 p-2 pt-1">
-                            <div className="relative p-6 rounded-2xl bg-white shadow dark:bg-gray-800">
+                            <div className="relative p-6 rounded-2xl bg-white shadow">
                                 <div className="space-y-2">
                                     <div className="flex items-center justify-center text-3xl text-green-500 dark:text-gray-100">
                                         ₱{incomeValue.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
@@ -258,10 +258,8 @@ export default function Dashboard() {
                                 </div>
                             </div>
 
-                            <div className="relative p-6 rounded-2xl bg-white shadow text-red-500 dark:bg-gray-800">
+                            <div className="relative p-6 rounded-2xl bg-white shadow text-red-500">
                                 <div className="space-y-2">
-
-
                                     <div className="flex items-center justify-center text-3xl dark:text-gray-100">
                                         ₱{expenseValue.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
                                     </div>
@@ -273,7 +271,7 @@ export default function Dashboard() {
                                 </div>
                             </div>
 
-                            <div className="relative p-6 rounded-2xl bg-white shadow text-blue-500 dark:bg-gray-800">
+                            <div className="relative p-6 rounded-2xl bg-white shadow text-blue-500">
                                 <div className="space-y-2">
 
 
@@ -288,7 +286,7 @@ export default function Dashboard() {
                                 </div>
                             </div>
 
-                            <div className="relative p-6 rounded-2xl bg-white shadow text-teal-500 dark:bg-gray-800">
+                            <div className="relative p-6 rounded-2xl bg-white shadow text-teal-500">
                                 <div className="space-y-2">
 
 
@@ -303,10 +301,10 @@ export default function Dashboard() {
                             </div>
                         </div>
                         <div className="relative max-w-full grid grid-cols-1 xl:grid-cols-2 gap-2">
-                            <div className="relative flex-1 rounded-2xl bg-white shadow dark:bg-gray-800 m-2">
+                            <div className="relative flex-1 rounded-2xl bg-white shadow m-2">
                                 <BarChart height={450} data={categories} />
                             </div>
-                            <div className="relative flex-1 p-2 rounded-2xl bg-white shadow dark:bg-gray-800 m-2">
+                            <div className="relative flex-1 p-2 rounded-2xl bg-white shadow m-2">
                                 <div className="flex-col">
                                     {/* <div>Total Expenses</div> */}
                                     <div className="flex flex-row pt-2">
@@ -412,7 +410,7 @@ export default function Dashboard() {
                         </div>
 
 
-                        <div className="flex flex-row relative p-6 rounded-2xl bg-white shadow dark:bg-gray-800 mx-2 mt-4">
+                        <div className="flex flex-row relative p-6 rounded-2xl bg-white shadow mx-2 mt-4">
 
                             <div className="flex-col w-full border-x border-t">
                                 <div className="flex flex-row w-full border-b items-center">
