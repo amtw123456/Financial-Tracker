@@ -15,7 +15,7 @@ export default function Header({
 }: HeaderProps) {
     return (
         <div className="flex items-center justify-between p-2 h-16 bg-white border-b border-gray-200">
-            <div className="pl-5">Dashboard</div>
+            <div className="hidden md:block pl-5">Dashboard</div>
             <div className="flex items-center space-x-5 pr-5">
                 <div className="relative inline-block text-left">
                     <DatePicker

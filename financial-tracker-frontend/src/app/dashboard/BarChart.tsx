@@ -1,10 +1,8 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import * as d3 from "d3";
 
-// Define the type for the BarplotProps
 type BarplotProps = {
-    width: number;
-    height: number;
+    height: number; // Fixed height
     data: { name: string; value: number }[];
 };
 
@@ -21,44 +19,34 @@ const colors = [
     '#8B5CF6',  // Violet
 ];
 
-
-export const BarChart = ({ width, height, data }: BarplotProps) => {
+export const BarChart = ({ height, data }: BarplotProps) => {
     const svgRef = useRef<SVGSVGElement>(null);
+    const [width, setWidth] = useState(0);  // Dynamically set width
 
     useEffect(() => {
-        // var barplotData = [
-        //     { name: "House", value: 0 },
-        //     { name: "Food", value: 0 },
-        //     { name: "Utilities", value: 0 },
-        //     { name: "Bills", value: 0 },
-        //     { name: "Shopping", value: 0 },
-        //     { name: "Transportation", value: 0 },
-        //     { name: "Insurance", value: 0 },
-        //     { name: "Healthcare", value: 0 },
-        //     { name: "Clothes", value: 0 },
-        //     { name: "Others", value: 0 },
-        // ]
+        // Function to update width based on parent container or window size
+        const updateWidth = () => {
+            if (svgRef.current) {
+                const parentWidth = svgRef.current.parentElement?.offsetWidth || 0;
+                setWidth(parentWidth);  // Set the width based on the container's width
+            }
+        };
 
-        // barplotData = barplotData.map((category) => {
-        //     // Find if there's a matching category in `data`
-        //     const matchingData = data.find((d) => d.name === category.name);
-        //     // If matching data exists, update the value
-        //     if (matchingData) {
-        //         return {
-        //             ...category,
-        //             value: category.value + matchingData.value,
-        //         };
-        //     }
+        // Set initial width
+        updateWidth();
 
-        //     // Otherwise, return the category unchanged
-        //     return category;
-        // });
+        // Update width when window is resized
+        window.addEventListener("resize", updateWidth);
+        return () => window.removeEventListener("resize", updateWidth);
+    }, []);
+
+    useEffect(() => {
+        if (width === 0) return;  // Prevent rendering until width is set
 
         const margin = { top: 30, right: 30, bottom: 70, left: 60 };
         const innerWidth = width - margin.left - margin.right;
         const innerHeight = height - margin.top - margin.bottom;
 
-        // Select the SVG element and clear it for re-rendering
         const svg = d3.select(svgRef.current);
         svg.selectAll("*").remove(); // Clear previous chart content
 
@@ -66,17 +54,12 @@ export const BarChart = ({ width, height, data }: BarplotProps) => {
             .append("g")
             .attr("transform", `translate(${margin.left}, ${margin.top})`);
 
-        // Sort the data based on values
-        // const sortedData = [...data].sort((a, b) => b.value - a.value);
-
-        // X axis scale (for categorical names)
         const x = d3
             .scaleBand()
             .range([0, innerWidth])
             .domain(data.map((d) => d.name))
             .padding(0.2);
 
-        // Y axis scale (for numeric values)
         const y = d3
             .scaleLinear()
             .domain([0, d3.max(data, (d) => d.value) as number])
@@ -92,10 +75,8 @@ export const BarChart = ({ width, height, data }: BarplotProps) => {
             .attr("height", (d) => innerHeight - y(d.value))
             .attr("fill", (d, i) => colors[i % colors.length]);
 
-        // Append the Y axis to the SVG
         g.append("g").call(d3.axisLeft(y));
 
-        // Append the X axis to the SVG
         g.append("g")
             .attr("transform", `translate(0, ${innerHeight})`)
             .call(d3.axisBottom(x))
@@ -103,17 +84,13 @@ export const BarChart = ({ width, height, data }: BarplotProps) => {
             .attr("transform", "translate(-10,0)rotate(-45)")
             .style("text-anchor", "end");
 
-
-
-        // Draw the bars
-
-    }, [width, height, data]); // Re-render if width, height, or data changes
+    }, [width, height, data]);  // Re-render if width, height, or data changes
 
     return (
         <svg
             ref={svgRef}
-            width={width}
-            height={height}
+            width={width}  // Dynamic width
+            height={height}  // Fixed height
         />
     );
 };

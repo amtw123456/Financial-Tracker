@@ -154,7 +154,7 @@ export default function Sidebar() {
     }, []);
 
     return (
-        <div className="hidden md:flex flex-col w-64 bg-gray-800">
+        <div className="hidden lg:flex flex-col w-64 bg-gray-800">
             <div className="flex flex-row items-center justify-center h-16 bg-gray-900">
                 <span className="text-white font-bold uppercase">TrackIt</span>
             </div>

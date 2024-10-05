@@ -244,7 +244,7 @@ export default function Dashboard() {
                 />
                 <div className="p-2">
                     <div className="">
-                        <div className="grid gap-2 lg:gap-4 md:grid-cols-4 p-2 pt-1">
+                        <div className="grid gap-2 lg:gap-4 md:grid-cols-4 sm:grid-cols-2 p-2 pt-1">
                             <div className="relative p-6 rounded-2xl bg-white shadow dark:bg-gray-800">
                                 <div className="space-y-2">
                                     <div className="flex items-center justify-center text-3xl text-green-500 dark:text-gray-100">
@@ -302,16 +302,17 @@ export default function Dashboard() {
                                 </div>
                             </div>
                         </div>
-                        <div className="relative max-w-full flex flex-row">
-                            <div className="relative p-2 rounded-2xl bg-white shadow dark:bg-gray-800 w-2/4 m-2">
-                                <BarChart width={800} height={450} data={categories} />
+                        <div className="relative max-w-full flex flex-col md:flex-row">
+
+                            <div className="relative p-2 rounded-2xl bg-white shadow dark:bg-gray-800 md:w-2/4 m-2">
+                                <BarChart height={450} data={categories} />
                             </div>
-                            <div className="relative p-4 rounded-2xl bg-white shadow dark:bg-gray-800 w-2/4 m-2">
+                            <div className="relative p-4 rounded-2xl bg-white shadow dark:bg-gray-800 md:w-2/4 m-2">
                                 <div className="flex-col">
                                     {/* <div>Total Expenses</div> */}
                                     <div className="flex flex-row pt-2">
                                         <div className="flex-1 flex items-center justify-center">
-                                            <RingChart categoryExpenseData={categories} width={400} height={400} />
+                                            <RingChart categoryExpenseData={categories} height={400} />
                                         </div>
                                         <div className="flex-1 pt-8">
                                             <div className="flex flex-row">
