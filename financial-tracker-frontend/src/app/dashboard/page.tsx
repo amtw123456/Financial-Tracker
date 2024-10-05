@@ -401,9 +401,8 @@ export default function Dashboard() {
                                 <div>Total Expenses/Income</div>
                                 <div className="text-gray-400 text-sm pl-1">Last 6 Months</div>
                                 <div className="flex flex-row pt-6">
-                                    <div className="flex-1 flex">
+                                    <div className="relative w-full">
                                         <DoubleBarChart
-                                            width={775}
                                             height={400}
                                             data={selectedTransactionsSumLastSixMonths}
                                         />

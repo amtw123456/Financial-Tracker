@@ -1,6 +1,5 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import * as d3 from "d3";
-
 
 interface DataItem {
     group: any;
@@ -9,13 +8,13 @@ interface DataItem {
 }
 
 type DoubleBarplotProps = {
-    width: number;
-    height: number;
-    data: [string, number, number][];
+    height: number; // Fixed height
+    data: [string, number, number][]; // Data for the chart
 };
 
-export const DoubleBarChart = ({ width, height, data }: DoubleBarplotProps) => {
+export const DoubleBarChart = ({ height, data }: DoubleBarplotProps) => {
     const svgRef = useRef<SVGSVGElement>(null);
+    const [width, setWidth] = useState(0);  // Dynamically set width
 
     const doubleBarPlotData: DataItem[] = data.map((item) => ({
         group: item[0],     // First element as group
@@ -23,7 +22,26 @@ export const DoubleBarChart = ({ width, height, data }: DoubleBarplotProps) => {
         income: item[2],     // Third element as Income
     }));
 
+    // Function to update width based on parent container or window size
+    const updateWidth = () => {
+        if (svgRef.current) {
+            const parentWidth = svgRef.current.parentElement?.offsetWidth || 0;
+            setWidth(parentWidth);  // Set the width based on the container's width
+        }
+    };
+
     useEffect(() => {
+        // Set initial width
+        updateWidth();
+
+        // Update width when window is resized
+        window.addEventListener("resize", updateWidth);
+        return () => window.removeEventListener("resize", updateWidth);
+    }, []);
+
+    useEffect(() => {
+        if (width === 0) return;  // Prevent rendering until width is set
+
         const margin = { top: 10, right: 30, bottom: 20, left: 50 };
         const innerWidth = width - margin.left - margin.right;
         const innerHeight = height - margin.top - margin.bottom;
@@ -86,7 +104,7 @@ export const DoubleBarChart = ({ width, height, data }: DoubleBarplotProps) => {
             .attr("width", xSubgroup.bandwidth())
             .attr("height", (d) => innerHeight - y(d.value))
             .attr("fill", (d) => color(d.key)!);
-    }, [width, height, data]);
+    }, [width, height, data]); // Re-render if width, height, or data changes
 
-    return <svg ref={svgRef} width={width} height={height} />;
+    return <svg ref={svgRef} width={width} height={height} />; // Dynamic width
 };
