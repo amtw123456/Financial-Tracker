@@ -244,7 +244,7 @@ export default function Dashboard() {
                 />
                 <div className="p-2">
                     <div className="">
-                        <div className="grid gap-2 lg:gap-4 md:grid-cols-4 sm:grid-cols-2 p-2 pt-1">
+                        <div className="grid gap-2 lg:gap-4 lg:grid-cols-4 md:grid-cols-2 p-2 pt-1">
                             <div className="relative p-6 rounded-2xl bg-white shadow dark:bg-gray-800">
                                 <div className="space-y-2">
                                     <div className="flex items-center justify-center text-3xl text-green-500 dark:text-gray-100">
@@ -302,19 +302,18 @@ export default function Dashboard() {
                                 </div>
                             </div>
                         </div>
-                        <div className="relative max-w-full flex flex-col md:flex-row">
-
-                            <div className="relative p-2 rounded-2xl bg-white shadow dark:bg-gray-800 md:w-2/4 m-2">
+                        <div className="relative max-w-full grid grid-cols-1 xl:grid-cols-2 gap-2">
+                            <div className="relative flex-1 rounded-2xl bg-white shadow dark:bg-gray-800 m-2">
                                 <BarChart height={450} data={categories} />
                             </div>
-                            <div className="relative p-4 rounded-2xl bg-white shadow dark:bg-gray-800 md:w-2/4 m-2">
+                            <div className="relative flex-1 p-2 rounded-2xl bg-white shadow dark:bg-gray-800 m-2">
                                 <div className="flex-col">
                                     {/* <div>Total Expenses</div> */}
                                     <div className="flex flex-row pt-2">
                                         <div className="flex-1 flex items-center justify-center">
                                             <RingChart categoryExpenseData={categories} height={400} />
                                         </div>
-                                        <div className="flex-1 pt-8">
+                                        <div className="flex-1 pt-8 overflow-hidden">
                                             <div className="flex flex-row">
                                                 <div className="w-2">
                                                     <ul className="list-disc pl-10">
@@ -356,7 +355,7 @@ export default function Dashboard() {
                                                     </ul>
                                                 </div>
                                                 <div>
-                                                    <ul className="list-disc w-24">
+                                                    <ul className="list-disc w-24 hidden lg:block">
                                                         {categories.map((transaction: any, index: number) => (
                                                             <div key={index} className="h-8 pl-8 pt-3">
                                                                 {((transaction.value / sumOfValues) * 100).toFixed(2)}%
@@ -384,26 +383,25 @@ export default function Dashboard() {
                             </div>
 
                         </div>
-                        <div className="flex flex-row relative p-6 rounded-2xl bg-white shadow dark:bg-gray-800 max-w mx-2 mt-4">
-
-                            <div className="flex-col">
+                        <div className="relative max-w-full grid grid-cols-1 xl:grid-cols-2 gap-4 mx-2 mt-4">
+                            <div className="relative flex flex-col rounded-2xl shadow p-2 bg-white">
                                 <div>Total Expenses</div>
                                 <div className="text-gray-400 text-sm pl-1">Last 14 Days</div>
                                 <div className="flex flex-row pt-6">
-                                    <div className="flex-1 flex">
-                                        <ConnectedScatterplot data={selectedTransactionsSumLast14Days} width={775} height={400} />
+                                    <div className="relative w-full"> {/* Ensure full width */}
+                                        <ConnectedScatterplot
+                                            height={400} // Set the desired height
+                                            data={selectedTransactionsSumLast14Days}
+                                        />
                                     </div>
-
                                 </div>
                             </div>
 
-
-                            <div className="flex-col">
+                            <div className="relative flex flex-col rounded-2xl shadow p-2 bg-white">
                                 <div>Total Expenses/Income</div>
                                 <div className="text-gray-400 text-sm pl-1">Last 6 Months</div>
                                 <div className="flex flex-row pt-6">
                                     <div className="flex-1 flex">
-                                        {/* <VerticalGroupedBarplotChart data={verticalGroupedBarplotData} width={650} height={400} />, */}
                                         <DoubleBarChart
                                             width={775}
                                             height={400}
@@ -412,8 +410,9 @@ export default function Dashboard() {
                                     </div>
                                 </div>
                             </div>
-
                         </div>
+
+
                         <div className="flex flex-row relative p-6 rounded-2xl bg-white shadow dark:bg-gray-800 mx-2 mt-4">
 
                             <div className="flex-col w-full border-x border-t">

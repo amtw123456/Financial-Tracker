@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import * as d3 from "d3";
 
 // Define the type for the data
@@ -8,33 +8,40 @@ type DataPoint = {
 };
 
 type LineChartProps = {
-    width: number;     // Accept width as a prop
     height: number;    // Accept height as a prop
     data: [Date, number][]; // Accept data as a prop
 };
 
-export const ConnectedScatterplot = ({ width, height, data }: LineChartProps) => {
+export const ConnectedScatterplot = ({ height, data }: LineChartProps) => {
     const svgRef = useRef<SVGSVGElement | null>(null);
+    const [width, setWidth] = useState(0);  // Dynamically set width
 
-    function formatDate(dateString: Date): Date {
-        const date = new Date(dateString); // Convert the string to a Date object
-        const year = date.getFullYear(); // Get the full year
-        const month = date.getMonth();    // Get the month (0-based)
-        const day = date.getDate();       // Get the day (1-based)
-
-        // Return a new Date object with the same year, month, and day
-        return new Date(year, month, day);
-    }
-
-    const connectedScatterplotData: DataPoint[] = data.map((item) => ({
-        date: formatDate(item[0]), // Format the date from the first element
-        value: item[1],   // Second element as Expense
-        // Third element as Income
-    }));
-
-
+    // Function to update width based on parent container or window size
+    const updateWidth = () => {
+        if (svgRef.current) {
+            const parentWidth = svgRef.current.parentElement?.offsetWidth || 0;
+            setWidth(parentWidth);  // Set the width based on the container's width
+        }
+    };
 
     useEffect(() => {
+        // Set initial width
+        updateWidth();
+
+        // Update width when window is resized
+        window.addEventListener("resize", updateWidth);
+        return () => window.removeEventListener("resize", updateWidth);
+    }, []);
+
+    // Format the data for the scatter plot
+    const connectedScatterplotData: DataPoint[] = data.map((item) => ({
+        date: new Date(item[0]), // Convert to Date object
+        value: item[1],   // Second element as Expense
+    }));
+
+    useEffect(() => {
+        if (width === 0) return;  // Prevent rendering until width is set
+
         // Set the dimensions and margins of the graph
         const margin = { top: 10, right: 30, bottom: 30, left: 60 };
         const innerWidth = width - margin.left - margin.right;
@@ -92,7 +99,7 @@ export const ConnectedScatterplot = ({ width, height, data }: LineChartProps) =>
     return (
         <svg
             ref={svgRef}
-            width={width}  // Set width from props
+            width={width}  // Dynamic width
             height={height} // Set height from props
         />
     );
