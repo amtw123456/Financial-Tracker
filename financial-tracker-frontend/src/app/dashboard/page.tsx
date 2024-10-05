@@ -171,9 +171,9 @@ export default function Dashboard() {
     }, [startDate, endDate]);
 
     const [categories, setCategories] = useState([
-        { name: "House", value: 0 },
-        { name: "Food", value: 0 },
         { name: "Utilities", value: 0 },
+        { name: "Food", value: 0 },
+        { name: "House", value: 0 },
         { name: "Bills", value: 0 },
         { name: "Shopping", value: 0 },
         { name: "Transportation", value: 0 },
@@ -185,9 +185,9 @@ export default function Dashboard() {
 
     useEffect(() => {
         var categories = [
-            { name: "House", value: 0 },
-            { name: "Food", value: 0 },
             { name: "Utilities", value: 0 },
+            { name: "Food", value: 0 },
+            { name: "House", value: 0 },
             { name: "Bills", value: 0 },
             { name: "Shopping", value: 0 },
             { name: "Transportation", value: 0 },
